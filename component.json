@@ -1,0 +1,7 @@
+{
+    "name": "carte",
+    "description": "Orchestrate API reference",
+    "version": "0.0.1",
+    "local": ["boot"],
+    "paths": ["lib"]
+}

@@ -4,5 +4,4 @@ title: 'Authentication'
 layout: nil
 ---
 
-Authentication is currently not implemented.
-
+Orchestrate.io uses HTTP Basic Authentication over SSL.

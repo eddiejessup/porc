@@ -1,6 +1,6 @@
 ---
 category: Events
-path: '/v1/:collection/:key/events/:type'
+path: '/v0/:collection/:key/events/:type'
 title: 'Get events'
 type: 'GET'
 

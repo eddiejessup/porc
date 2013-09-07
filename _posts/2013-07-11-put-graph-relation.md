@@ -1,6 +1,6 @@
 ---
 category: Graph Relations
-path: '/v1/:collection/:key/relation/:kind'
+path: '/v0/:collection/:key/relations/:kind/:toCollection/:toKey'
 title: 'Store graph relation'
 type: 'PUT'
 
@@ -17,8 +17,8 @@ Stores a graph relation from one specified key to another specified key.
 
 *The following parameters should be included in the URL as query strings.*
 
-* **tocollection**: the collection in which to add the relationship to the key specified in the `tokey` parameter.
-* **tokey**: the key in the collection specified in the `tocollection` parameter to add the relationship to.
+* **toCollection**: the collection in which to add the relationship to the key specified in the `toKey` parameter.
+* **toKey**: the key in the collection specified in the `toCollection` parameter to add the relationship to.
 
 ### Example response headers
 

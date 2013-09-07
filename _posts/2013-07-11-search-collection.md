@@ -1,6 +1,6 @@
 ---
 category: Collections
-path: '/v1/:collection?query=:query'
+path: '/v0/:collection?query=:query'
 title: 'Search collection'
 type: 'GET'
 

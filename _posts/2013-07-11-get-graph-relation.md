@@ -1,15 +1,17 @@
 ---
 category: Graph Relations
-path: '/v1/:collection/:key/relation/:kind'
+path: '/v0/:collection/:key/relation/?hop=:kind[&hop=:kind]*'
 title: 'Get graph relation'
 type: 'GET'
 
 layout: nil
 ---
 
-*Note: currently non-functional.*
+Returns relation's collection, key, ref, and values. The "hop" query parameter(s) indicate which relations to walk and the depth to walk.
 
-Returns relation's collection, key, ref, and values.
+e.g. Get users that are friends of John's family members.
+
+```GET /v0/users/john/relation/?hop=family&hop=friend```
 
 ### Required parameters
 

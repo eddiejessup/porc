@@ -7,7 +7,7 @@ type: 'DELETE'
 layout: nil
 ---
 
-Returns list of collection, key, ref, and values.
+Deletes an entire collection.
 
 ### Parameters
 

@@ -1,5 +1,4 @@
-source "https://rubygems.org"
+source "http://rubygems.org"
 
-gem 'maruku', '0.6.1'
 gem 'jekyll'
 gem 'redcarpet'

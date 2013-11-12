@@ -1,6 +1,6 @@
 ---
 category: Collections
-path: '/v0/:collection'
+path: '/v0/:collection/?force=true'
 title: 'Delete collection'
 type: 'DELETE'
 
@@ -8,6 +8,8 @@ layout: nil
 ---
 
 Deletes an entire collection.
+
+Delete operations cannot be undone, as a result, to avoid accidental deletions when experimenting with the API the query parameter _force=true_ is necessary.
 
 ### Parameters
 

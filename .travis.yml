@@ -1,7 +1,7 @@
 language: ruby
 
 rvm:
-  - 1.9.3
+  - 2.0.0
 
 before_install:
   - sudo apt-get update -qq
@@ -11,8 +11,8 @@ install:
   - bundle install
 
 script:
-  - bundle exec jekyll build
-  - mv _site apidocs-$TRAVIS_BUILD_NUMBER
+  - bundle exec middleman build
+  - mv build apidocs-$TRAVIS_BUILD_NUMBER
   - tar -cjvf apidocs-$TRAVIS_BUILD_NUMBER.tar.bz2 apidocs-$TRAVIS_BUILD_NUMBER
 
 env:

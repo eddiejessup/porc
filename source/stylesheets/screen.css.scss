@@ -54,6 +54,7 @@ html, body {
   // This is the logo at the top of the ToC
   &>img {
     display: block;
+    margin-top: $logo-margin;
     margin-bottom: $logo-margin;
   }
 
@@ -236,13 +237,14 @@ html, body {
     font-size: 30px;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
-    border-bottom: 1px solid #ccc;
+    //border-bottom: 1px solid #ccc;
     margin-top: 2em;
     margin-bottom: $h1-margin-bottom;
-    border-top: 1px solid #ddd;
-    @include background-image(
+    //border-top: 1px solid #ddd;
+    /*@include background-image(
       linear-gradient(top, #fff, #f9f9f9)
-    );
+    );*/
+    background-color: #f4f4f4;
   }
 
   // The header at the very top of the page

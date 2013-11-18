@@ -3,163 +3,132 @@ title: API Reference
 
 language_tabs:
   - shell
-  - ruby
-  - python
+  - go
 
 toc_footers:
  - <a href='#'>Sign Up for a Developer Key</a>
  - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
 ---
 
-# Introduction
+# Version
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+```
+/v0/:collection/:key
+```
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+The current version of the Orchestrate API is v0. All URLs will start with the current API version.
 
-This example API documentation page was created with [Slate](http://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+# Request Headers
+
+```shell
+# With GETs a Accepts header must be set
+curl "api_endpoint_here" -u "$api_key:" -H'Accepts: */*'
+
+# With PUTs a Content-Type header must be set
+curl -XPUT "api_endpoint_here" -u "$api_key:" -H'Content-Type: application/json' -d'$json'
+```
+
+Clients must use request headers accordingly:
+
+* All `GET` requests must accept the `Content-Type` as `application/json` or `*/*`.
+* All `PUT` requests are expected to set the `Content-Type` header to `application/json`.
 
 # Authentication
 
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import 'kittn'
-
-api = Kittn.authorize('meowmeowmeow')
+```go
+// Create a new Orchestrate.io client with your API key
+c := client.NewClient("$api_key")
 ```
 
 ```shell
-# With shell, you can just pass the correct header with each request
+# With curl, pass in your API key as the basic auth username and no password
 curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+	-u "$api_key:"
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> Make sure to replace `$api_key` with your API key.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+Orchestrate.io uses HTTP Basic Authentication over SSL. Authenticate with an API key as the username and no password.
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+# Keys
 
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace `meowmeowmeow` with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import 'kittn'
-
-api = Kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+## Get
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl -i "https://api.orchestrate.io/v0/$collection/$key"
+	-u "$api_key:"
 ```
 
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Isis",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+```go
+err := c.Get("$collection", "$key", domain_object);
 ```
 
-This endpoint retrieves all kittens.
+> Make sure to replace `$collection` with your API key.
+
+Returns value with content-location (ref) header.
 
 ### HTTP Request
 
-`GET http://example.com/kittens`
+`GET https://api.orchestrate.io/v0/$collection/$key`
+
+> The above request returns a response headers like so:
+
+```http
+HTTP/1.1 200 OK
+Content-Location: /v0/collection/key/refs/ad39c0f8f807bf40
+Content-Type: application/json
+Date: Mon, 18 Nov 2013 12:39:44 GMT
+ETag: "ad39c0f8f807bf40"
+X-ORCHESTRATE-REQ-ID: 80caeaa0-504e-11e3-93d8-22000a1c9574
+transfer-encoding: chunked
+Connection: keep-alive
+```
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Parameter  | Description
+---------- | -----------
+collection | the collection to query.
+key        | the key assigned to a value stored in the specified collection.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import 'kittn'
-
-api = Kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+## Put
 
 ```shell
-curl "http://example.com/api/kittens/3"
-  -H "Authorization: meowmeowmeow"
+curl -i "https://api.orchestrate.io/v0/$collection/$key"
+	-XPUT
+	-u "$api_key:"
+	-H'Content-Type: application/json' -d'$json'
 ```
 
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Isis",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
+```go
+err := c.Put("$collection", "$key", domain_object);
 ```
 
-This endpoint retrieves a specific kitten.
+Stores a value for key, returning the location (ref) header.
 
-<aside class="warning">If you're not using an administrator API key, note that some kittens will return 403 Forbidden if they are hidden for admins only.</aside>
+### Headers
+
+Conditional headers can be used to specify a pre-condition that determines whether the store operation happens. The _If-Match_ header specifies that the store operation will succeed if and only if the _ref_ value matches current stored _ref_. The _If-None-Match_ header specifies that the store operation will succeed if and only if the key doesn't already exist. 
+
+Header        | Description
+------------- | -----------
+If-Match      | Stores the value for the key if the value for this header matches the current `ref` value.
+If-None-Match | Stores the value for the key if no key/value already exists, the only valid value for this header is `*`.
+
+_If-Match_ and _If-None-Match_ headers cannot be supplied together.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`PUT https://api.orchestrate.io/v0/$collection/$key`
 
-### URL Parameters
+### Query Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the cat to retrieve
+Parameter  | Description
+---------- | -----------
+collection | the collection to query.
+key        | the key assigned to a value stored in the specified collection.
+
 
 # Errors
 

@@ -241,7 +241,7 @@ Deletes an entire collection.
 
 Delete operations cannot be undone, as a result, to avoid accidental deletions when experimenting with the API the query parameter `force=true` is necessary.
 
-> Example response headers 
+> The returns a response headers like so:
 
 ```http
 HTTP/1.1 204 No Content

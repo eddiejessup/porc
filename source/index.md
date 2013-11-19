@@ -74,7 +74,7 @@ Returns value with content-location (ref) header.
 
 ### HTTP Request
 
-> The returns a response headers like so:
+> Returns response headers like so:
 
 ```http
 HTTP/1.1 200 OK
@@ -202,7 +202,7 @@ Returns value.
 
 ### HTTP Request
 
-> The returns a response headers like so:
+> Returns response headers like so:
 
 ```http
 HTTP/1.1 200 OK
@@ -241,7 +241,7 @@ Deletes an entire collection.
 
 Delete operations cannot be undone, as a result, to avoid accidental deletions when experimenting with the API the query parameter `force=true` is necessary.
 
-> The returns a response headers like so:
+> Returns response headers like so:
 
 ```http
 HTTP/1.1 204 No Content

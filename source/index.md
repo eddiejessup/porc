@@ -60,7 +60,7 @@ An Application is the unit of tenancy in Orchestrate. Users can belong to an App
 
 # Collections
 
-Collections are a grouping of the JSON objects you will store and query. Collections are anaologous tables in a relational database or buckets in S3.
+Collections are a grouping of the JSON objects you will store and query. Collections are analogous to tables in a relational database or buckets in S3.
 
 ## Delete
 
@@ -549,14 +549,14 @@ Orchestrate.io uses the following error codes:
 
 Code | Identifier | Meaning
 -----| ---------- | -------
-400 | API_BAD_REQUEST | The API request is malformed
-500 | SECURITY_AUTHENTICATION | An error occurred while trying to authenticate
-401 | SECURITY_UNAUTHORIZED | Valid credentials are required
-400 | SEARCH_PARAM_INVALID | A provided search query param is invalid.
-500 | SEARCH_INDEX_NOT_FOUND | Index could not be queried for this application
-500 | INTERNAL_ERROR | Internal Error
-404 | ITEMS_NOT_FOUND | The requested items could not be found
-412 | ITEM_VERSION_MISMATCH | The version of the item does not match
-412 | ITEM_ALREADY_PRESENT | The item is already present
-400 | ITEM_REF_MALFORMED | The provided Item Ref is malformed
-409 | INDEXING_CONFLICT | The item has been stored but conflicts were detected when indexing. Conflicting fields have not been indexed.
+400 | api_bad_request | The API request is malformed
+500 | security_authentication | An error occurred while trying to authenticate
+401 | security_unauthorized | Valid credentials are required
+400 | search_param_invalid | A provided search query param is invalid.
+500 | search_index_not_found | Index could not be queried for this application
+500 | internal_error | Internal Error
+404 | items_not_found | The requested items could not be found
+412 | item_version_mismatch | The version of the item does not match
+412 | item_already_present | The item is already present
+400 | item_ref_malformed | The provided Item Ref is malformed
+409 | indexing_conflict | The item has been stored but conflicts were detected when indexing. Conflicting fields have not been indexed.

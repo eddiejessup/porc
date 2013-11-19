@@ -257,7 +257,7 @@ transfer-encoding: chunked
 Connection: keep-alive
 ```
 
-`GET https://api.orchestrate.io/v0/$collection/$key`
+`GET https://api.orchestrate.io/v0/$collection/$key/ref/$ref`
 
 ### Query Parameters
 

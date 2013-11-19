@@ -54,7 +54,47 @@ curl "api_endpoint_here" \
 
 Orchestrate.io uses HTTP Basic Authentication over SSL. Authenticate with an API key as the username and no password.
 
+# Applications
+
+An Application is the unit of tenancy in Orchestrate. Users can belong to an Application and are able to view and use the API keys for that Application.
+
+# Collections
+
+Collections are a grouping of the JSON objects you will store and query. Collections are anaologous tables in a relational database or buckets in S3.
+
+## Delete
+
+> Make sure to replace `$collection` with the appropriate collection.
+
+```shell
+curl -i "https://api.orchestrate.io/v0/$collection?force=true" \
+	-XDELETE \
+	-u "$api_key:" \
+```
+
+Deletes an entire collection.
+
+Delete operations cannot be undone, as a result, to avoid accidental deletions when experimenting with the API the query parameter `force=true` is necessary.
+
+> Returns response headers like so:
+
+```http
+HTTP/1.1 204 No Content
+Content-Type: application/json
+Date: Thu, 24 Oct 2013 15:20:42 GMT
+X-ORCHESTRATE-REQ-ID: d88d0ef1-3cbf-11e3-be54-22000ae8057a
+Connection: keep-alive
+```
+
+### Query Parameters
+
+Parameter  | Description
+---------- | -----------
+collection | the collection to query.
+
 # Keys
+
+Keys are unique identifers for values in collections.
 
 ## Get
 
@@ -189,6 +229,8 @@ key        | the primary key for a value.
 
 # Refs
 
+Refs are used to identify specific immutable values that can be assigned to keys.
+
 ## Get
 
 > Make sure to replace the variables with the appropriate values.
@@ -225,39 +267,9 @@ collection | the collection to query.
 key        | the primary key for a value.
 ref        | an opaque identifier for a value.
 
-# Collections
-
-## Delete
-
-> Make sure to replace `$collection` with the appropriate collection.
-
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection?force=true" \
-	-XDELETE \
-	-u "$api_key:" \
-```
-
-Deletes an entire collection.
-
-Delete operations cannot be undone, as a result, to avoid accidental deletions when experimenting with the API the query parameter `force=true` is necessary.
-
-> Returns response headers like so:
-
-```http
-HTTP/1.1 204 No Content
-Content-Type: application/json
-Date: Thu, 24 Oct 2013 15:20:42 GMT
-X-ORCHESTRATE-REQ-ID: d88d0ef1-3cbf-11e3-be54-22000ae8057a
-Connection: keep-alive
-```
-
-### Query Parameters
-
-Parameter  | Description
----------- | -----------
-collection | the collection to query.
-
 # Search
+
+Search allows collections to be queried using lucene query parser syntax
 
 ## Collection
 
@@ -321,6 +333,8 @@ limit      | the number of results to return. (default: 10, max: 100)
 offset     | the starting position of the results. (default: 0)
 
 # Events
+
+Events are a way to associate time-ordered data with a key.
 
 ## Get
 
@@ -416,6 +430,8 @@ kind       | the category for an event, e.g. "update" or "tweet" etc.
 timestamp  | the timestamp to associate with the event.
 
 # Graph
+
+The Graph functionality allows for directed relations to be created between collection/key pairs and for those relations to be traversed.
 
 ## Get
 

@@ -309,7 +309,7 @@ Connection: Keep-Alive
 }
 ```
 
-`GET https://api.orchestrate.io/v0/$collection/$key`
+`GET https://api.orchestrate.io/v0/$collection?query=$query&limit=$limit&offset=$offset`
 
 ### Parameters
 

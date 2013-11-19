@@ -177,8 +177,8 @@ Conditional headers can be used to specify a pre-condition that determines wheth
 
 Header        | Description
 ------------- | -----------
-If-Match      | Stores the value for the key if the value for this header matches the current `ref` value.
-If-None-Match | Stores the value for the key if no key/value already exists, the only valid value for this header is `*`.
+<nobr>If-Match</nobr> | Stores the value for the key if the value for this header matches the current `ref` value.
+<nobr>If-None-Match</nobr> | Stores the value for the key if no key/value already exists, the only valid value for this header is `*`.
 
 _If-Match_ and _If-None-Match_ headers cannot be supplied together.
 
@@ -229,7 +229,7 @@ key        | the primary key for a value.
 
 # Refs
 
-Refs are used to identify specific immutable values that can be assigned to keys.
+Refs are used to identify specific immutable values that have been assigned to keys.
 
 ## Get
 

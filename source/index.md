@@ -526,20 +526,21 @@ key        | the key from which the relationship originates.
 kind       | the category for an event, e.g. "update" or "tweet" etc.
 toCollection | the collection to which the relationship goes.
 toKey      | the key to which the relationship goes.
+
 # Errors
 
 Orchestrate.io uses the following error codes:
 
-Error Code | Meaning
----------- | -------
-400 | Bad Request -- Your request sucks
-401 | Unauthorized -- Your API key is wrong
-403 | Forbidden -- The kitten requested is hidden for administrators only
-404 | Not Found -- The specified kitten could not be found
-405 | Method Not Allowed -- You tried to access a kitten with an invalid method
-406 | Not Acceptable -- You requested a format that isn't json
-410 | Gone -- The kitten requested has been removed from our servers
-418 | I'm a teapot
-429 | Too Many Requests -- You're requesting too many kittens! Slown down!
-500 | Internal Server Error -- We had a problem with our server. Try again later.
-503 | Service Unavailable -- We're temporarially offline for maintanance. Please try again later.
+Code | Identifier | Meaning
+-----| ---------- | -------
+400 | API_BAD_REQUEST | The API request is malformed
+500 | SECURITY_AUTHENTICATION | An error occurred while trying to authenticate
+401 | SECURITY_UNAUTHORIZED | Valid credentials are required
+400 | SEARCH_PARAM_INVALID | A provided search query param is invalid.
+500 | SEARCH_INDEX_NOT_FOUND | Index could not be queried for this application
+500 | INTERNAL_ERROR | Internal Error
+404 | ITEMS_NOT_FOUND | The requested items could not be found
+412 | ITEM_VERSION_MISMATCH | The version of the item does not match
+412 | ITEM_ALREADY_PRESENT | The item is already present
+400 | ITEM_REF_MALFORMED | The provided Item Ref is malformed
+409 | INDEXING_CONFLICT | The item has been stored but conflicts were detected when indexing. Conflicting fields have not been indexed.

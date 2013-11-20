@@ -20,16 +20,11 @@ The current version of the Orchestrate API is v0. All URLs will start with the c
 # Request Headers
 
 ```shell
-# With GETs a Accepts header must be set
-curl "api_endpoint_here" \
-	-u "$api_key:" \
-	-H "Accepts: */*""
-
 # With PUTs a Content-Type header must be set
 curl -XPUT "api_endpoint_here" \
 	-u "$api_key:" \
 	-H "Content-Type: application/json" \
-	-d '$json'
+	-d "$json"
 ```
 
 Clients must use request headers accordingly:
@@ -69,7 +64,7 @@ Collections are a grouping of the JSON objects you will store and query. Collect
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection?force=true" \
 	-XDELETE \
-	-u "$api_key:" \
+	-u "$api_key:"
 ```
 
 Deletes an entire collection.
@@ -145,7 +140,7 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-XPUT \
 	-H "Content-Type: application/json' -d'$json" \
 	-u "$api_key:" \
-	-d '$json'
+	-d "$json"
 ```
 
 ```go
@@ -180,7 +175,7 @@ Header        | Description
 <nobr>If-Match</nobr> | Stores the value for the key if the value for this header matches the current `ref` value.
 <nobr>If-None-Match</nobr> | Stores the value for the key if no key/value already exists, the only valid value for this header is `*`.
 
-_If-Match_ and _If-None-Match_ headers cannot be supplied together.
+*If-Match* and *If-None-Match* headers cannot be supplied together.
 
 ### Query Parameters
 
@@ -275,9 +270,7 @@ Search allows collections to be queried using lucene query parser syntax
 
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection?query=$query&limit=$limit&offset=$offset" \
-	-XDELETE \
-	-u "$api_key:" \
-	-H'Content-Type: application/json' -d'$json'
+	-u "$api_key:"
 ```
 
 ```go

@@ -96,11 +96,14 @@ X-ORCHESTRATE-REQ-ID: d88d0ef1-3cbf-11e3-be54-22000ae8057a
 Connection: keep-alive
 ```
 
+`DELETE https://api.orchestrate.io/v0/$collection/$key`
+
 ### Parameters
 
 Parameter  | Description
 ---------- | -----------
 collection | the collection to delete.
+force      | must be set to `true` for the delete to succeed.
 
 # Key/Value
 

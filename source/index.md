@@ -427,6 +427,8 @@ Content-Length: 81
 }
 ```
 
+`GET https://api.orchestrate.io/v0/$collection/$key/events/$type?start=$start&end=$end`
+
 ### Parameters
 
 Parameter  | Description
@@ -593,7 +595,7 @@ X-ORCHESTRATE-REQ-ID: bfc4e750-5121-11e3-be8f-22000ab58c12
 Connection: keep-alive
 ```
 
-```PUT /v0/$collection/$key/relation/$kind/$toCollection/$fromCollection```
+```PUT /v0/$collection/$key/relation/$kind/$toCollection/$toKey```
 
 ### Parameters
 
@@ -611,14 +613,14 @@ Orchestrate.io uses the following error codes:
 
 Status | Error Code | Description
 ------ | ---------- | -----------
-400 | api_bad_request | The API request is malformed
-500 | security_authentication | An error occurred while trying to authenticate
-401 | security_unauthorized | Valid credentials are required
+400 | api_bad_request | The API request is malformed.
+500 | security_authentication | An error occurred while trying to authenticate.
+401 | security_unauthorized | Valid credentials are required.
 400 | search_param_invalid | A provided search query param is invalid.
-500 | search_index_not_found | Index could not be queried for this application
-500 | internal_error | Internal Error
-404 | items_not_found | The requested items could not be found
-412 | item_version_mismatch | The version of the item does not match
-412 | item_already_present | The item is already present
-400 | item_ref_malformed | The provided Item Ref is malformed
+500 | search_index_not_found | Index could not be queried for this application.
+500 | internal_error | Internal Error.
+404 | items_not_found | The requested items could not be found.
+412 | item_version_mismatch | The version of the item does not match.
+412 | item_already_present | The item is already present.
+400 | item_ref_malformed | The provided Item Ref is malformed.
 409 | indexing_conflict | The item has been stored but conflicts were detected when indexing. Conflicting fields have not been indexed.

@@ -372,7 +372,7 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?start=$star
 ```
 
 ```go
-events, err := c.GetEvents(collection, key, type, start, end)
+events, err := c.GetEvents(collection, key, typ, start, end)
 ```
 
 Returns a list of events, optionally limited to specified time range in reverse chronological order.
@@ -437,7 +437,7 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?timestamp=$
 ```
 
 ```go
-err := c.PutEvent(collection, key, type, strings.NewReader(`{"msg":"hello"}`))
+err := c.PutEvent(collection, key, typ, strings.NewReader(`{"msg":"hello"}`))
 ```
 
 Puts an event with an optional user defined timestamp.

@@ -483,7 +483,7 @@ type       | the category for an event, e.g. "update" or "tweet" etc.
 timestamp  | the timestamp to associate with the event.
 
 <aside class="notice">
-The timestamp value should be a integer representing millisecond since the Unix epoch.
+The timestamp value should be an integer representing millisecond since the Unix epoch.
 </aside>
 
 

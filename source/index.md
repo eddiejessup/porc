@@ -15,7 +15,7 @@ toc_footers:
 /v0/$collection/$key
 ```
 
-All request URIs must be prefixed with the current version of the Orchestrate API. The current version is v0.
+All request URIs must be prefixed with the current version of the Orchestrate API. The current version is `v0`.
 
 # Request Headers
 

@@ -102,7 +102,7 @@ Parameter  | Description
 ---------- | -----------
 collection | the collection to delete.
 
-# Keys/Value
+# Key/Value
 
 Key/Value is core to Orchestrate.io. All other query types are built around this data type. Key/Value pairs are pieces of data identified by a unique key for a collection and have corresponding value.
 

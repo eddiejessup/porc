@@ -12,16 +12,16 @@ toc_footers:
 # API Version
 
 ```
-/v0/:collection/:key
+/v0/$collection/$key
 ```
 
-The current version of the Orchestrate API is v0. All URLs will start with the current API version.
+All request URIs must be prefixed with the current version of the Orchestrate API. The current version is v0.
 
 # Request Headers
 
 ```shell
 # With PUTs a Content-Type header must be set
-curl -XPUT "api_endpoint_here" \
+curl -XPUT "https://api.orchestrate.io/v0/$collection/$key" \
 	-u "$api_key:" \
 	-H "Content-Type: application/json" \
 	-d "$json"
@@ -29,37 +29,46 @@ curl -XPUT "api_endpoint_here" \
 
 Clients must use request headers accordingly:
 
-* All `GET` requests must accept the `Content-Type` as `application/json` or `*/*`.
-* All `PUT` requests are expected to set the `Content-Type` header to `application/json`.
+* All `GET` requests return JSON and thus must set compatible accept headers, either `application/json` or `*/*`.
+* All `PUT` requests must contain a valid JSON body with the `Content-Type` header set to `application/json`.
 
 # Authentication
 
-> Make sure to replace `$api_key` with your API key.
-
-```go
-// Create a new Orchestrate.io client with your API key
-c := client.NewClient("$api_key")
-```
+> Make sure to replace the API Key variable with your API key.
 
 ```shell
-# With curl, pass in your API key as the basic auth username and no password
-curl "api_endpoint_here" \
+# Pass in your API key as the basic auth username and no password
+curl "https://api.orchestrate.io/v0/$collection/$key" \
 	-u "$api_key:"
 ```
 
-Orchestrate.io uses HTTP Basic Authentication over SSL. Authenticate with an API key as the username and no password.
+```go
+// Create a new Orchestrate.io client with your API key
+c := client.NewClient(apiKey)
+```
+
+Authenication for Orchestrate.io applications is provided by HTTP Basic Authentication over SSL. Authenticate with an API key as the username and no password. API keys can be created or revoked from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io).
 
 # Applications
 
-An Application is the unit of tenancy in Orchestrate. Users can belong to an Application and are able to view and use the API keys for that Application.
+Applications are the unit of tenancy in Orchestrate.io. Users who are members of an Application are able to view, create, and revoke API keys and use those keys to access the Application's data. Applications are created from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io).
+
+<aside class="warning">
+Application names must be globally unique. It is good practice to prefix application names with your username or organization name.
+</aside>
 
 # Collections
 
-Collections are a grouping of the JSON objects you will store and query. Collections are analogous to tables in a relational database or buckets in S3.
+Collections are groupings of the JSON objects. Collections are analogous to tables in a relational database.
+
+## Create
+
+You can create collections either from the Orchestrate.io Dashboard or by performing a Key/Value PUT to the collection.
 
 ## Delete
 
-> Make sure to replace `$collection` with the appropriate collection.
+> Make sure to replace the collection variable with the appropriate collection name.
+
 
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection?force=true" \
@@ -67,9 +76,15 @@ curl -i "https://api.orchestrate.io/v0/$collection?force=true" \
 	-u "$api_key:"
 ```
 
+```go
+err := c.DeleteCollection(collection)
+```
+
 Deletes an entire collection.
 
-Delete operations cannot be undone, as a result, to avoid accidental deletions when experimenting with the API the query parameter `force=true` is necessary.
+<aside class="notice">
+To prevent accidental deletions, `force=true` must be provided in the query string.
+</aside>
 
 > Returns response headers like so:
 
@@ -81,19 +96,19 @@ X-ORCHESTRATE-REQ-ID: d88d0ef1-3cbf-11e3-be54-22000ae8057a
 Connection: keep-alive
 ```
 
-### Query Parameters
+### Parameters
 
 Parameter  | Description
 ---------- | -----------
-collection | the collection to query.
+collection | the collection to delete.
 
-# Keys
+# Keys/Value
 
-Keys are unique identifers for values in collections.
+Key/Value is core to Orchestrate.io. All other query types are built around this data type. Key/Value pairs are pieces of data identified by a unique key for a collection and have corresponding value.
 
 ## Get
 
-> Make sure to replace `$collection` and `$key` with the appropriate collection and key.
+> Make sure to replace the collection and key variables with the appropriate collection and key.
 
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key" \
@@ -101,11 +116,15 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 ```
 
 ```go
-domain_object := new(DomainObject)
-err := c.Get("$collection", "$key", domain_object)
+domainObject := new(DomainObject)
+err := c.Get(collection, key, domainObject)
 ```
 
-Returns value with content-location (ref) header.
+Get the latest value assigned to a key.
+
+<aside class="notice">
+Previous versions can be retrieved by performing a GET to the fully qualified value of a GET's `Content-Location` header or a PUT's `Location` header PUT.
+</aside>
 
 ### HTTP Request
 
@@ -124,30 +143,34 @@ Connection: keep-alive
 
 `GET https://api.orchestrate.io/v0/$collection/$key`
 
-### Query Parameters
+### Parameters
 
 Parameter  | Description
 ---------- | -----------
-collection | the collection to query.
-key        | the primary key for a value.
+collection | the collection from which to get the value.
+key        | the key for a value to be retrieved.
 
-## Put
+## Put (Create/Update)
 
-> Make sure to replace `$collection` and `$key` with the appropriate collection and key.
+> Make sure to replace the variables with the appropriate values.
 
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-XPUT \
-	-H "Content-Type: application/json' -d'$json" \
+	-H "Content-Type: application/json' \
 	-u "$api_key:" \
 	-d "$json"
 ```
 
 ```go
-err := c.Put("$collection", "$key", domain_object)
+err := c.Put(collection, key, domainObject)
 ```
 
-Stores a value for key, returning the location (ref) header.
+Creates or updates the value at the collection/key specified. The new value will have its own unique version and that value will always be retrievable at its fully qualified 'ref' location.  That location is made available in the 'Location' response header.
+
+<aside class="warning">
+All values must be valid JSON.
+</aside>
 
 ### HTTP Request
 
@@ -166,9 +189,13 @@ Connection: keep-alive
 
 `PUT https://api.orchestrate.io/v0/$collection/$key`
 
-### Request Headers
+### Conditional PUTs
 
-Conditional headers can be used to specify a pre-condition that determines whether the store operation happens. The _If-Match_ header specifies that the store operation will succeed if and only if the _ref_ value matches current stored _ref_. The _If-None-Match_ header specifies that the store operation will succeed if and only if the key doesn't already exist. 
+Conditional headers can be used to specify a pre-condition that determines whether the store operation happens. The `If-Match` header specifies that the store operation will succeed if and only if the _ref_ value matches current stored ref. The `If-None-Match` header specifies that the store operation will succeed if and only if the key doesn't already exist. 
+
+<aside class="notice">
+Conditional headers must provide a double-quoted `ETag` value returned by either a GET or PUT.
+</aside>
 
 Header        | Description
 ------------- | -----------
@@ -177,16 +204,16 @@ Header        | Description
 
 *If-Match* and *If-None-Match* headers cannot be supplied together.
 
-### Query Parameters
+### Parameters
 
 Parameter  | Description
 ---------- | -----------
-collection | the collection to query.
-key        | the primary key for a value.
+collection | the collection to which to put the value.
+key        | the primary key for the value.
 
 ## Delete
 
-> Make sure to replace `$collection` and `$key` with the appropriate collection and key.
+> Make sure to replace the collection and key variables with the correct collection and key.
 
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key" \
@@ -196,10 +223,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 ```
 
 ```go
-err := c.Delete("$collection", "$key")
+err := c.Delete(collection, key)
 ```
 
-Deletes the value for a key.
+Deletes set the value of a key to a null object. Previous versions of an object are retrievable at its fully qualified 'ref' location.
 
 ### HTTP Request
 
@@ -215,12 +242,12 @@ Connection: keep-alive
 
 `DELETE https://api.orchestrate.io/v0/$collection/$key`
 
-### Query Parameters
+### Parameters
 
 Parameter  | Description
 ---------- | -----------
-collection | the collection to query.
-key        | the primary key for a value.
+collection | the collection to delete from.
+key        | the key to delete.
 
 # Refs
 
@@ -233,6 +260,10 @@ Refs are used to identify specific immutable values that have been assigned to k
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/$ref" \
 	-u "$api_key:"
+```
+
+```go
+err := c.GetRef(collection, key, ref, domainObject)
 ```
 
 Returns value.
@@ -254,19 +285,21 @@ Connection: keep-alive
 
 `GET https://api.orchestrate.io/v0/$collection/$key/ref/$ref`
 
-### Query Parameters
+### Parameters
 
 Parameter  | Description
 ---------- | -----------
-collection | the collection to query.
-key        | the primary key for a value.
-ref        | an opaque identifier for a value.
+collection | the collection from which to get the value.
+key        | the primary key of the value.
+ref        | an opaque version identifier for the value.
 
 # Search
 
-Search allows collections to be queried using lucene query parser syntax
+Search allows collections to be queried using [Lucene Query Parser Syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview).
 
 ## Collection
+
+> Make sure to replace all the variables with the appropriate values.
 
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection?query=$query&limit=$limit&offset=$offset" \
@@ -274,10 +307,10 @@ curl -i "https://api.orchestrate.io/v0/$collection?query=$query&limit=$limit&off
 ```
 
 ```go
-results, err := c.Search("$collection", "$query")
+results, err := c.Search(collection, query, offset, limit)
 ```
 
-Returns list of collection, key, ref, and values.
+Returns list of items matching the lucene query.
 
 ### HTTP Request
 
@@ -320,7 +353,7 @@ Connection: Keep-Alive
 
 Parameter  | Description
 ---------- | -----------
-collection | the collection to query.
+collection | the collection to search.
 query      | a [Lucene](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview) query string.
 limit      | the number of results to return. (default: 10, max: 100)
 offset     | the starting position of the results. (default: 0)
@@ -331,7 +364,7 @@ Events are a way to associate time-ordered data with a key.
 
 ## Get
 
-> Make sure to replace all the parameters with the appropriate values.
+> Make sure to replace all the variables with the appropriate values.
 
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?start=$start&end=$end" \
@@ -339,10 +372,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?start=$star
 ```
 
 ```go
-events, err := c.GetEvents("$collection", "$key", "$type")
+events, err := c.GetEvents(collection, key, type, start, end)
 ```
 
-Returns a list of events, optionally limited to specified time range.
+Returns a list of events, optionally limited to specified time range in reverse chronological order.
 
 ### HTTP Request
 
@@ -363,27 +396,37 @@ Content-Length: 81
 		{
 			"timestamp": 1369832019085,
 			"value": {
+				"msg": "hello world, again"
+			}
+		},
+		{
+			"timestamp": 1369832019080,
+			"value": {
 				"msg": "hello world"
 			}
 		}
 	],
-	"count": 1
+	"count": 2
 }
 ```
 
-### Query Parameters
+### Parameters
 
 Parameter  | Description
 ---------- | -----------
-collection | the collection to query.
-key        | the primary key for a value.
+collection | the collection from which to get the events.
+key        | the primary key associated with the events.
 type       | the category for an event, e.g. "update" or "tweet" etc.
 start      | the inclusive start of a time range to query. (optional)
 end        | the exclusive end of a time range to query. (optional)
 
+<aside class="notice">
+The start and end values are integers representing milliseconds since the Unix epoch.
+</aside>
+
 ## Put
 
-> Make sure to replace all the parameters with the appropriate values.
+> Make sure to replace all the variables with the appropriate values.
 
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?timestamp=$timestamp" \
@@ -394,7 +437,7 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?timestamp=$
 ```
 
 ```go
-err := c.PutEvent("$collection", "$key", "$type", strings.NewReader(`{"msg":"hello"}`))
+err := c.PutEvent(collection, key, type, strings.NewReader(`{"msg":"hello"}`))
 ```
 
 Puts an event with an optional user defined timestamp.
@@ -413,14 +456,19 @@ Connection: keep-alive
 
 ```PUT /v0/$collection/$key/events/$type```
 
-### Query Parameters
+### Parameters
 
 Parameter  | Description
 ---------- | -----------
-collection | the collection to query.
-key        | the primary key for a value.
-kind       | the category for an event, e.g. "update" or "tweet" etc.
+collection | the collection to which to put the event.
+key        | the primary key associated with the event.
+type       | the category for an event, e.g. "update" or "tweet" etc.
 timestamp  | the timestamp to associate with the event.
+
+<aside class="notice">
+The timestamp value should be a integer representing millisecond since the Unix epoch.
+</aside>
+
 
 # Graph
 
@@ -428,7 +476,7 @@ The Graph functionality allows for directed relations to be created between coll
 
 ## Get
 
-> Make sure to replace all the parameters with the appropriate values.
+> Make sure to replace all the variables with the appropriate values.
 
 ```shell
 # One hop
@@ -442,10 +490,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/relations/$kind1/$kind2"
 
 ```go
 // One hop
-results, err := c.GetRelations("$collection", "$key", []string{"$kind"})
+results, err := c.GetRelations(collection, key, []string{kind})
 
 // Two hops
-results, err := c.GetRelations("$collection", "$key", []string{"$kind1", "kind2"})
+results, err := c.GetRelations(collection, key, []string{kind1, kind2})
 ```
 
 Returns relation's collection, key, ref, and values. The "kind" parameter(s) indicate which relations to walk and the depth to walk.
@@ -488,7 +536,7 @@ Connection: keep-alive
 
 ```GET /v0/$collection/$key/relation/$kind1/$kind2 ...```
 
-### Query Parameters
+### Parameters
 
 Parameter  | Description
 ---------- | -----------
@@ -498,19 +546,23 @@ kind       | the relationship kind to query, e.g. "follows" or "friend" etc.
 
 ## Put
 
-> Make sure to replace all the parameters with the appropriate values.
+> Make sure to replace all the variables with the appropriate values.
 
 ```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$toCollection/$toKey" \
+curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$to_collection/$to_key" \
 	-XPUT \
 	-u "$api_key:" \
 ```
 
 ```go
-err := c.PutRelation("$collection", "$key", "$kind", "$toCollection", "toKey")
+err := c.PutRelation(collection, key, kind, toCollection, toKey)
 ```
 
-Puts an event with an optional user defined timestamp.
+Creates a relationship between two objects. Relations can span collections.
+
+<aside class="notice">
+Both ends of the relation must exist.
+</aside>
 
 ### HTTP Request
 
@@ -526,22 +578,22 @@ Connection: keep-alive
 
 ```PUT /v0/$collection/$key/relation/$kind/$toCollection/$fromCollection```
 
-### Query Parameters
+### Parameters
 
 Parameter  | Description
 ---------- | -----------
-collection | the collection from which the relationship originates.
-key        | the key from which the relationship originates.
+collection | the collection from which the relation originates.
+key        | the key from which the relation originates.
 kind       | the category for an event, e.g. "update" or "tweet" etc.
-toCollection | the collection to which the relationship goes.
-toKey      | the key to which the relationship goes.
+toCollection | the collection to which the relation goes.
+toKey      | the key to which the relation goes.
 
 # Errors
 
 Orchestrate.io uses the following error codes:
 
-Code | Identifier | Meaning
------| ---------- | -------
+Status | Error Code | Description
+------ | ---------- | -----------
 400 | api_bad_request | The API request is malformed
 500 | security_authentication | An error occurred while trying to authenticate
 401 | security_unauthorized | Valid credentials are required

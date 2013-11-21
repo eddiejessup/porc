@@ -1,13 +1,14 @@
 ## Introduction
 
-Customer-facing API docs for Orchestrate using [Carte](https://github.com/devo-ps/carte), a [Jekyll](http://jekyllrb.com/) template designed for such things.
+API docs for Orchestrate using [Slate](https://github.com/tripit/slate), a [Middleman](http://middlemanapp.com/) template designed for such things.
 
 ## Usage
 
-With Jekyll installed:
-
-	jekyll serve --watch
+```
+bundle install
+bundle exec middleman server
+```
 
 ## Editing
 
-See `README-orig.md` at the root of this project.
+See `README-slate.md` at the root of this project.

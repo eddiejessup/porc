@@ -123,7 +123,7 @@ err := c.Get(collection, key, domainObject)
 Get the latest value assigned to a key.
 
 <aside class="notice">
-Previous versions can be retrieved by performing a GET to the fully qualified value of a GET's `Content-Location` header or a PUT's `Location` header.
+Previous versions can be retrieved by performing a GET on the fully qualified value of a GET's `Content-Location` header or a PUT's `Location` header.
 </aside>
 
 ### HTTP Request
@@ -218,7 +218,7 @@ Conditional headers must provide a double-quoted `ETag` value returned by either
 Header        | Description
 ------------- | -----------
 <nobr>If-Match</nobr> | Stores the value for the key if the value for this header matches the current `ref` value.
-<nobr>If-None-Match</nobr> | Stores the value for the key if no key/value already exists, the only valid value for this header is `*`.
+<nobr>If-None-Match</nobr> | Stores the value for the key if no key/value already exists, the only valid value for this header is `"*"`.
 
 *If-Match* and *If-None-Match* headers cannot be supplied together.
 

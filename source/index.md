@@ -204,7 +204,7 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-XPUT \
 	-H "Content-Type: application/json" \
-	-H "If-None-Match: *" \
+	-H "If-None-Match: \"*\" \
 	-u "$api_key:" \
 	-d "$json"
 ```

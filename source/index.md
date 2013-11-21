@@ -157,7 +157,7 @@ key        | the key for a value to be retrieved.
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-XPUT \
-	-H "Content-Type: application/json' \
+	-H "Content-Type: application/json" \
 	-u "$api_key:" \
 	-d "$json"
 ```
@@ -191,6 +191,24 @@ Connection: keep-alive
 
 ### Conditional PUTs
 
+```shell
+# An If-Match PUT
+curl -i "https://api.orchestrate.io/v0/$collection/$key" \
+	-XPUT \
+	-H "Content-Type: application/json" \
+	-H "If-Match: \"cbb48f9464612f20\"" \
+	-u "$api_key:" \
+	-d "$json"
+
+# An If-None-Match PUT
+curl -i "https://api.orchestrate.io/v0/$collection/$key" \
+	-XPUT \
+	-H "Content-Type: application/json" \
+	-H "If-None-Match: *" \
+	-u "$api_key:" \
+	-d "$json"
+```
+
 Conditional headers can be used to specify a pre-condition that determines whether the store operation happens. The `If-Match` header specifies that the store operation will succeed if and only if the _ref_ value matches current stored ref. The `If-None-Match` header specifies that the store operation will succeed if and only if the key doesn't already exist. 
 
 <aside class="notice">
@@ -218,8 +236,7 @@ key        | the primary key for the value.
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-XDELETE \
-	-u "$api_key:" \
-	-H'Content-Type: application/json' -d'$json'
+	-u "$api_key:"
 ```
 
 ```go
@@ -266,7 +283,7 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/$ref" \
 err := c.GetRef(collection, key, ref, domainObject)
 ```
 
-Returns value.
+Returns the specified version of a value.
 
 ### HTTP Request
 
@@ -431,9 +448,9 @@ The start and end values are integers representing milliseconds since the Unix e
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?timestamp=$timestamp" \
 	-XPUT \
-	-H 'Content-Type: application/json' \
+	-H "Content-Type: application/json" \
 	-u "$api_key:" \
-	-d '{"msg":"hello"}'
+	-d "{\"msg\":\"hello\"}"
 ```
 
 ```go
@@ -551,7 +568,7 @@ kind       | the relationship kind to query, e.g. "follows" or "friend" etc.
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$to_collection/$to_key" \
 	-XPUT \
-	-u "$api_key:" \
+	-u "$api_key:"
 ```
 
 ```go

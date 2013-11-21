@@ -123,7 +123,7 @@ err := c.Get(collection, key, domainObject)
 Get the latest value assigned to a key.
 
 <aside class="notice">
-Previous versions can be retrieved by performing a GET to the fully qualified value of a GET's `Content-Location` header or a PUT's `Location` header PUT.
+Previous versions can be retrieved by performing a GET to the fully qualified value of a GET's `Content-Location` header or a PUT's `Location` header.
 </aside>
 
 ### HTTP Request

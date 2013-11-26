@@ -543,6 +543,9 @@
 
                     window.location.hash = $(this).attr("data-unique");
 
+                    // Segment.io Page trackinging when URL updates
+                    analytics.page('API Docs', $(this).attr("data-unique"));
+
                 }
 
                 // Removes highlighting from all of the list item's
@@ -709,6 +712,9 @@
                         if(self.options.scrollHistory) {
 
                             if(window.location.hash !== "#" + anchorText) {
+
+                                // Segment.io Page trackinging when URL updates
+                                analytics.page('API Docs', anchorText);
 
                                 if(history.replaceState) { 
                                     history.replaceState({}, "", "#" + anchorText);

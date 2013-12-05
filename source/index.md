@@ -262,6 +262,25 @@ Connection: keep-alive
 
 `DELETE https://api.orchestrate.io/v0/$collection/$key`
 
+### Conditional DELETEs
+
+```shell
+curl -i "https://api.orchestrate.io/v0/$collection/$key" \
+	-XDELETE \
+	-H "If-Match: \"cbb48f9464612f20\"" \
+	-u "$api_key:"
+```
+
+Conditional headers can be used to specify a pre-condition that determines whether the delete operation happens. The `If-Match` header specifies that the delete operation will succeed if and only if the _ref_ value matches current stored ref.
+
+<aside class="notice">
+Conditional headers must provide a double-quoted `ETag` value returned by either a GET or PUT.
+</aside>
+
+Header        | Description
+------------- | -----------
+<nobr>If-Match</nobr> | Deletes the value for the key if the value for this header matches the current `ref` value.
+
 ### Parameters
 
 Parameter  | Description

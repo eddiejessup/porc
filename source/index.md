@@ -422,9 +422,11 @@ Returns a list of events, optionally limited to specified time range in reverse 
 
 ```http
 HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
-Connection: Keep-Alive
-Content-Length: 81
+Content-Type: application/json
+Date: Wed, 11 Dec 2013 14:47:11 GMT
+X-ORCHESTRATE-REQ-ID: 1db50310-6273-11e3-9fbc-12313d2f7cdc
+Transfer-Encoding: chunked
+Connection: keep-alive
 ```
 
 > And a response body like so:

@@ -577,7 +577,7 @@ Connection: keep-alive
 }
 ```
 
-```GET /v0/$collection/$key/relation/$kind1/$kind2 ...```
+```GET /v0/$collection/$key/relations/$kind1/$kind2 ...```
 
 ### Parameters
 

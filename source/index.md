@@ -3,6 +3,7 @@ title: Orchestrate.io 	API Reference
 
 language_tabs:
   - shell: curl
+  - java
   - go
 
 toc_footers:
@@ -42,6 +43,10 @@ curl "https://api.orchestrate.io/v0/$collection/$key" \
 	-u "$api_key:"
 ```
 
+```java
+Client client = new Client("your api key");
+```
+
 ```go
 // Create a new Orchestrate.io client with your API key
 c := client.NewClient(apiKey)
@@ -74,6 +79,15 @@ You can create collections either from the Orchestrate.io Dashboard or by perfor
 curl -i "https://api.orchestrate.io/v0/$collection?force=true" \
 	-XDELETE \
 	-u "$api_key:"
+```
+
+```java
+DeleteOperation deleteOp = new DeleteOperation("collectionName");
+Future<Boolean> future = client.execute(deleteOp);
+Boolean result = future.get(3, TimeUnit.SECONDS);
+if (result) {
+    System.out.println("Successfully deleted the collection.");
+}
 ```
 
 ```go
@@ -116,6 +130,14 @@ Key/Value is core to Orchestrate.io. All other query types are built around this
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-u "$api_key:"
+```
+
+```java
+KvFetchOperation<MyObject> kvFetchOp =
+        new KvFetchOperation<MyObject>("collection", "key");
+Future<KvObject<MyObject>> future = client.execute(kvFetchOp);
+KvObject<MyObject> result = future.get(3, TimeUnit.SECONDS);
+MyObject domainObject = result.getValue();
 ```
 
 ```go
@@ -163,6 +185,17 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-H "Content-Type: application/json" \
 	-u "$api_key:" \
 	-d "$json"
+```
+
+```java
+MyObject domainObject = new MyObject(...);
+KvStoreOperation kvStoreOp =
+        new KvStoreOperation("collection", "key", domainObject);
+Future<Boolean> future = client.execute(kvStoreOp);
+Boolean result = future.get(3, TimeUnit.SECONDS);
+if (result) {
+	System.out.println("Successfully stored the object.");
+}
 ```
 
 ```go
@@ -242,6 +275,15 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-u "$api_key:"
 ```
 
+```java
+DeleteOperation deleteOp = new DeleteOperation("collection", "key");
+Future<Boolean> future = client.execute(deleteOp);
+Boolean result = future.get(3, TimeUnit.SECONDS);
+if (result) {
+	System.out.println("Successfully deleted the key.");
+}
+```
+
 ```go
 err := c.Delete(collection, key)
 ```
@@ -301,6 +343,14 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/$ref" \
 	-u "$api_key:"
 ```
 
+```java
+KvFetchOperation<MyObject> kvFetchOp =
+        new KvFetchOperation<MyObject>("collection", "key", "ref");
+Future<KvObject<MyObject>> future = client.execute(kvFetchOp);
+KvObject<MyObject> result = future.get(3, TimeUnit.SECONDS);
+MyObject domainObject = result.getValue();
+```
+
 ```go
 err := c.GetRef(collection, key, ref, domainObject)
 ```
@@ -343,6 +393,20 @@ Search allows collections to be queried using [Lucene Query Parser Syntax](http:
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection?query=$query&limit=$limit&offset=$offset" \
 	-u "$api_key:"
+```
+
+```java
+SearchOperation<MyObject> searchOp = SearchOperation.builder("collection")
+        .query("*")
+        .limit(10)
+        .offset(0)
+        .build();
+Future<SearchResults<MyObject>> future = client.execute(searchOp);
+SearchResults<MyObject> results = future.get(3, TimeUnit.SECONDS);
+for (Result<MyObject> result : results) {
+	System.out.println(result.getScore());
+	System.out.println(result.getKvObject().getValue());
+}
 ```
 
 ```go
@@ -408,6 +472,17 @@ Events are a way to associate time-ordered data with a key.
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?start=$start&end=$end" \
 	-u "$api_key:"
+```
+
+```java
+EventFetchOperation<MyObject> eventFetchOp =
+        new EventFetchOperation<MyObject>("collection", "key", "type");
+Future<Iterable<Event<MyObject>>> future = client.execute(eventFetchOp);
+Iterable<Event<MyObject>> events = future.get(3, TimeUnit.SECONDS);
+for (Event<MyObject> event : events) {
+	System.out.println(event.getTimestamp());
+	System.out.println(event.getValue());
+}
 ```
 
 ```go
@@ -479,6 +554,17 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?timestamp=$
 	-d "{\"msg\":\"hello\"}"
 ```
 
+```java
+MyObject domainObject = new MyObject(...);
+EventStoreOperation eventStoreOp =
+        new EventStoreOperation("collection", "key", "type", domainObject);
+Future<Boolean> future = client.execute(eventStoreOp);
+Boolean result = future.get(3, TimeUnit.SECONDS);
+if (result) {
+	System.out.println("Successfully stored the event.");
+}
+```
+
 ```go
 err := c.PutEvent(collection, key, typ, strings.NewReader(`{"msg":"hello"}`))
 ```
@@ -529,6 +615,16 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/relations/$kind" \
 # Two hops
 curl -i "https://api.orchestrate.io/v0/$collection/$key/relations/$kind1/$kind2" \
 	-u "$api_key:"
+```
+
+```java
+RelationFetchOperation<MyObject> relationFetchOp =
+        new RelationFetchOperation("collection", "key", "kind1", "kind2");
+Future<Iterable<KvObject<String>>> future = client.execute(relationFetchOp);
+Iterable<KvObject<String>> relatedObjects = futureResult.get();
+for (KvObject<String> relatedObject : relatedObjects) {
+	System.out.println(relatedObject.getValue());
+}
 ```
 
 ```go
@@ -595,6 +691,16 @@ kind       | the relationship kind to query, e.g. "follows" or "friend" etc.
 curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$to_collection/$to_key" \
 	-XPUT \
 	-u "$api_key:"
+```
+
+```java
+RelationStoreOperation relationStoreOp = new RelationStoreOperation(
+        "sourceCollection", "sourceKey", "kind", "toCollection", "toKey");
+Future<Boolean> future = client.execute(relationStoreOp);
+Boolean result = futureResult.get(3, TimeUnit.SECONDS);
+if (result) {
+	System.out.println("Successfully stored the relation.");
+}
 ```
 
 ```go

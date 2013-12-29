@@ -134,7 +134,7 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 
 ```java
 KvFetchOperation<MyObject> kvFetchOp =
-        new KvFetchOperation<MyObject>("collection", "key");
+        new KvFetchOperation<MyObject>("collection", "key", MyObject.class);
 Future<KvObject<MyObject>> future = client.execute(kvFetchOp);
 KvObject<MyObject> result = future.get(3, TimeUnit.SECONDS);
 MyObject domainObject = result.getValue();
@@ -345,7 +345,8 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/$ref" \
 
 ```java
 KvFetchOperation<MyObject> kvFetchOp =
-        new KvFetchOperation<MyObject>("collection", "key", "ref");
+        new KvFetchOperation<MyObject>(
+        "collection", "key", "ref", MyObject.class);
 Future<KvObject<MyObject>> future = client.execute(kvFetchOp);
 KvObject<MyObject> result = future.get(3, TimeUnit.SECONDS);
 MyObject domainObject = result.getValue();
@@ -396,7 +397,8 @@ curl -i "https://api.orchestrate.io/v0/$collection?query=$query&limit=$limit&off
 ```
 
 ```java
-SearchOperation<MyObject> searchOp = SearchOperation.builder("collection")
+SearchOperation<MyObject> searchOp = SearchOperation
+        .builder("collection", MyObject.class)
         .query("*")
         .limit(10)
         .offset(0)
@@ -476,7 +478,8 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?start=$star
 
 ```java
 EventFetchOperation<MyObject> eventFetchOp =
-        new EventFetchOperation<MyObject>("collection", "key", "type");
+        new EventFetchOperation<MyObject>(
+        "collection", "key", "type", MyObject.class);
 Future<Iterable<Event<MyObject>>> future = client.execute(eventFetchOp);
 Iterable<Event<MyObject>> events = future.get(3, TimeUnit.SECONDS);
 for (Event<MyObject> event : events) {

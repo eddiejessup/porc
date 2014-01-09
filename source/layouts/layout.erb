@@ -44,7 +44,11 @@ under the License.
           scrollTo: -2,
           scrollHistory: true,
           hashGenerator: function(text, element) {
-            return element[0].getAttribute('id');
+            var path = "";
+            if (element.prop("tagName") == "H2") {
+              path = element.prevAll("h1")[0].getAttribute('id') + "/"
+            }
+            return path + element[0].getAttribute('id');
           }
         }).data("toc-tocify");
         // Hack to make already open sections to start opened,
@@ -67,8 +71,26 @@ under the License.
     </script>
     <script type="text/javascript">
       window.analytics||(window.analytics=[]),window.analytics.methods=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group","on","once","off"],window.analytics.factory=function(a){return function(){var t=Array.prototype.slice.call(arguments);return t.unshift(a),window.analytics.push(t),window.analytics}};for(var i=0;i<window.analytics.methods.length;i++){var method=window.analytics.methods[i];window.analytics[method]=window.analytics.factory(method)}window.analytics.load=function(a){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+a+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)},window.analytics.SNIPPET_VERSION="2.0.6",
-      window.analytics.load("nkkww5j074"),
-      window.analytics.page('API Docs');
+      window.analytics.load("nkkww5j074");
+  </script>
+  <script type="text/javascript">
+    $(function() {
+      // Track language selection with segment.io
+      var language = $('#lang-selector a.active').attr("data-language-name");
+
+      if ("onhashchange" in window) {
+        $(window).on('hashchange', function () {
+          var section = window.location.hash.replace('#', '');
+          analytics.page("API Docs", section, {"language" : language});
+        })
+        .trigger('hashchange');
+      } else {
+        var menuItems = $("li.tocify-item").click(function() {
+          var section = $(this).attr("data-unique");
+          analytics.page("API Docs", section, {"language" : language});
+        });
+      }      
+    });
   </script>
   </head>
 

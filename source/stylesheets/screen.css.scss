@@ -155,7 +155,7 @@ html, body {
   background-color: $main-bg;
 
   padding-bottom: 1px; // prevent margin overflow
-  
+
   // The dark box is what gives the code samples their dark background.
   // It sits essentially under the actual content block, which has a
   // transparent background.
@@ -215,7 +215,7 @@ html, body {
   z-index: 30;
 
 
-  &>h1, &>h2, &>h3, &>p, &>table, &>ul, &>ol, &>aside {
+  &>h1, &>h2, &>h3, &>p, &>table, &>ul, &>ol, &>aside, &>dl {
     margin-right: $examples-width;
     padding: 0 $main-padding;
     @include box-sizing(border-box);
@@ -228,7 +228,7 @@ html, body {
   }
 
   // the div is the tocify hidden div for placeholding stuff
-  &>h1, &>h2, &>div { 
+  &>h1, &>h2, &>div {
     clear:both;
   }
 
@@ -282,6 +282,11 @@ html, body {
     text-transform: uppercase;
   }
 
+  hr {
+    margin: 2em 0;
+    border-top: 2px solid $examples-bg;
+    border-bottom: 2px solid $main-bg;
+  }
 
   table {
     margin-bottom: 1em;
@@ -315,8 +320,15 @@ html, body {
     }
   }
 
+  dt {
+    font-weight: bold;
+  }
 
-  p, li {
+  dd {
+    margin-left: 15px;
+  }
+
+  p, li, dt, dd {
     line-height: 1.6;
     margin-top: 0;
   }

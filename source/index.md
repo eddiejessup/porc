@@ -330,6 +330,85 @@ Parameter  | Description
 collection | the collection to delete from.
 key        | the key to delete.
 
+## List
+
+> Make sure to replace all the variables with the appropriate values.
+
+```shell
+# Inclusive start key
+curl -i "https://api.orchestrate.io/v0/$collection?startKey=$startKey&limit=$limit" \
+	-u "$api_key:"
+
+# Exclusive after key
+curl -i "https://api.orchestrate.io/v0/$collection?afterKey=$afterKey&limit=$limit" \
+	-u "$api_key:"
+```
+
+Returns a paginated, lexicographically ordered list of items contained in a
+collection. The next page of results URL is specified by both the `next` field
+in the JSON response and the `Link` header value. If no `next` field or `Link`
+header is returned, there are no additional pages.
+
+### HTTP Request
+
+> Returns response headers like so:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Wed, 22 Jan 2014 14:16:08 GMT
+Link: </v0/collection?limit=100&afterKey=099>; rel="next"
+X-ORCHESTRATE-REQ-ID: bce1f3e0-836f-11e3-abae-12313d2f7cdc
+transfer-encoding: chunked
+Connection: keep-alive
+```
+
+> Returns a response body like so:
+
+```json
+{
+    "count": 2,
+    "next": "/v0/collection?limit=2&afterKey=002",
+    "results": [
+        {
+            "path": {
+                "collection": "collection",
+                "key": "001",
+                "ref": "20c14e8965d6cbb0"
+            },
+            "value": {
+                "msg": "test"
+            }
+        },
+        {
+            "path": {
+                "collection": "collection",
+                "key": "002",
+                "ref": "20c14e8965d6cbb0"
+            },
+            "value": {
+                "msg": "test"
+            }
+        }
+    ]
+}
+```
+
+`GET https://api.orchestrate.io/v0/$collection?limit=$limit&afterKey=$afterKey`
+
+### Parameters
+
+Parameter  | Description
+---------- | -----------
+collection | the collection to list from.
+limit      | the number of results to return. (default: 10, max: 100)
+startKey   | the start of the key range to paginate from including the specified value if it exists.
+afterKey   | the start of the key range to paginate from excluding the specified value.
+
+<aside class="notice">
+To include all keys in a collection, do not provide a `startKey` or `afterKey` value.
+</aside>
+
 # Refs
 
 Refs are used to identify specific immutable values that have been assigned to keys.

@@ -273,6 +273,11 @@ key        | the primary key for the value.
 curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-XDELETE \
 	-u "$api_key:"
+
+# permanently delete KV object and all history
+curl -i "https://api.orchestrate.io/v0/$collection/$key?purge=true" \
+    -XDELETE \
+    -u "$api_key:"
 ```
 
 ```java
@@ -288,7 +293,7 @@ if (result) {
 err := c.Delete(collection, key)
 ```
 
-Deletes set the value of a key to a null object. Previous versions of an object are retrievable at its fully qualified 'ref' location.
+Deletes set the value of a key to a null object. Previous versions of an object are retrievable at its fully qualified 'ref' location. If the `purge` parameter is supplied the object and its `ref` history will be permanently deleted.
 
 ### HTTP Request
 
@@ -329,6 +334,7 @@ Parameter  | Description
 ---------- | -----------
 collection | the collection to delete from.
 key        | the key to delete.
+purge      | If `true` the KV object and all of its `ref` history will be permanently deleted. This operation cannot be undone.
 
 ## List
 
@@ -815,9 +821,50 @@ Parameter  | Description
 ---------- | -----------
 collection | the collection from which the relation originates.
 key        | the key from which the relation originates.
-kind       | the category for an event, e.g. "update" or "tweet" etc.
+kind       | the relationship kind to query, e.g. "follows" or "friend" etc.
 toCollection | the collection to which the relation goes.
 toKey      | the key to which the relation goes.
+
+## Delete
+
+> Make sure to replace all the variables with the appropriate values.
+
+```shell
+curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$to_collection/$to_key?purge=true" \
+    -XDELETE \
+    -u "$api_key:"
+```
+
+Deletes a relationship between two objects.
+
+<aside class="notice">
+You must supply the `purge` parameter to delete a relationship. This parameter is not optional.
+</aside>
+
+### HTTP Request
+
+> Returns response headers like so:
+
+```http
+HTTP/1.1 204 No Content
+Content-Type: application/json
+Date: Tue, 19 Nov 2013 13:51:54 GMT
+X-ORCHESTRATE-REQ-ID: bfc4e750-5121-11e3-be8f-22000ab58c12
+Connection: keep-alive
+```
+
+```DELETE /v0/$collection/$key/relation/$kind/$toCollection/$toKey?purge=true```
+
+### Parameters
+
+Parameter  | Description
+---------- | -----------
+collection | the collection from which the relation originates.
+key        | the key from which the relation originates.
+kind       | the relationship kind to query, e.g. "follows" or "friend" etc.
+toCollection | the collection to which the relation goes.
+toKey      | the key to which the relation goes.
+purge      | This parameter is required to delete a relationship. This operation cannot be undone.
 
 # Errors
 

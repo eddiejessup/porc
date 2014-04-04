@@ -348,6 +348,10 @@ curl -i "https://api.orchestrate.io/v0/$collection?startKey=$startKey&limit=$lim
 # Exclusive after key
 curl -i "https://api.orchestrate.io/v0/$collection?afterKey=$afterKey&limit=$limit" \
 	-u "$api_key:"
+
+# Inclusive start key up to an exclusive end key
+curl -i "https://api.orchestrate.io/v0/$collection?startKey=$startKey&beforeKey=$beforeKey&limit=$limit" \
+    -u "$api_key:"
 ```
 
 Returns a paginated, lexicographically ordered list of items contained in a
@@ -409,10 +413,12 @@ Parameter  | Description
 collection | the collection to list from.
 limit      | the number of results to return. (default: 10, max: 100)
 startKey   | the start of the key range to paginate from including the specified value if it exists.
-afterKey   | the start of the key range to paginate from excluding the specified value.
+afterKey   | the start of the key range to paginate from excluding the specified value if it exists.
+beforeKey  | the end of the key range to paginate to excluding the specified value if it exists.
+endKey     | the end of the key range to paginate to including the specified value if it exists.
 
 <aside class="notice">
-To include all keys in a collection, do not provide a `startKey` or `afterKey` value.
+To include all keys in a collection, do not provide any "Key" parmeters (`startKey`, `afterKey`, `beforeKey`, `endKey`).
 </aside>
 
 # Refs
@@ -500,7 +506,7 @@ for (Result<MyObject> result : results) {
 results, err := c.Search(collection, query, offset, limit)
 ```
 
-Returns list of items matching the lucene query.
+Returns list of items matching the lucene query. The next page of results URL is specified by both the `next` field in the JSON response and the `Link` header value with a rel=`next`. If no `next` field or `Link` header is returned, there are no additional pages. The same is true for a previous page. If there are preceding results, then there will be a URL specified by both the `prev` field in the JSON response and a `Link` header with rel=`prev`. 
 
 ### HTTP Request
 
@@ -510,15 +516,20 @@ Returns list of items matching the lucene query.
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 Date: Tue, 05 Nov 2013 14:32:00 GMT
+Link: </v0/collection?limit=10&query=test&offset=20>; rel="next"
+Link: </v0/collection?limit=10&query=test&offset=0>; rel="prev"
 X-ORCHESTRATE-REQ-ID: 082a5df0-4627-11e3-9f5a-22000ae8057a
 Transfer-Encoding: chunked
 Connection: Keep-Alive
 ```
 
-> Returns a response body like so:
+> Returns a response body like so (some `results` ommitted for clarity):
 
 ```json
 {
+    "count": 10,
+    "next": "/v0/collection?limit=10&query=test&offset=20",
+    "prev": "/v0/collection?limit=10&query=test&offset=0",
     "results": [
         {
             "path": {
@@ -532,7 +543,6 @@ Connection: Keep-Alive
             }
         }
     ],
-    "count": 1,
     "total_count": 1
 }
 ```

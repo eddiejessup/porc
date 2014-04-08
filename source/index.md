@@ -44,7 +44,7 @@ curl "https://api.orchestrate.io/v0/$collection/$key" \
 ```
 
 ```java
-Client client = new Client("your api key");
+Client client = new OrchestrateClient("your api key");
 ```
 
 ```go
@@ -82,12 +82,9 @@ curl -i "https://api.orchestrate.io/v0/$collection?force=true" \
 ```
 
 ```java
-DeleteOperation deleteOp = new DeleteOperation("collectionName");
-Future<Boolean> future = client.execute(deleteOp);
-Boolean result = future.get(3, TimeUnit.SECONDS);
-if (result) {
-    System.out.println("Successfully deleted the collection.");
-}
+boolean result =
+        client.deleteCollection(collection)
+              .get();
 ```
 
 ```go
@@ -133,11 +130,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 ```
 
 ```java
-KvFetchOperation<MyObject> kvFetchOp =
-        new KvFetchOperation<MyObject>("collection", "key", MyObject.class);
-Future<KvObject<MyObject>> future = client.execute(kvFetchOp);
-KvObject<MyObject> result = future.get(3, TimeUnit.SECONDS);
-MyObject domainObject = result.getValue();
+KvObject<DomainObject> object =
+        client.kv("someCollection", "someKey")
+              .get(DomainObject.class)
+              .get();
 ```
 
 ```go
@@ -188,14 +184,11 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 ```
 
 ```java
-MyObject domainObject = new MyObject(...);
-KvStoreOperation kvStoreOp =
-        new KvStoreOperation("collection", "key", domainObject);
-Future<Boolean> future = client.execute(kvStoreOp);
-Boolean result = future.get(3, TimeUnit.SECONDS);
-if (result) {
-	System.out.println("Successfully stored the object.");
-}
+DomainObject obj = new DomainObject(); // a POJO
+final KvMetadata kvMetadata =
+        client.kv("someCollection", "someKey")
+              .put(obj)
+              .get();
 ```
 
 ```go
@@ -245,6 +238,24 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-d "$json"
 ```
 
+```java
+// An If-Match PUT
+DomainObject obj = new DomainObject(); // a POJO
+KvMetadata kvMetadata =
+        client.kv("someCollection", "someKey")
+              .ifMatch("someRef")
+              .put(obj)
+              .get();
+
+// An If-None-Match PUT
+DomainObject obj = new DomainObject(); // a POJO
+KvMetadata kvMetadata =
+        client.kv("someCollection", "someKey")
+              .ifAbsent()
+              .put(obj)
+              .get();
+```
+
 Conditional headers can be used to specify a pre-condition that determines whether the store operation happens. The `If-Match` header specifies that the store operation will succeed if and only if the _ref_ value matches current stored ref. The `If-None-Match` header specifies that the store operation will succeed if and only if the key doesn't already exist. 
 
 <aside class="notice">
@@ -281,12 +292,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key?purge=true" \
 ```
 
 ```java
-DeleteOperation deleteOp = new DeleteOperation("collection", "key");
-Future<Boolean> future = client.execute(deleteOp);
-Boolean result = future.get(3, TimeUnit.SECONDS);
-if (result) {
-	System.out.println("Successfully deleted the key.");
-}
+boolean result =
+        client.kv("someCollection", "someKey")
+              .delete()
+              .get();
 ```
 
 ```go
@@ -316,6 +325,14 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-XDELETE \
 	-H "If-Match: \"cbb48f9464612f20\"" \
 	-u "$api_key:"
+```
+
+```java
+boolean result =
+        client.kv("someCollection", "someKey")
+              .ifMatch("someRef")
+              .delete()
+              .get();
 ```
 
 Conditional headers can be used to specify a pre-condition that determines whether the delete operation happens. The `If-Match` header specifies that the delete operation will succeed if and only if the _ref_ value matches current stored ref.
@@ -348,6 +365,14 @@ curl -i "https://api.orchestrate.io/v0/$collection?startKey=$startKey&limit=$lim
 # Exclusive after key
 curl -i "https://api.orchestrate.io/v0/$collection?afterKey=$afterKey&limit=$limit" \
 	-u "$api_key:"
+```
+
+```java
+KvList<DomainObject> kvList =
+        client.listCollection("someCollection")
+              .limit(20)
+              .get(DomainObject.class)
+              .get();
 ```
 
 Returns a paginated, lexicographically ordered list of items contained in a
@@ -429,12 +454,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/$ref" \
 ```
 
 ```java
-KvFetchOperation<MyObject> kvFetchOp =
-        new KvFetchOperation<MyObject>(
-        "collection", "key", "ref", MyObject.class);
-Future<KvObject<MyObject>> future = client.execute(kvFetchOp);
-KvObject<MyObject> result = future.get(3, TimeUnit.SECONDS);
-MyObject domainObject = result.getValue();
+KvObject<DomainObject> object =
+        client.kv("someCollection", "someKey")
+              .get(DomainObject.class, "someRef")
+              .get();
 ```
 
 ```go
@@ -482,18 +505,12 @@ curl -i "https://api.orchestrate.io/v0/$collection?query=$query&limit=$limit&off
 ```
 
 ```java
-SearchOperation<MyObject> searchOp = SearchOperation
-        .builder("collection", MyObject.class)
-        .query("*")
-        .limit(10)
-        .offset(0)
-        .build();
-Future<SearchResults<MyObject>> future = client.execute(searchOp);
-SearchResults<MyObject> results = future.get(3, TimeUnit.SECONDS);
-for (Result<MyObject> result : results) {
-	System.out.println(result.getScore());
-	System.out.println(result.getKvObject().getValue());
-}
+String luceneQuery = "*";
+SearchResults<DomainObject> results =
+        client.searchCollection("someCollection")
+              .limit(20)
+              .get(DomainObject.class, luceneQuery)
+              .get();
 ```
 
 ```go
@@ -562,15 +579,11 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?start=$star
 ```
 
 ```java
-EventFetchOperation<MyObject> eventFetchOp =
-        new EventFetchOperation<MyObject>(
-        "collection", "key", "type", MyObject.class);
-Future<Iterable<Event<MyObject>>> future = client.execute(eventFetchOp);
-Iterable<Event<MyObject>> events = future.get(3, TimeUnit.SECONDS);
-for (Event<MyObject> event : events) {
-	System.out.println(event.getTimestamp());
-	System.out.println(event.getValue());
-}
+Iterable<Event<DomainObject>> results =
+        client.event("someCollection", "someKey")
+              .type("eventType")
+              .get(DomainObject.class)
+              .get();
 ```
 
 ```go
@@ -643,14 +656,12 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?timestamp=$
 ```
 
 ```java
-MyObject domainObject = new MyObject(...);
-EventStoreOperation eventStoreOp =
-        new EventStoreOperation("collection", "key", "type", domainObject);
-Future<Boolean> future = client.execute(eventStoreOp);
-Boolean result = future.get(3, TimeUnit.SECONDS);
-if (result) {
-	System.out.println("Successfully stored the event.");
-}
+DomainObject obj = new DomainObject(); // a POJO
+boolean result =
+        client.event("someCollection", "someKey")
+              .type("eventType")
+              .put(obj)
+              .get();
 ```
 
 ```go
@@ -706,13 +717,17 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/relations/$kind1/$kind2"
 ```
 
 ```java
-RelationFetchOperation<MyObject> relationFetchOp =
-        new RelationFetchOperation("collection", "key", "kind1", "kind2");
-Future<Iterable<KvObject<String>>> future = client.execute(relationFetchOp);
-Iterable<KvObject<String>> relatedObjects = futureResult.get();
-for (KvObject<String> relatedObject : relatedObjects) {
-	System.out.println(relatedObject.getValue());
-}
+// One hop
+Iterable<KvObject<DomainObject>> results =
+        client.relation("someCollection", "someKey")
+              .get(DomainObject.class, "someKind")
+              .get();
+
+// Two hops
+Iterable<KvObject<DomainObject>> results =
+        client.relation("someCollection", "someKey")
+              .get(DomainObject.class, "someKind", "someKind")
+              .get();
 ```
 
 ```go
@@ -782,13 +797,11 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$to_colle
 ```
 
 ```java
-RelationStoreOperation relationStoreOp = new RelationStoreOperation(
-        "sourceCollection", "sourceKey", "kind", "toCollection", "toKey");
-Future<Boolean> future = client.execute(relationStoreOp);
-Boolean result = futureResult.get(3, TimeUnit.SECONDS);
-if (result) {
-	System.out.println("Successfully stored the relation.");
-}
+boolean result =
+        client.relation("sourceCollection", "sourceKey")
+              .to("destCollection", "destKey")
+              .put("someKind")
+              .get();
 ```
 
 ```go
@@ -833,6 +846,14 @@ toKey      | the key to which the relation goes.
 curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$to_collection/$to_key?purge=true" \
     -XDELETE \
     -u "$api_key:"
+```
+
+```java
+boolean result =
+        client.relation("sourceCollection", "sourceKey")
+              .to("destCollection", "destKey")
+              .purge("someKind")
+              .get();
 ```
 
 Deletes a relationship between two objects.

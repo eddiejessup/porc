@@ -49,7 +49,7 @@ Client client = new OrchestrateClient("your api key");
 
 ```go
 // Create a new Orchestrate.io client with your API key
-c := client.NewClient(apiKey)
+c := gorc.NewClient(apiKey)
 ```
 
 Authenication for Orchestrate.io applications is provided by HTTP Basic Authentication over SSL. Authenticate with an API key as the username and no password. API keys can be created or revoked from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io).

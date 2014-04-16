@@ -138,7 +138,8 @@ KvObject<DomainObject> object =
 
 ```go
 domainObject := new(DomainObject)
-err := c.Get(collection, key, domainObject)
+result, err := c.Get(collection, key)
+err = result.Value(domainObject)
 ```
 
 Get the latest value assigned to a key.
@@ -192,7 +193,8 @@ final KvMetadata kvMetadata =
 ```
 
 ```go
-err := c.Put(collection, key, domainObject)
+// Put a domain object
+path, err := c.Put(collection, key, domainObject)
 ```
 
 Creates or updates the value at the collection/key specified. The new value will have its own unique version and that value will always be retrievable at its fully qualified 'ref' location.  That location is made available in the 'Location' response header.
@@ -256,7 +258,15 @@ KvMetadata kvMetadata =
               .get();
 ```
 
-Conditional headers can be used to specify a pre-condition that determines whether the store operation happens. The `If-Match` header specifies that the store operation will succeed if and only if the _ref_ value matches current stored ref. The `If-None-Match` header specifies that the store operation will succeed if and only if the key doesn't already exist. 
+```go
+// If-Match PUT. Takes the path of the last seen version.
+path, err := c.PutIfUnmodified(path, domainObject)
+
+// If-None-Match PUT.
+path, err := c.PutIfAbsent(collection, key, domainObject)
+```
+
+Conditional headers can be used to specify a pre-condition that determines whether the store operation happens. The `If-Match` header specifies that the store operation will succeed if and only if the _ref_ value matches current stored ref. The `If-None-Match` header specifies that the store operation will succeed if and only if the key doesn't already exist.
 
 <aside class="notice">
 Conditional headers must provide a double-quoted `ETag` value returned by either a GET or PUT.
@@ -335,6 +345,11 @@ boolean result =
               .get();
 ```
 
+```go
+// If-Match Delete
+err := c.DeleteIfUnmodified(path)
+```
+
 Conditional headers can be used to specify a pre-condition that determines whether the delete operation happens. The `If-Match` header specifies that the delete operation will succeed if and only if the _ref_ value matches current stored ref.
 
 <aside class="notice">
@@ -373,6 +388,22 @@ KvList<DomainObject> kvList =
               .limit(20)
               .get(DomainObject.class)
               .get();
+```
+
+```go
+// List from beginning
+results, err := c.List(collection, limit)
+
+// List after key
+results, err := c.ListAfter(collection, afterKey, limit)
+
+//List starting with key
+results, err := c.ListStart(collection, startKey, limit)
+
+// Get next page
+if results.HasNext() {
+	nextResults, err := c.ListGetNext(results)
+}
 ```
 
 Returns a paginated, lexicographically ordered list of items contained in a
@@ -461,7 +492,9 @@ KvObject<DomainObject> object =
 ```
 
 ```go
-err := c.GetRef(collection, key, ref, domainObject)
+domainObject := new(DomainObject)
+result, err := c.GetPath(path)
+err = result.Value(domainObject)
 ```
 
 Returns the specified version of a value.
@@ -515,6 +548,16 @@ SearchResults<DomainObject> results =
 
 ```go
 results, err := c.Search(collection, query, offset, limit)
+
+// Get next page
+if results.HasNext() {
+	nextResults, err := c.SearchGetNext(results)
+}
+
+// Get previous page
+if results.HasPrev() {
+	nextResults, err := c.SearchGetPrev(results)
+}
 ```
 
 Returns list of items matching the lucene query.
@@ -587,7 +630,11 @@ Iterable<Event<DomainObject>> results =
 ```
 
 ```go
-events, err := c.GetEvents(collection, key, typ, start, end)
+// Get most recent events
+events, err := c.GetEvents(collection, key, typ)
+
+// Get events in range
+events, err := c.GetEventsInRange(collection, key, typ, start, end)
 ```
 
 Returns a list of events, optionally limited to specified time range in reverse chronological order.
@@ -665,7 +712,7 @@ boolean result =
 ```
 
 ```go
-err := c.PutEvent(collection, key, typ, strings.NewReader(`{"msg":"hello"}`))
+err := c.PutEvent(collection, key, typ, domainObject)
 ```
 
 Puts an event with an optional user defined timestamp.
@@ -854,6 +901,10 @@ boolean result =
               .to("destCollection", "destKey")
               .purge("someKind")
               .get();
+```
+
+```go
+err := c.DeleteRelation(sourceCollection, sourceKey, kind, destCollection, destKey)
 ```
 
 Deletes a relationship between two objects.

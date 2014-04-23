@@ -466,7 +466,7 @@ header is returned, there are no additional pages.
 HTTP/1.1 200 OK
 Content-Type: application/json
 Date: Wed, 22 Jan 2014 14:16:08 GMT
-Link: </v0/collection?limit=100&afterKey=099>; rel="next"
+Link: </v0/collection?limit=2&afterKey=002>; rel="next"
 X-ORCHESTRATE-REQ-ID: bce1f3e0-836f-11e3-abae-12313d2f7cdc
 transfer-encoding: chunked
 Connection: keep-alive
@@ -670,8 +670,332 @@ Events are a way to associate time-ordered data with a key.
 > Make sure to replace all the variables with the appropriate values.
 
 ```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?start=$start&end=$end" \
+curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal" \
 	-u "$api_key:"
+```
+
+```java
+/*
+NOT CURRENTLY SUPPORTED
+
+To get a single event, use the 'List' api with the start and end timestamps,
+and then loop through them. The results will only contain Events with the
+specified timestamp milliseconds.
+*/
+Iterable<Event<DomainObject>> results =
+        client.event("someCollection", "someKey")
+              .type("eventType")
+              .start(someTimestamp)
+              .end(someTimestamp + 1)
+              .get(DomainObject.class)
+              .get();
+```
+
+```go
+/*
+NOT CURRENTLY SUPPORTED
+
+To get a single event, use the 'List' api with the start and end timestamps,
+and then loop through them. The results will only contain Events with the
+specified timestamp milliseconds.
+*/
+events, err := c.GetEventsInRange(collection, key, typ, timestamp, timestamp + 1)
+```
+
+Returns an individual event.
+
+### HTTP Request
+
+> Returns response headers like so:
+
+```http
+HTTP/1.1 200 OK
+Date: Wed, 11 Dec 2013 14:47:11 GMT
+Content-Type: application/json
+Connection: keep-alive
+X-ORCHESTRATE-REQ-ID: cd3965d0-cb2b-11e3-b13e-0e490195c851
+ETag: "ae3dfa4325abe21e"
+```
+
+> And a response body like so:
+
+```json
+{
+    "path": {
+        "collection": "asdf",
+        "key": "key",
+        "ref": "ae3dfa4325abe21e",
+        "type": "played",
+        "timestamp": 1369832019085,
+        "ordinal": 9
+    },
+    "value": {
+      "msg": "hello world, again"
+    },
+    "timestamp": 1369832019085,
+    "ordinal": 9
+}
+```
+
+`GET https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal`
+
+### Parameters
+
+Parameter  | Description
+---------- | -----------
+collection | the collection from which to get the event.
+key        | the primary key associated with the event.
+type       | the category for the event, e.g. "update" or "tweet" etc.
+timestamp  | the event timestamp.
+ordinal    | the event ordinal.
+
+<aside class="notice">
+The timestamp value should be formatted as described in [Timestamps](#timestamps).
+</aside>
+
+## Post (Create)
+> Make sure to replace all the variables with the appropriate values.
+
+```shell
+# With timestamp
+curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp" \
+  -XPOST \
+  -H "Content-Type: application/json" \
+  -u "$api_key:" \
+  -d "{\"msg\":\"hello\"}"
+
+# Without timestamp (the event timestamp will be set to the current time in Orchestrate)
+curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type" \
+  -XPOST \
+  -H "Content-Type: application/json" \
+  -u "$api_key:" \
+  -d "{\"msg\":\"hello\"}"
+
+```
+
+```java
+/*
+NOT CURRENTLY SUPPORTED
+
+To create an Event, use the 'Put' api (which is now deprecated).
+*/
+DomainObject obj = new DomainObject(); // a POJO
+boolean result =
+        client.event("someCollection", "someKey")
+              .type("eventType")
+              .put(obj)
+              .get();
+```
+
+```go
+/*
+NOT CURRENTLY SUPPORTED
+
+To create an Event, use the 'Put' api (which is now deprecated).
+*/
+err := c.PutEvent(collection, key, typ, domainObject)
+```
+
+Creates an event with an optional user defined timestamp.
+
+### HTTP Request
+
+> Returns response headers like so:
+
+```http
+HTTP/1.1 201 Created
+Date: Tue, 19 Nov 2013 13:51:54 GMT
+Content-Type: application/json
+Connection: keep-alive
+X-ORCHESTRATE-REQ-ID: 93a94ad0-cb29-11e3-b13e-0e490195c851
+Location: /v0/collection/key/events/type/1398286518286/6
+ETag: "f8a86a25029a907b"
+```
+
+```POST /v0/$collection/$key/events/$type/$timestamp```
+
+### Parameters
+
+Parameter  | Description
+---------- | -----------
+collection | the collection to which to put the event.
+key        | the primary key associated with the event.
+type       | the category for an event, e.g. "update" or "tweet" etc.
+timestamp  | the timestamp to associate with the event. (optional) 
+
+<aside class="notice">
+The timestamp value should be formatted as described in [Timestamps](#timestamps).
+</aside>
+
+<aside class="warning">
+Previously, a PUT to the $type would create and Event. This is now deprecated, and will be removed in the next version.
+</aside>
+
+
+## Put (Update)
+
+> Make sure to replace all the variables with the appropriate values.
+
+```shell
+curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal" \
+	-XPUT \
+	-H "Content-Type: application/json" \
+	-u "$api_key:" \
+	-d "{\"msg\":\"hello2\"}"
+```
+
+```java
+// NOT CURRENTLY SUPPORTED
+```
+
+```go
+// NOT CURRENTLY SUPPORTED
+```
+
+Updates an existing event.
+
+### HTTP Request
+
+> Returns response headers like so:
+
+```http
+HTTP/1.1 204 No Content
+Date: Tue, 19 Nov 2013 13:51:54 GMT
+Content-Type: application/json
+Connection: keep-alive
+X-ORCHESTRATE-REQ-ID: 7fa4d260-cb2a-11e3-b13e-0e490195c851
+Location: /v0/collection/key/events/type/1398286914202/9
+ETag: "ae3dfa4325abe21e"
+```
+
+```PUT /v0/$collection/$key/events/$type/$timestamp/$ordinal```
+### Conditional PUTs
+
+```shell
+# An If-Match PUT
+curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal" \
+  -XPUT \
+  -H "Content-Type: application/json" \
+  -H "If-Match: \"ae3dfa4325abe21e\"" \
+  -u "$api_key:" \
+  -d "$json"
+```
+
+```java
+// NOT CURRENTLY SUPPORTED
+```
+
+```go
+// NOT CURRENTLY SUPPORTED
+```
+
+Conditional headers can be used to specify a pre-condition that determines whether the update operation happens. The `If-Match` header specifies that the update will succeed if and only if the _ref_ value matches current stored ref for the Event.
+
+<aside class="notice">
+Conditional headers must provide a double-quoted `ETag` value returned by other api calls or the "path.ref" value of an event.
+</aside>
+
+Header        | Description
+------------- | -----------
+<nobr>If-Match</nobr> | Stores the value for the event if the value for this header matches the current `ref` value.
+
+### Parameters
+
+Parameter  | Description
+---------- | -----------
+collection | the collection the event is in.
+key        | the primary key associated with the event.
+type       | the category for the event, e.g. "update" or "tweet" etc.
+timestamp  | the event's timestamp.
+ordinal    | the event's ordinal value.
+
+<aside class="notice">
+The timestamp value should be formatted as described in [Timestamps](#timestamps).
+</aside>
+
+## Delete
+
+> Make sure to replace all the variables with the appropriate values.
+
+```shell
+curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal?purge=true" \
+  -u "$api_key:"
+  -XDELETE
+```
+
+```java
+// NOT CURRENTLY SUPPORTED
+```
+
+```go
+// NOT CURRENTLY SUPPORTED
+```
+
+Deletes an individual event.
+
+### HTTP Request
+
+> Returns response headers like so:
+
+```http
+HTTP/1.1 204 No Content
+Date: Wed, 11 Dec 2013 14:47:11 GMT
+Content-Type: application/json
+Connection: keep-alive
+X-ORCHESTRATE-REQ-ID: cd3965d0-cb2b-11e3-b13e-0e490195c851
+```
+
+`DELETE https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal?purge=true`
+
+### Conditional DELETEs
+
+```shell
+curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal" \
+  -XDELETE \
+  -H "If-Match: \"ae3dfa4325abe21e\"" \
+  -u "$api_key:"
+```
+
+```java
+// NOT CURRENTLY SUPPORTED
+```
+
+```go
+// NOT CURRENTLY SUPPORTED
+```
+
+Conditional headers can be used to specify a pre-condition that determines whether the delete operation happens. The `If-Match` header specifies that the delete operation will succeed if and only if the _ref_ value matches current stored ref.
+
+<aside class="notice">
+Conditional headers must provide a double-quoted `ETag` value returned by either a GET or PUT.
+</aside>
+
+Header        | Description
+------------- | -----------
+<nobr>If-Match</nobr> | Deletes the value for the Event if the value for this header matches the current `ref` value.
+
+### Parameters
+
+Parameter  | Description
+---------- | -----------
+collection | the collection from which to get the event.
+key        | the primary key associated with the event.
+type       | the category for the event, e.g. "update" or "tweet" etc.
+timestamp  | the event timestamp.
+ordinal    | the event ordinal.
+purge      | indicates that all versions will be deleted (currently required for events).
+
+<aside class="notice">
+The timestamp value should be formatted as described in [Timestamps](#timestamps).
+</aside>
+
+## List
+
+> Make sure to replace all the variables with the appropriate values.
+
+```shell
+curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?startEvent=$startEvent&endEvent=$endEvent" \
+  -u "$api_key:"
 ```
 
 ```java
@@ -690,7 +1014,7 @@ events, err := c.GetEvents(collection, key, typ)
 events, err := c.GetEventsInRange(collection, key, typ, start, end)
 ```
 
-Returns a list of events, optionally limited to specified time range in reverse chronological order.
+Returns a paginated list of events, optionally limited to specified time range in reverse chronological order. The next page of results URL is specified by both the next field in the JSON response and the Link header value. If no next field or Link header is returned, there are no additional pages.
 
 ### HTTP Request
 
@@ -701,100 +1025,105 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 Date: Wed, 11 Dec 2013 14:47:11 GMT
 X-ORCHESTRATE-REQ-ID: 1db50310-6273-11e3-9fbc-12313d2f7cdc
-Transfer-Encoding: chunked
-Connection: keep-alive
+Link: </v0/collection/key/events/type/?limit=2&beforeEvent=1369832019080/7>; rel="next"
 ```
 
 > And a response body like so:
 
 ```json
 {
-	"results": [
-		{
-			"timestamp": 1369832019085,
-			"value": {
-				"msg": "hello world, again"
-			}
-		},
-		{
-			"timestamp": 1369832019080,
-			"value": {
-				"msg": "hello world"
-			}
-		}
-	],
-	"count": 2
+  "results": [
+    {
+      "path": {
+        "collection": "collection",
+        "key": "key",
+        "type": "type",
+        "timestamp": 1369832019085,
+        "ordinal": 9,
+        "ref": "ae3dfa4325abe21e"
+      },
+      "value": {
+        "msg": "hello world, again"
+      },
+      "timestamp": 1369832019085,
+      "ordinal": 9
+    },
+    {
+      "path": {
+        "collection": "collection",
+        "key": "key",
+        "type": "type",
+        "timestamp": 1369832019080,
+        "ordinal": 7,
+        "ref": "f8a86a25029a907b"
+      },
+      "value": {
+        "msg": "hello world"
+      },
+      "timestamp": 1369832019080,
+      "ordinal": 7
+    }
+  ],
+  "count": 2,
+  "next": "/v0/collection/key/events/type/?limit=2&beforeEvent=1369832019080/7"
 }
 ```
 
-`GET https://api.orchestrate.io/v0/$collection/$key/events/$type?start=$start&end=$end`
+`GET https://api.orchestrate.io/v0/$collection/$key/events/$type?startEvent=$startEvent&endEvent=$endEvent`
 
 ### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection from which to get the events.
-key        | the primary key associated with the events.
-type       | the category for an event, e.g. "update" or "tweet" etc.
-start      | the inclusive start of a time range to query. (optional)
-end        | the exclusive end of a time range to query. (optional)
+Parameter   | Description
+----------- | -----------
+collection  | the collection from which to get the events.
+key         | the primary key associated with the events.
+type        | the category for an event, e.g. "update" or "tweet" etc.
+limit       | the number of results to return. (default: 10, max: 100)
+start       | [DEPRECATED] the inclusive start of a time range to query. (optional)
+end         | [DEPRECATED] the exclusive end of a time range to query. (optional)
+startEvent  | the inclusive start of a range to query. (optional)
+afterEvent  | the non-inclusive start of a range to query. (optional)
+beforeEvent | the non-inclusive end of a range to query. (optional)
+endEvent    | the inclusive end of a range to query. (optional)
 
 <aside class="notice">
-The start and end values are integers representing milliseconds since the Unix epoch.
+The range parameters are formatted as "$timestamp/$ordinal" where $ordinal is optional.
+The timestamp value should be formatted as described in [Timestamps](#timestamps).
 </aside>
+## Timestamps
 
-## Put
 
-> Make sure to replace all the variables with the appropriate values.
+There are several event api calls that take a "timestamp" as a parameter (either as a url path parm or a query param).
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?timestamp=$timestamp" \
-	-XPUT \
-	-H "Content-Type: application/json" \
-	-u "$api_key:" \
-	-d "{\"msg\":\"hello\"}"
-```
+Wherever a timestamp is expected in the events api calls, the value can be in any of the following formats:
 
-```java
-DomainObject obj = new DomainObject(); // a POJO
-boolean result =
-        client.event("someCollection", "someKey")
-              .type("eventType")
-              .put(obj)
-              .get();
-```
-
-```go
-err := c.PutEvent(collection, key, typ, domainObject)
-```
-
-Puts an event with an optional user defined timestamp.
-
-### HTTP Request
-
-> Returns response headers like so:
-
-```http
-HTTP/1.1 204 No Content
-Content-Type: application/json
-Date: Tue, 19 Nov 2013 13:51:54 GMT
-X-ORCHESTRATE-REQ-ID: bfc4e750-5121-11e3-be8f-22000ab58c12
-Connection: keep-alive
-```
-
-```PUT /v0/$collection/$key/events/$type```
-
-### Parameters
-
-Parameter  | Description
----------- | -----------
-collection | the collection to which to put the event.
-key        | the primary key associated with the event.
-type       | the category for an event, e.g. "update" or "tweet" etc.
-timestamp  | the timestamp to associate with the event.
+- A Long that is the milliseconds since epoch
+  - 784111777000
+  - 784111777221
+- ISO8601 Basic with or without the milliseconds portion
+  - 19941106T084937Z
+  - 19941106T084937.221Z
+  - 19941106T014937-0700
+  - 19941106T014937.221-0700
+- ISO8601 Extended with or without the milliseconds portion
+  - 1994-11-06T08:49:37Z
+  - 1994-11-06T08:49:37.221Z
+  - 1994-11-06T01:49:37-07:00
+  - 1994-11-06T01:49:37.221-07:00
+- RFC2616 Compatible Dates. This allows the following formats:
+  - RFC1123
+     - Sun, 06 Nov 1994 08:49:37 UTC
+     - Sun, 06 Nov 1994 01:49:37 MST
+     - Sun, 06 Nov 1994 01:49:37 -0700
+  - RFC1036 (2-digit date supported and uses 2000 as start year)
+     - Sunday, 06-Nov-1994 08:49:37 UTC
+     - Sunday, 06-Nov-1994 01:49:37 MST
+     - Sunday, 06-Nov-1994 01:49:37 -0700
+  - ASCTIME (UTC Enforced)
+     - Sun Nov 6 08:49:37 1994
 
 <aside class="notice">
-The timestamp value should be an integer representing millisecond since the Unix epoch.
+While the api will accept all these formats as input parameters, the event timestamp is always returned by the api as milliseconds since epoch.
 </aside>
 
 

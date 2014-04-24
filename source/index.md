@@ -35,7 +35,9 @@ Clients must use request headers accordingly:
 
 # Authentication
 
-> Make sure to replace the API Key variable with your API key.
+Authentication for Orchestrate.io applications is provided by HTTP Basic Authentication over SSL. Authenticate with an API key as the username and no password. API keys can be created or revoked from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io) on a per-application basis.
+
+> Example authenticated GET for a collection/key
 
 ```shell
 # Pass in your API key as the basic auth username and no password
@@ -52,7 +54,38 @@ Client client = new OrchestrateClient("your api key");
 c := gorc.NewClient(apiKey)
 ```
 
-Authenication for Orchestrate.io applications is provided by HTTP Basic Authentication over SSL. Authenticate with an API key as the username and no password. API keys can be created or revoked from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io).
+If you wish to validate your API key, you can make an authenticated HEAD request to the /v0 endpoint (no collection or key necessary).
+
+> Example API key validation via HEAD request
+
+```shell
+# Pass in your API key as the basic auth username and no password
+curl --head "https://api.orchestrate.io/v0" \
+	-u "$api_key:"
+```
+
+> If the key is VALID, you will receive a HTTP 200 response
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Thu, 24 Apr 2014 15:17:53 GMT
+X-ORCHESTRATE-REQ-ID: 9b2dfb30-cbc3-11e3-a9ec-12313d2f7cdc
+Connection: keep-alive
+```
+
+> If the key is INVALID, you will receive a HTTP 401 response
+
+```http
+HTTP/1.1 401 Unauthorized
+Cache-Control: must-revalidate,no-cache,no-store
+Content-length: 1327
+Content-Type: text/html;charset=ISO-8859-1
+Date: Thu, 24 Apr 2014 15:15:11 GMT
+WWW-Authenticate: Basic realm="orchestrate.io"
+X-ORCHESTRATE-REQ-ID: 3ac61c50-cbc3-11e3-a70a-12313d2f50f8
+Connection: keep-alive
+```
 
 # Applications
 

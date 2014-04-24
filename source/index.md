@@ -35,8 +35,6 @@ Clients must use request headers accordingly:
 
 # Authentication
 
-Authentication for Orchestrate.io applications is provided by HTTP Basic Authentication over SSL. Authenticate with an API key as the username and no password. API keys can be created or revoked from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io) on a per-application basis.
-
 > Example authenticated GET for a collection/key
 
 ```shell
@@ -54,7 +52,11 @@ Client client = new OrchestrateClient("your api key");
 c := gorc.NewClient(apiKey)
 ```
 
-If you wish to validate your API key, you can make an authenticated HEAD request to the /v0 endpoint (no collection or key necessary).
+Authentication for Orchestrate.io applications is provided by HTTP Basic Authentication over SSL. Authenticate with an API key as the username and no password. API keys can be created or revoked from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io) on a per-application basis.
+
+## Ping
+
+If you wish to validate your API key, you can make an authenticated HEAD request to the /v0 endpoint (no collection name necessary). These requests do not count towards your API usage.
 
 > Example API key validation via HEAD request
 
@@ -62,6 +64,14 @@ If you wish to validate your API key, you can make an authenticated HEAD request
 # Pass in your API key as the basic auth username and no password
 curl --head "https://api.orchestrate.io/v0" \
 	-u "$api_key:"
+```
+
+```java
+client.ping();
+```
+
+```go
+c.Ping()
 ```
 
 > If the key is VALID, you will receive a HTTP 200 response

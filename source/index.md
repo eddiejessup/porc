@@ -563,7 +563,7 @@ transfer-encoding: chunked
 Connection: keep-alive
 ```
 
-`GET https://api.orchestrate.io/v0/$collection/$key/ref/$ref`
+`GET https://api.orchestrate.io/v0/$collection/$key/refs/$ref`
 
 ### Parameters
 
@@ -630,7 +630,7 @@ Connection: Keep-Alive
 
 ```json
 {
-    "count": 10,
+    "count": 1,
     "next": "/v0/collection?limit=10&query=test&offset=20",
     "prev": "/v0/collection?limit=10&query=test&offset=0",
     "results": [
@@ -646,7 +646,7 @@ Connection: Keep-Alive
             }
         }
     ],
-    "total_count": 1
+    "total_count": 10
 }
 ```
 

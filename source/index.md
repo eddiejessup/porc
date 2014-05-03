@@ -739,7 +739,7 @@ Transfer-Encoding: chunked
 Connection: Keep-Alive
 ```
 
-> Returns a response body like so (some `results` ommitted for clarity):
+> Returns a response body like so (some `results` ommitted for brevity):
 
 ```json
 {
@@ -759,7 +759,7 @@ Connection: Keep-Alive
             }
         }
     ],
-    "total_count": 1
+    "total_count": 20
 }
 ```
 

@@ -72,7 +72,13 @@ curl --head "https://api.orchestrate.io/v0" \
 ```
 
 ```javascript
-// NOT SUPPORTED YET
+db.ping()
+.then(function () {
+  // you key is VALID
+})
+.fail(function (err) {
+  // your key is INVALID
+})
 
 ```
 
@@ -209,6 +215,8 @@ result, err := c.Get(collection, key)
 err = result.Value(domainObject)
 ```
 
+> The response body is valid JSON that was created by a user using the HTTP PUT method
+
 Get the latest value assigned to a key.
 
 <aside class="notice">
@@ -322,8 +330,9 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 ```
 
 ```javascript
-db.put('collection', 'key', data, 'cbb48f9464612f20') // update
-db.put('collection', 'key', data, false) // create
+// These calls are the Conditional PUTss
+db.put('collection', 'key', data, 'cbb48f9464612f20') // update-if-match
+db.put('collection', 'key', data, false) // create-if-absent
 ```
 
 ```java
@@ -499,9 +508,9 @@ db.list('collection')
 .fail(function (err) {
 
 })
-
-// Collection listings allow you to page through your collection in key order (sorted lexicographically so be aware of that if you have numeric keys). It is also useful to list parts of your collection starting from a particular key. For example, to list the first 10 keys starting from key 'c':
-
+/*
+Collection listings allow you to page through your collection in key order (sorted lexicographically so be aware of that if you have numeric keys). It is also useful to list parts of your collection starting from a particular key. For example, to list the first 10 keys starting from key 'c':
+*/
 db.list('address-book', {limit:10, startKey:'c'})
 .then(function (result) {
 
@@ -510,9 +519,11 @@ db.list('address-book', {limit:10, startKey:'c'})
 
 })
 
-// Note: if there is no item with key 'c', the first page will simply have the first 10 results that sort after 'c'.
+/* 
+Note: if there is no item with key 'c', the first page will simply have the first 10 results that sort after 'c'.
 
-// Collection listings support pagination. If there are more items that follow the page that was retrieved, the result will have a 'links.next' that you can use to fetch the next page.
+Collection listings support pagination. If there are more items that follow the page that was retrieved, the result will have a 'links.next' that you can use to fetch the next page.
+*/
 
 db.list('address-book', {limit:10, startKey:'c'})
 .then(function (page1) {
@@ -759,7 +770,7 @@ Connection: Keep-Alive
             }
         }
     ],
-    "total_count": 20
+    "total_count": 40
 }
 ```
 
@@ -795,6 +806,16 @@ To get a single event, use the 'List' api with the start and end timestamps,
 and then loop through them. The results will only contain Events with the
 specified timestamp milliseconds.
 */
+db.newEventReader()
+  .from('users', 'steve')
+  .start(1383684881089)
+  .end(1383684881089+1)
+  .type('wall_post')
+  .then(function(res){
+    res.body.results.forEach(function(obj){
+      console.log(obj);
+    });
+});
 ```
 
 ```java
@@ -897,14 +918,11 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type" \
 ```
 
 ```javascript
-/*
-NOT CURRENTLY SUPPORTED
+// NOT CURRENTLY SUPPORTED
 
-To create an Event, use the 'Put' api (which is now deprecated).
-*/
 db.newEventBuilder()
 .from('users', 'Steve')
-.type('update')
+.type('wall_post')
 .data({"text": "Hello!"})
 ```
 

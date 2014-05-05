@@ -3,6 +3,7 @@ title: Orchestrate.io API Reference
 
 language_tabs:
   - shell: curl
+  - javascript: node.js
   - java
   - go
 
@@ -43,6 +44,10 @@ curl "https://api.orchestrate.io/v0/$collection/$key" \
 	-u "$api_key:"
 ```
 
+```javascript
+var db = require('orchestrate')(token)
+```
+
 ```java
 Client client = new OrchestrateClient("your api key");
 ```
@@ -64,6 +69,17 @@ If you wish to validate your API key, you can make an authenticated HEAD request
 # Pass in your API key as the basic auth username and no password
 curl --head "https://api.orchestrate.io/v0" \
 	-u "$api_key:"
+```
+
+```javascript
+db.ping()
+.then(function () {
+  // you key is VALID
+})
+.fail(function (err) {
+  // your key is INVALID
+})
+
 ```
 
 ```java
@@ -124,6 +140,10 @@ curl -i "https://api.orchestrate.io/v0/$collection?force=true" \
 	-u "$api_key:"
 ```
 
+```javascript
+db.deleteCollection('users')
+```
+
 ```java
 boolean result =
         client.deleteCollection(collection)
@@ -172,6 +192,16 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-u "$api_key:"
 ```
 
+```javascript
+db.get('collection', 'key')
+.then(function (result) {
+
+})
+.fail(function (err) {
+
+})
+```
+
 ```java
 KvObject<DomainObject> object =
         client.kv("someCollection", "someKey")
@@ -184,6 +214,8 @@ domainObject := new(DomainObject)
 result, err := c.Get(collection, key)
 err = result.Value(domainObject)
 ```
+
+> The response body is valid JSON that was created by a user using the HTTP PUT method
 
 Get the latest value assigned to a key.
 
@@ -225,6 +257,20 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-H "Content-Type: application/json" \
 	-u "$api_key:" \
 	-d "$json"
+```
+
+```javascript
+db.put('collection', 'key', {
+  "name": "Steve Kaliski",
+  "hometown": "New York, NY",
+  "twitter": "@stevekaliski"
+})
+.then(function (result) {
+
+})
+.fail(function (err) {
+
+})
 ```
 
 ```java
@@ -281,6 +327,12 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 	-H "If-None-Match: \"*\" \
 	-u "$api_key:" \
 	-d "$json"
+```
+
+```javascript
+// These calls are the Conditional PUTss
+db.put('collection', 'key', data, 'cbb48f9464612f20') // update-if-match
+db.put('collection', 'key', data, false) // create-if-absent
 ```
 
 ```java
@@ -342,6 +394,17 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key" \
 curl -i "https://api.orchestrate.io/v0/$collection/$key?purge=true" \
     -XDELETE \
     -u "$api_key:"
+```
+
+```javascript
+// The third argument is the purge option
+db.remove('collection', 'key', true)
+.then(function (result) {
+
+})
+.fail(function (err) {
+
+})
 ```
 
 ```java
@@ -435,6 +498,45 @@ KvList<DomainObject> kvList =
               .limit(20)
               .get(DomainObject.class)
               .get();
+```
+
+```javascript
+db.list('collection')
+.then(function (result) {
+  var items = result.body.results;
+})
+.fail(function (err) {
+
+})
+/*
+Collection listings allow you to page through your collection in key order (sorted lexicographically so be aware of that if you have numeric keys). It is also useful to list parts of your collection starting from a particular key. For example, to list the first 10 keys starting from key 'c':
+*/
+db.list('address-book', {limit:10, startKey:'c'})
+.then(function (result) {
+
+})
+.fail(function (err) {
+
+})
+
+/* 
+Note: if there is no item with key 'c', the first page will simply have the first 10 results that sort after 'c'.
+
+Collection listings support pagination. If there are more items that follow the page that was retrieved, the result will have a 'links.next' that you can use to fetch the next page.
+*/
+
+db.list('address-book', {limit:10, startKey:'c'})
+.then(function (page1) {
+  // Got First Page
+  if (page1.links && page1.links.next) {
+    page1.links.next.get().then(function (page2) {
+      // Got Second Page
+    })
+  }
+})
+.fail(function (err) {
+
+})
 ```
 
 ```go
@@ -533,6 +635,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/$ref" \
 	-u "$api_key:"
 ```
 
+```javascript
+// NOT SUPPORTED YET
+```
+
 ```java
 KvObject<DomainObject> object =
         client.kv("someCollection", "someKey")
@@ -563,7 +669,7 @@ transfer-encoding: chunked
 Connection: keep-alive
 ```
 
-`GET https://api.orchestrate.io/v0/$collection/$key/ref/$ref`
+`GET https://api.orchestrate.io/v0/$collection/$key/refs/$ref`
 
 ### Parameters
 
@@ -584,6 +690,24 @@ Search allows collections to be queried using [Lucene Query Parser Syntax](http:
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection?query=$query&limit=$limit&offset=$offset" \
 	-u "$api_key:"
+```
+
+```javascript
+db.search('collection', 'query')
+.then(function (result) {
+
+})
+.fail(function (err) {
+
+})
+
+// If you want to include a limit or offset, the more verbose SearchBuilder is available:
+
+db.newSearchBuilder()
+.collection('users')
+.limit(100)
+.offset(10)
+.query('steve')
 ```
 
 ```java
@@ -626,7 +750,7 @@ Transfer-Encoding: chunked
 Connection: Keep-Alive
 ```
 
-> Returns a response body like so (some `results` ommitted for clarity):
+> Returns a response body like so (some `results` ommitted for brevity):
 
 ```json
 {
@@ -646,7 +770,7 @@ Connection: Keep-Alive
             }
         }
     ],
-    "total_count": 1
+    "total_count": 40
 }
 ```
 
@@ -672,6 +796,26 @@ Events are a way to associate time-ordered data with a key.
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal" \
 	-u "$api_key:"
+```
+
+```javascript
+/*
+NOT CURRENTLY SUPPORTED
+
+To get a single event, use the 'List' api with the start and end timestamps,
+and then loop through them. The results will only contain Events with the
+specified timestamp milliseconds.
+*/
+db.newEventReader()
+  .from('users', 'steve')
+  .start(1383684881089)
+  .end(1383684881089+1)
+  .type('wall_post')
+  .then(function(res){
+    res.body.results.forEach(function(obj){
+      console.log(obj);
+    });
+});
 ```
 
 ```java
@@ -773,6 +917,15 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type" \
 
 ```
 
+```javascript
+// NOT CURRENTLY SUPPORTED
+
+db.newEventBuilder()
+.from('users', 'Steve')
+.type('wall_post')
+.data({"text": "Hello!"})
+```
+
 ```java
 /*
 NOT CURRENTLY SUPPORTED
@@ -844,6 +997,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/
 	-d "{\"msg\":\"hello2\"}"
 ```
 
+```javascript
+// NOT CURRENTLY SUPPORTED
+```
+
 ```java
 // NOT CURRENTLY SUPPORTED
 ```
@@ -879,6 +1036,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/
   -H "If-Match: \"ae3dfa4325abe21e\"" \
   -u "$api_key:" \
   -d "$json"
+```
+
+```javascript
+// NOT CURRENTLY SUPPORTED
 ```
 
 ```java
@@ -923,6 +1084,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/
   -XDELETE
 ```
 
+```javascript
+// NOT CURRENTLY SUPPORTED
+```
+
 ```java
 // NOT CURRENTLY SUPPORTED
 ```
@@ -954,6 +1119,10 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/
   -XDELETE \
   -H "If-Match: \"ae3dfa4325abe21e\"" \
   -u "$api_key:"
+```
+
+```javascript
+// NOT CURRENTLY SUPPORTED
 ```
 
 ```java
@@ -996,6 +1165,14 @@ The timestamp value should be formatted as described in [Timestamps](#timestamps
 ```shell
 curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?startEvent=$startEvent&endEvent=$endEvent" \
   -u "$api_key:"
+```
+
+```javascript
+db.newEventReader()
+.from('users', 'Steve')
+.start(1384534722568)
+.end(1384535726540)
+.type('update')
 ```
 
 ```java
@@ -1145,6 +1322,20 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/relations/$kind1/$kind2"
 	-u "$api_key:"
 ```
 
+```javascript
+// One hop
+db.newGraphReader()
+.get()
+.from('users', 'Steve')
+.related('likes')
+
+// Two hops
+db.newGraphReader()
+.get()
+.from('users', 'Steve')
+.related('friends', 'likes')
+```
+
 ```java
 // One hop
 Iterable<KvObject<DomainObject>> results =
@@ -1225,6 +1416,14 @@ curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$to_colle
 	-u "$api_key:"
 ```
 
+```javascript
+db.newGraphBuilder()
+.create()
+.from('users', 'Steve')
+.related('likes')
+.to('movies', 'Superbad')
+```
+
 ```java
 boolean result =
         client.relation("sourceCollection", "sourceKey")
@@ -1275,6 +1474,14 @@ toKey      | the key to which the relation goes.
 curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$to_collection/$to_key?purge=true" \
     -XDELETE \
     -u "$api_key:"
+```
+
+```javascript
+db.newGraphBuilder()
+.remove()
+.from('users', 'Steve')
+.related('likes')
+.to('movies', 'Superbad')
 ```
 
 ```java

@@ -99,7 +99,7 @@ Connection: keep-alive
 
 # Applications
 
-Applications are the unit of tenancy in Orchestrate.io. Users who are members of an Application are able to view, create, and revoke API keys and use those keys to access the Application's data. Applications are created from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io).
+Applications in Orchestrate represent the highest level of your project. Users who are members of an Application are able to view, create, and revoke API keys and use those keys to access the Application’s data. Applications are created from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io).
 
 <aside class="warning">
 Application names must be globally unique. It is good practice to prefix application names with your username or organization name.

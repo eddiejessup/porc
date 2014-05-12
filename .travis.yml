@@ -17,7 +17,9 @@ script:
   - tar -cjvf apidocs-$TRAVIS_BUILD_NUMBER.tar.bz2 apidocs-$TRAVIS_BUILD_NUMBER
 
 env:
-  secure: "ZIbLd/T7aK3l3tIH3JylFYA6Vd7pRiNwqtBhh4PVbrDjltX6Kg46v//LXCCi5bmL4eaRwiQftzg1Cm9P0ds7UILa7FGEtBb/2+cHfPypGYWodHmA8Vedc5wb+IIJIREirtMNYmolOojy9Kupf/yhXdhTkIBqxjELFhliZjP5ARc="
+  - secure: "ZIbLd/T7aK3l3tIH3JylFYA6Vd7pRiNwqtBhh4PVbrDjltX6Kg46v//LXCCi5bmL4eaRwiQftzg1Cm9P0ds7UILa7FGEtBb/2+cHfPypGYWodHmA8Vedc5wb+IIJIREirtMNYmolOojy9Kupf/yhXdhTkIBqxjELFhliZjP5ARc="
+  - secure: "cvTn+UAouR7e2qn9YXU4rT18NMPavA33oLiYJr78ndnGPsoCbE4iL5+1/zZYjzOIT1+p4fsEHyDqEPero/3UjGslVqotyNLMco71zYda/i/rV7pbmaKejGcow7mjiqX0x5BUamSLn0wNT1yVcHvzCU9ZfKbxhDPC1waTrXll4E4="
+  - secure: "NM7rnno3lqEulaUPF1jlmAhQaggUqe2scai2qxnWp0TtKLJ25UN53f5F+EY6i85Mm2M+aLi/JmnyEvIB7Xc7yUV6cNL6ol7uL5iLljczGF/lss5nsnCF9bswGAXXE2vNC2qMxs4GDz407e1wUz+eQ3bbWLOjh9tWyyPJszWM+Go="
 
 after_success:
   - chmod 755 .travis/deploy.sh
@@ -30,4 +32,3 @@ notifications:
       - c92bad93fc0d9c2d195d80c7be121a@Orchestrate
     template:
       - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} %{build_url}'
-

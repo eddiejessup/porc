@@ -13,8 +13,6 @@ install:
 
 script:
   - bundle exec middleman build
-  - mv build apidocs-$TRAVIS_BUILD_NUMBER
-  - tar -cjvf apidocs-$TRAVIS_BUILD_NUMBER.tar.bz2 apidocs-$TRAVIS_BUILD_NUMBER
 
 env:
   - secure: "ZIbLd/T7aK3l3tIH3JylFYA6Vd7pRiNwqtBhh4PVbrDjltX6Kg46v//LXCCi5bmL4eaRwiQftzg1Cm9P0ds7UILa7FGEtBb/2+cHfPypGYWodHmA8Vedc5wb+IIJIREirtMNYmolOojy9Kupf/yhXdhTkIBqxjELFhliZjP5ARc="

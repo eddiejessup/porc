@@ -15,9 +15,10 @@ script:
   - bundle exec middleman build
 
 env:
-  - secure: "KHGLpvYLZ4wVFclYPvqin1GkD3l7bri0ULvct07++G+gRS0giJRcF3Zxzl6/exshXl1O6+YnsNvnryPk+btTa6Oy30qCLvqwDv0+NtvVIbJEMx1h+swuXsWrRItcAxHauYuoAHhPsDwOaAdl5ymcF9qu4+iCW2FPq5zmNGcQ1Uk="
-  - secure: "cvTn+UAouR7e2qn9YXU4rT18NMPavA33oLiYJr78ndnGPsoCbE4iL5+1/zZYjzOIT1+p4fsEHyDqEPero/3UjGslVqotyNLMco71zYda/i/rV7pbmaKejGcow7mjiqX0x5BUamSLn0wNT1yVcHvzCU9ZfKbxhDPC1waTrXll4E4="
-  - secure: "NM7rnno3lqEulaUPF1jlmAhQaggUqe2scai2qxnWp0TtKLJ25UN53f5F+EY6i85Mm2M+aLi/JmnyEvIB7Xc7yUV6cNL6ol7uL5iLljczGF/lss5nsnCF9bswGAXXE2vNC2qMxs4GDz407e1wUz+eQ3bbWLOjh9tWyyPJszWM+Go="
+  global:
+    - secure: "gLRGoHQd6Vbjv7HQvKZJWr/cOJIhkYBJfy4zJ6GG2HmfjquP5WFx8AES6mzv7EpFpADNTSmEs6sB7zObvk4hqP5GzJGqxKsI2STp3xYhibNlrA8tWaGhxqHqzKC66CnDWkabI/OocPoogoXJbF91aUoyI6nvQETkO2jY6d6E/1E="
+    - secure: "cvTn+UAouR7e2qn9YXU4rT18NMPavA33oLiYJr78ndnGPsoCbE4iL5+1/zZYjzOIT1+p4fsEHyDqEPero/3UjGslVqotyNLMco71zYda/i/rV7pbmaKejGcow7mjiqX0x5BUamSLn0wNT1yVcHvzCU9ZfKbxhDPC1waTrXll4E4="
+    - secure: "NM7rnno3lqEulaUPF1jlmAhQaggUqe2scai2qxnWp0TtKLJ25UN53f5F+EY6i85Mm2M+aLi/JmnyEvIB7Xc7yUV6cNL6ol7uL5iLljczGF/lss5nsnCF9bswGAXXE2vNC2qMxs4GDz407e1wUz+eQ3bbWLOjh9tWyyPJszWM+Go="
 
 after_success:
   - chmod 755 .travis/deploy.sh

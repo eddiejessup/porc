@@ -72,25 +72,25 @@ under the License.
       });
     </script>
     <%= javascript_include_tag  "analytics" %>
-  <script type="text/javascript">
-    $(function() {
-      // Track language selection with segment.io
-      var language = $('#lang-selector a.active').attr("data-language-name");
+    <script type="text/javascript">
+      $(function() {
+        // Track language selection with segment.io
+        var language = $('#lang-selector a.active').attr("data-language-name");
 
-      if ("onhashchange" in window) {
-        $(window).on('hashchange', function () {
-          var section = window.location.hash.replace('#', '');
-          analytics.page("API Docs", section, {"language" : language});
-        })
-        .trigger('hashchange');
-      } else {
-        var menuItems = $("li.tocify-item").click(function() {
-          var section = $(this).attr("data-unique");
-          analytics.page("API Docs", section, {"language" : language});
-        });
-      }
-    });
-  </script>
+        if ("onhashchange" in window) {
+          $(window).on('hashchange', function () {
+            var section = window.location.hash.replace('#', '');
+            analytics.page("API Docs", section, {"language" : language});
+          })
+          .trigger('hashchange');
+        } else {
+          var menuItems = $("li.tocify-item").click(function() {
+            var section = $(this).attr("data-unique");
+            analytics.page("API Docs", section, {"language" : language});
+          });
+        }
+      });
+    </script>
   </head>
 
   <body class="<%= page_classes %>">

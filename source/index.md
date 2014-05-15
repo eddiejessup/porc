@@ -679,6 +679,111 @@ collection | the collection from which to get the value.
 key        | the primary key of the value.
 ref        | an opaque version identifier for the value.
 
+## List
+
+> Make sure to replace all the variables with the appropriate values.
+
+```shell
+# without values
+curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/?limit=$limit&offset=$offset" \
+	-u "$api_key:"
+
+# with values
+curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/?limit=$limit&offset=$offset&values=true" \
+	-u "$api_key:"
+```
+
+```javascript
+// NOT CURRENTLY SUPPORTED
+```
+
+```java
+// NOT CURRENTLY SUPPORTED
+```
+
+```go
+// NOT CURRENTLY SUPPORTED
+```
+
+Returns a paginated, time-ordered, newest to oldest list of refs (or "versions") of the object for a
+given key in a collection. The next and prev page of results URL is specified by both the `next` and
+`prev` field in the JSON response and the `Link` header value. If no `next` or `prev` field or `Link`
+header is returned, there are no additional pages.
+
+As well as the path segment and (optionally) the JSON values stored for the ref,
+the response body will contain a field called `reftime` for each ref. This field
+is the timestamp (milliseconds since epoch) when the version was created.
+
+### HTTP Request
+
+> Returns response headers like so:
+
+```http
+HTTP/1.1 200 OK
+Date: Wed, 14 May 2014 16:33:53 GMT
+Content-Type: application/json
+Vary: Accept-Encoding
+Transfer-Encoding: chunked
+X-ORCHESTRATE-REQ-ID: 89931d20-db85-11e3-a2e4-881fa10233b6
+```
+
+> Returns a response body like so:
+
+```json
+{
+  "count": 3,
+  "results": [
+    {
+      "path": {
+        "collection": "collection",
+        "key": "key",
+        "ref": "cbb48f9464612f20"
+      },
+      "value": {},
+      "reftime": 1400085119216
+    },
+    {
+      "path": {
+        "collection": "collection",
+        "key": "key",
+        "ref": "",
+        "tombstone": true
+      },
+      "reftime": 1400085117084
+    },
+    {
+      "path": {
+        "collection": "collection",
+        "key": "key",
+        "ref": "cbb48f9464612f20"
+      },
+      "value": {},
+      "reftime": 1400085084739
+    }
+  ]
+}
+```
+
+`GET https://api.orchestrate.io/v0/$collection/$key/refs/?values=true`
+
+### Parameters
+
+Parameter  | Description
+---------- | -----------
+collection | the collection containing the key.
+key        | the key to list the ref history for.
+limit      | the number of results to return. (default: 10, max: 100)
+offset     | the starting position of the results. (default: 0)
+values     | whether to return the value for each ref in the history. (default: false)
+
+<aside class="notice">
+Tombstone values will be returned with the ref history. These are markers for when the object was deleted.
+These object refs have no JSON `"value"` field and are marked with the field `"tombstone": true`.
+
+If the object has been "purged" (permanently deleted) it has no ref history and requests for its
+ref history will return a `404 Not Found`.
+</aside>
+
 # Search
 
 Search allows collections to be queried using [Lucene Query Parser Syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview).

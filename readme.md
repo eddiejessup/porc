@@ -132,7 +132,7 @@ Annotated source code, thanks to [slate](https://github.com/tripit/slate), avail
 
 To run tests, get the source code and use `setup.py`:
 
-    git clone git@github.com:garbados/porc.git
+    git clone git@github.com:orchestrate-io/porc.git
     cd porc
     python setup.py test
 

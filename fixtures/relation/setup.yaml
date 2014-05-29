@@ -1,0 +1,44 @@
+- request: !!python/object:vcr.request.Request
+    body: '{"hello": "world"}'
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Authorization, !!python/unicode Basic MzM2OWM2ZDktYzMxOC00ODA0LTg4MDktN2QxN2M3OWVhZGUxOg==]
+      - !!python/tuple [Content-Length, '18']
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+    host: api.orchestrate.io
+    method: PUT
+    path: /v0/test/a
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Thu, 01 May 2014 17:30:03 GMT\r\n", !!python/unicode "Location: /v0/test/a/refs/2753418414bef840\r\n",
+      !!python/unicode "X-ORCHESTRATE-REQ-ID: 3ac3a5e0-d156-11e3-8ad6-12313d2f9238\r\n",
+      !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:
+        keep-alive\r\n"]
+    status: {code: 201, message: Created}
+- request: !!python/object:vcr.request.Request
+    body: '{"goodbye": "world"}'
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Authorization, !!python/unicode Basic MzM2OWM2ZDktYzMxOC00ODA0LTg4MDktN2QxN2M3OWVhZGUxOg==]
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Content-Length, '20']
+    host: api.orchestrate.io
+    method: PUT
+    path: /v0/test/b
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Thu, 01 May 2014 17:30:03 GMT\r\n", !!python/unicode "Location: /v0/test/b/refs/b85852926758f3d6\r\n",
+      !!python/unicode "X-ORCHESTRATE-REQ-ID: 3aca5ca0-d156-11e3-a8dc-12313d2f50f8\r\n",
+      !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:
+        keep-alive\r\n"]
+    status: {code: 201, message: Created}

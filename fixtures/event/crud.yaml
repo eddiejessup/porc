@@ -1,0 +1,111 @@
+- request: !!python/object:vcr.request.Request
+    body: '{"hello": "world"}'
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Content-Length, '18']
+      - !!python/tuple [Authorization, !!python/unicode Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==]
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+    host: api.orchestrate.io
+    method: POST
+    path: /v0/derptest/testderp/events/created
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Fri, 02 May 2014 16:10:03 GMT\r\n", !!python/unicode "Location: /v0/derptest/testderp/events/created/1399047003720/0\r\n",
+      !!python/unicode "X-ORCHESTRATE-REQ-ID: 3844aad0-d214-11e3-81a7-12313d2f50f8\r\n",
+      !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:
+        keep-alive\r\n"]
+    status: {code: 201, message: Created}
+- request: !!python/object:vcr.request.Request
+    body: '{"hello": "world"}'
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Content-Length, '18']
+      - !!python/tuple [Authorization, !!python/unicode Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==]
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+    host: api.orchestrate.io
+    method: POST
+    path: /v0/derptest/testderp/events/created/1398988800000
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Fri, 02 May 2014 16:10:03 GMT\r\n", !!python/unicode "Location: /v0/derptest/testderp/events/created/1398988800000/1\r\n",
+      !!python/unicode "X-ORCHESTRATE-REQ-ID: 38591d30-d214-11e3-a4cd-12313d2f7cdc\r\n",
+      !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:
+        keep-alive\r\n"]
+    status: {code: 201, message: Created}
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Authorization, !!python/unicode Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==]
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+    host: api.orchestrate.io
+    method: GET
+    path: /v0/derptest/testderp/events/created/1398988800000/1
+    port: 443
+    protocol: https
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAI3OUQ7DIAgG4Lvw7ENdXUa9jVOamtFqnFvTNL374Abjje8Hwgk19AX8CbEwU+y5
+        bOAhUaud3h0MvOgQ0EZRoB+VRGKj0Ckp5FXSsFbwdpxwQsRBy0BpKW+BxQ00mmXr9riPzqKz7kkz
+        ugEuA9/AH9IXFmIuMrSXxkmTfy5fP5Bj/ojDAAAA
+    headers: [!!python/unicode "Content-Encoding: gzip\r\n", !!python/unicode "Content-Type:
+        application/json\r\n", !!python/unicode "Date: Fri, 02 May 2014 16:10:03 GMT\r\n",
+      !!python/unicode "ETag: \"2753418414bef840-gzip\"\r\n", !!python/unicode "Vary:
+        Accept-Encoding, User-Agent\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:
+        38735bf0-d214-11e3-b071-12313d2f9238\r\n", !!python/unicode "transfer-encoding:
+        chunked\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 200, message: OK}
+- request: !!python/object:vcr.request.Request
+    body: '{"goodbye": "world"}'
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Authorization, !!python/unicode Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==]
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Content-Length, '20']
+    host: api.orchestrate.io
+    method: PUT
+    path: /v0/derptest/testderp/events/created/1398988800000/1
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Fri, 02 May 2014 16:10:04 GMT\r\n", !!python/unicode "Location: /v0/derptest/testderp/events/created/1398988800000/1\r\n",
+      !!python/unicode "X-ORCHESTRATE-REQ-ID: 387d4700-d214-11e3-81a7-12313d2f50f8\r\n",
+      !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 204, message: No Content}
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Authorization, !!python/unicode Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==]
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Content-Length, '0']
+    host: api.orchestrate.io
+    method: DELETE
+    path: /v0/derptest/testderp/events/created/1398988800000/1?purge=true
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Fri, 02 May 2014 16:10:04 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:
+        388472f0-d214-11e3-a4cd-12313d2f7cdc\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 204, message: No Content}

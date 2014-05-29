@@ -1,0 +1,19 @@
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+    host: httpbin.org
+    method: HEAD
+    path: /get?hello=world
+    port: 80
+    protocol: http
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Access-Control-Allow-Origin: *\r\n", !!python/unicode "Content-length:
+        444\r\n", !!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Thu, 01 May 2014 17:30:04 GMT\r\n", !!python/unicode "Server: gunicorn/0.17.4\r\n",
+      !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 200, message: OK}

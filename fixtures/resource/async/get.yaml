@@ -1,0 +1,25 @@
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+    host: httpbin.org
+    method: GET
+    path: /get?hello=world
+    port: 80
+    protocol: http
+  response:
+    body: {string: !!python/unicode "{\n  \"url\": \"http://httpbin.org/get?hello=world\",\n
+        \ \"args\": {\n    \"hello\": \"world\"\n  },\n  \"origin\": \"50.177.28.241\",\n
+        \ \"headers\": {\n    \"User-Agent\": \"python-requests/2.2.1 CPython/2.7.2
+        Darwin/12.5.0\",\n    \"Connection\": \"close\",\n    \"Accept-Encoding\":
+        \"gzip, deflate, compress\",\n    \"Accept\": \"application/json\",\n    \"Host\":
+        \"httpbin.org\",\n    \"Content-Type\": \"application/json\",\n    \"X-Request-Id\":
+        \"f93a899d-fecc-4ff4-9f79-95b8bc3c4807\"\n  }\n}"}
+    headers: [!!python/unicode "Access-Control-Allow-Origin: *\r\n", !!python/unicode "Content-Type:
+        application/json\r\n", !!python/unicode "Date: Thu, 01 May 2014 17:30:04 GMT\r\n",
+      !!python/unicode "Server: gunicorn/0.17.4\r\n", !!python/unicode "Content-Length:
+        444\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 200, message: OK}

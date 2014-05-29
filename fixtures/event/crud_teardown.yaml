@@ -1,0 +1,20 @@
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Authorization, !!python/unicode Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==]
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Content-Length, '0']
+    host: api.orchestrate.io
+    method: DELETE
+    path: /v0/derptest?force=true
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Fri, 02 May 2014 16:01:37 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:
+        0aa4f040-d213-11e3-bfb0-12313d2f7cdc\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 204, message: No Content}

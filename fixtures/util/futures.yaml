@@ -1,0 +1,57 @@
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Authorization, !!python/unicode Basic ZmU3NDYyMmUtN2FhZC00MmMyLWFiMzQtNmIxYWEzYjg2ZGE4Og==]
+    host: api.orchestrate.io
+    method: HEAD
+    path: /v0
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Sat, 17 May 2014 03:21:37 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:
+        5ade86b0-dd72-11e3-bbdd-12313d2f50f8\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 200, message: OK}
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Authorization, !!python/unicode Basic ZmU3NDYyMmUtN2FhZC00MmMyLWFiMzQtNmIxYWEzYjg2ZGE4Og==]
+    host: api.orchestrate.io
+    method: HEAD
+    path: /v0
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Sat, 17 May 2014 03:21:37 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:
+        5ae4a130-dd72-11e3-a3d0-12313d2f9238\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 200, message: OK}
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Authorization, !!python/unicode Basic ZmU3NDYyMmUtN2FhZC00MmMyLWFiMzQtNmIxYWEzYjg2ZGE4Og==]
+    host: api.orchestrate.io
+    method: HEAD
+    path: /v0
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
+        Sat, 17 May 2014 03:21:37 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:
+        5af039f0-dd72-11e3-9da5-12313d2f7cdc\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 200, message: OK}

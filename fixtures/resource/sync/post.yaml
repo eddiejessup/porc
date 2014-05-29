@@ -1,0 +1,27 @@
+- request: !!python/object:vcr.request.Request
+    body: '{"hello": "world"}'
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Accept, application/json]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Content-Length, '18']
+      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+    host: httpbin.org
+    method: POST
+    path: /post
+    port: 80
+    protocol: http
+  response:
+    body: {string: !!python/unicode "{\n  \"url\": \"http://httpbin.org/post\",\n
+        \ \"args\": {},\n  \"form\": {},\n  \"origin\": \"50.177.28.241\",\n  \"files\":
+        {},\n  \"data\": \"{\\\"hello\\\": \\\"world\\\"}\",\n  \"headers\": {\n    \"User-Agent\":
+        \"python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0\",\n    \"Accept\": \"application/json\",\n
+        \   \"Accept-Encoding\": \"gzip, deflate, compress\",\n    \"Host\": \"httpbin.org\",\n
+        \   \"Content-Length\": \"18\",\n    \"Content-Type\": \"application/json\",\n
+        \   \"X-Request-Id\": \"e23e4551-e39b-47f3-8bb5-a6dd918086e4\",\n    \"Connection\":
+        \"close\"\n  },\n  \"json\": {\n    \"hello\": \"world\"\n  }\n}"}
+    headers: [!!python/unicode "Access-Control-Allow-Origin: *\r\n", !!python/unicode "Content-Type:
+        application/json\r\n", !!python/unicode "Date: Thu, 01 May 2014 17:30:08 GMT\r\n",
+      !!python/unicode "Server: gunicorn/0.17.4\r\n", !!python/unicode "Content-Length:
+        540\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 200, message: OK}

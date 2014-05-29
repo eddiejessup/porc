@@ -143,4 +143,4 @@ To run tests, get the source code and use `setup.py`:
 [orchestrate.io]: http://orchestrate.io/
 [pip]: https://pypi.python.org/pypi/pip
 [MIT]: http://opensource.org/licenses/MIT
-[api-reference]: http://garbados.github.io/porc/
+[api-reference]: http://orchestrate-io.github.io/porc/

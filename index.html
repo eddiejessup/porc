@@ -1,0 +1,640 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title>Porc API Reference</title>
+
+    <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+    <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="javascripts/all.js" type="text/javascript"></script>
+
+    <script>
+      $(function() {
+        var toc = $("#toc").tocify({
+          selectors: "h1,h2",
+          extendPage: false,
+          theme: "none",
+          smoothScroll: false,
+          showEffectSpeed: 0,
+          hideEffectSpeed: 180,
+          ignoreSelector: ".toc-ignore",
+          hashGenerator: 'pretty',
+          highlightOffset: 60,
+          scrollTo: -2,
+          scrollHistory: true,
+          hashGenerator: function(text, element) {
+            return element[0].getAttribute('id');
+          }
+        }).data("toc-tocify");
+        // Hack to make already open sections to start opened,
+        // instead of displaying an ugly animation
+        setTimeout(function() {
+          toc.setOption("showEffectSpeed", 180);
+        },50);
+        setupLanguages([
+                'python',
+        ]);
+      });
+    </script>
+  </head>
+
+  <body class="index">
+    <div class="tocify-wrapper">
+      <a href="#">
+        <img src="images/logo.png" />
+      </a>
+      <div id="toc">
+      </div>
+      <ul class="toc-footer">
+          <li><a href='#'>Porc Source</a></li>
+          <li><a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+          <li><a href="http://orchestrate.io/docs/api/">Orchestrate Documentation</a></li>
+      </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="porc">Porc</h1>
+
+<p>The effortless, asynchronous Python client for <a href="http://orchestrate.io/">orchestrate.io</a>.</p>
+
+<h1 id="|-resource">| Resource</h1>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">uri</span>
+
+        <span class="c"># if given an existing session, use it</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'session'</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'session'</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'session'</span><span class="p">]</span>
+        <span class="c"># set the resource's session as either sync or async</span>
+        <span class="c"># according to keyword arguments</span>
+        <span class="k">elif</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'async'</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+            <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">'async'</span><span class="p">]</span>
+        <span class="c"># default to async</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="n">FuturesSession</span><span class="p">()</span>
+
+        <span class="c"># set path parameters according to given url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_path</span><span class="p">()</span>
+
+        <span class="c"># pass remaining kwargs as defaults to requests</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_options</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</pre>
+
+<p>Ancestor for all Orchestrate resources.
+Handles storing URL state, headers, sessions, etc.</p>
+
+<p>If you create an object, like a <code class="prettyprint">Client</code>, then use that to
+create a <code class="prettyprint">Collection</code> object, the <code class="prettyprint">Collection</code> will inherit any options
+from the <code class="prettyprint">Client</code> object, such as auth settings.</p>
+
+<p>Likewise, all objects inheriting from Resource can make HTTP requests
+using the methods <code class="prettyprint">head</code>, <code class="prettyprint">get</code>, <code class="prettyprint">put</code>, <code class="prettyprint">post</code>, and <code class="prettyprint">delete</code>,
+even if Orchestrate would only return a <code class="prettyprint">405 Method Not Allowed</code>
+for a given method.</p>
+
+<h2 id="get">get</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querydict</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_request</span><span class="p">(</span><span class="s">'get'</span><span class="p">,</span> <span class="n">querydict</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Make a GET request against the object&rsquo;s URI.
+<code class="prettyprint">querydict</code> is a mapping object, like a dict, 
+that is serialized into the querystring.
+Any keyword arguments are passed along as headers.</p>
+
+<h2 id="head">head</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">head</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querydict</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_request</span><span class="p">(</span><span class="s">'head'</span><span class="p">,</span> <span class="n">querydict</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Make a HEAD request against the object&rsquo;s URI.
+<code class="prettyprint">querydict</code> is a mapping object, like a dict, 
+that is serialized into the querystring.
+Any keyword arguments are passed along as headers.</p>
+
+<h2 id="put">put</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_request</span><span class="p">(</span><span class="s">'put'</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Make a PUT request against the object&rsquo;s URI.
+<code class="prettyprint">querydict</code> is a mapping object, like a dict, 
+that is serialized into the querystring.
+Any keyword arguments are passed along as headers.</p>
+
+<h2 id="post">post</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_request</span><span class="p">(</span><span class="s">'post'</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Make a POST request against the object&rsquo;s URI.
+<code class="prettyprint">querydict</code> is a mapping object, like a dict, 
+that is serialized into the querystring.
+Any keyword arguments are passed along as headers.</p>
+
+<h2 id="delete">delete</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querydict</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_request</span><span class="p">(</span><span class="s">'delete'</span><span class="p">,</span> <span class="n">querydict</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Make a DELETE request against the object&rsquo;s URI.
+<code class="prettyprint">querydict</code> is a mapping object, like a dict, 
+that is serialized into the querystring.
+Any keyword arguments are passed along as headers.</p>
+
+<h1 id="|-client">| Client</h1>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="s">'https://</span><span class="si">%</span><span class="s">s:@api.orchestrate.io/v</span><span class="si">%</span><span class="s">d'</span> <span class="o">%</span> <span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">api_version</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Client</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</pre>
+
+<p>The top-level resource for interacting with Orchestrate.
+Handles authentication, spawns collections.</p>
+<pre class="highlight plaintext">client = porc.Client(API_KEY)
+client.ping().result().raise_for_status()
+# if it throws an error, you're not authenticated
+</pre>
+
+<h2 id="ping">ping</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">ping</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+</pre>
+
+<p>Sends Orchestrate a HEAD request to determine
+connectivity and authentication.</p>
+
+<h2 id="collection">collection</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">collection</span><span class="o">.</span><span class="n">Collection</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</pre>
+
+<p>Spawns a collection object, inheriting options from the client object.
+Note that this does not create a collection in Orchestrate.</p>
+
+<h1 id="|-collection">| Collection</h1>
+
+<p>From the Orchestrate docs:</p>
+
+<p>&ldquo;Collections are groupings of the JSON objects. 
+Collections are analogous to tables in a relational database.&rdquo;</p>
+
+<p>The collection object performs searches over the JSON objects stored in a collection, 
+and can spawn key objects representing JSON objects.</p>
+<pre class="highlight python"><span class="n">collection</span> <span class="o">=</span> <span class="n">porc</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">API_KEY</span><span class="p">)</span><span class="o">.</span><span class="n">collection</span><span class="p">(</span><span class="n">NAME</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">collection</span><span class="o">.</span><span class="n">search</span><span class="p">({</span><span class="s">"query"</span><span class="p">:</span> <span class="s">"cool_*"</span><span class="p">}):</span>
+    <span class="k">print</span> <span class="n">page</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="c"># {</span>
+    <span class="c">#     "count": 1,</span>
+    <span class="c">#     "next": "/v0/collection?limit=10&amp;query=test&amp;offset=1",</span>
+    <span class="c">#     "prev": "/v0/collection?limit=10&amp;query=test&amp;offset=0",</span>
+    <span class="c">#     "results": [</span>
+    <span class="c">#         {</span>
+    <span class="c">#             "path": {</span>
+    <span class="c">#                 "collection": "neat_stuff",</span>
+    <span class="c">#                 "key": "cool_beans",</span>
+    <span class="c">#                 "ref": "20c14e8965d6cbb0"</span>
+    <span class="c">#             },</span>
+    <span class="c">#             "score": 1.0,</span>
+    <span class="c">#             "value": {</span>
+    <span class="c">#                 "coolness": 999</span>
+    <span class="c">#             }</span>
+    <span class="c">#         }</span>
+    <span class="c">#     ],</span>
+    <span class="c">#     "total_count": 100</span>
+    <span class="c"># }</span>
+</pre>
+
+<h2 id="search">search</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="nb">list</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</pre>
+
+<p>Returns a page object to page through search results.</p>
+
+<p>Alias to <code class="prettyprint">self.list</code>.</p>
+
+<h2 id="key">key</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">Key</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</pre>
+
+<p>Spawns a key object, inheriting options from the collection object.
+Note that this does not create a key in Orchestrate.</p>
+
+<h2 id="delete">delete</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querydict</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="n">querydict</span><span class="p">[</span><span class="s">'force'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Collection</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">querydict</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Deletes a collection and all the keys it contains.
+Automatically sets <code class="prettyprint">?force=true</code> in the querystring.</p>
+
+<h2 id="list">list</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="n">page</span><span class="o">.</span><span class="n">Page</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">session</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">opts</span><span class="p">)</span>
+
+</pre>
+
+<p>Returns a page object to page through list results.</p>
+
+<h1 id="|-page">| Page</h1>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">querydict</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">opts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">querydict</span><span class="p">)</span>
+        <span class="c"># if async, create a callback that stores current page state after each request</span>
+        <span class="k">if</span> <span class="s">'session'</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">'session'</span><span class="p">])</span> <span class="o">==</span> <span class="n">FuturesSession</span><span class="p">:</span>
+            <span class="n">opts</span><span class="p">[</span><span class="s">'background_callback'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_res</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Page</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="o">**</span><span class="n">opts</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_url_root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">'/v0'</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+</pre>
+
+<p>Class used for paging through search results.</p>
+
+<p>Can be used as an iterator, ex: <code class="prettyprint">for page in Page</code>,
+or by using the methods <code class="prettyprint">next</code> and <code class="prettyprint">prev</code> explicitly
+to page through results.</p>
+
+<p>Used in searching collections and events.</p>
+
+<h2 id="reset">reset</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="bp">None</span>
+
+</pre>
+
+<p>Clear the page&rsquo;s current place.</p>
+
+<p>page_1 = page.next().result()
+    page_2 = page.next().result()
+    page.reset()
+    page_x = page.next().result()
+    assert page_x.url == page_1.url</p>
+
+<h2 id="next">next</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querydict</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_page</span><span class="p">(</span><span class="n">querydict</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Gets the next page of results.
+Raises <code class="prettyprint">StopIteration</code> when there are no more results.</p>
+
+<h2 id="prev">prev</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">prev</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querydict</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_page</span><span class="p">(</span><span class="n">querydict</span><span class="p">,</span> <span class="s">'prev'</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>        
+
+</pre>
+
+<p>Gets the previous page of results.
+Raises <code class="prettyprint">StopIteration</code> when there are no more results.</p>
+
+<p>Note: Only collection searches provide a <code class="prettyprint">prev</code> value.
+For all others, <code class="prettyprint">prev</code> will always return <code class="prettyprint">StopIteration</code>.</p>
+
+<h1 id="|-key">| Key</h1>
+
+<p>From the Orchestrate docs:</p>
+
+<p>&ldquo;Key/Value is core to Orchestrate.io. 
+All other query types are built around this data type. 
+Key/Value pairs are pieces of data
+identified by a unique key for a collection
+and have corresponding value.&rdquo;</p>
+
+<p>The key object represents a single key/value in Orchestrate,
+and provides methods for working with refs, events, and relations,
+as well as creating, reading, updating, and destroying key/values.</p>
+<pre class="highlight python"><span class="n">key</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">key</span><span class="p">(</span><span class="n">NAME</span><span class="p">)</span>
+<span class="c"># create</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s">"hello"</span><span class="p">:</span> <span class="s">"world"</span><span class="p">})</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+<span class="c"># create a ref to work with this version of the key/value</span>
+<span class="n">ref_value</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="s">'ref'</span><span class="p">]</span>
+<span class="n">ref</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">ref_value</span><span class="p">)</span>
+<span class="c"># read</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="c"># {"hello": "world"}</span>
+<span class="c"># update</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s">"goodnight"</span><span class="p">:</span> <span class="s">"moon"</span><span class="p">},</span> <span class="o">**</span><span class="p">{</span><span class="s">"If-Match"</span><span class="p">:</span> <span class="n">ref_value</span><span class="p">})</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+<span class="n">ref_value</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="s">'ref'</span><span class="p">]</span>
+<span class="c"># delete</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s">"If-Match"</span><span class="p">:</span> <span class="n">ref_value</span><span class="p">})</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+</pre>
+
+<h2 id="relation">relation</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">relation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Relation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</pre>
+
+<p>Returns an object for creating and querying relations.
+See <code class="prettyprint">Relation</code> for more info.</p>
+
+<h2 id="graph">graph</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">relation</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</pre>
+
+<p>Alias to <code class="prettyprint">relation</code></p>
+
+<h2 id="ref">ref</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Ref</span><span class="p">,</span> <span class="s">'refs'</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</pre>
+
+<p>Returns an object for dealing with a given Ref value.
+See <code class="prettyprint">Ref</code> for more info.</p>
+
+<h2 id="event">event</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Event</span><span class="p">,</span> <span class="s">'events'</span><span class="p">,</span> <span class="n">event_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</pre>
+
+<p>Returns an object for creating and querying events.
+See <code class="prettyprint">Event</code> for more info.</p>
+
+<h1 id="|-ref">| Ref</h1>
+
+<p>From the Orchestrate docs:</p>
+
+<p>&ldquo;Refs are used to identify specific immutable values that have been assigned to keys.&rdquo;</p>
+
+<p>Ref objects allow you to work with specific versions of a doc,
+particularly past versions.</p>
+<pre class="highlight python"><span class="n">ref</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="n">ref_value</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="c"># {"hello": "world"}</span>
+</pre>
+
+<h1 id="|-event">| Event</h1>
+
+<p>From the Orchestrate docs:</p>
+
+<p>&ldquo;Events are a way to associate time-ordered data with a key.&rdquo;</p>
+
+<p>The event object allows you to create, read, update, and delete
+different events, and to perform queries over events associated
+with a key.</p>
+<pre class="highlight python"><span class="n">event</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="n">TYPE</span><span class="p">)</span>
+<span class="c"># create</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">post</span><span class="p">({</span><span class="s">"msg"</span><span class="p">:</span> <span class="s">"hello world, again"</span><span class="p">})</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">timestamp</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="s">'timestamp'</span><span class="p">]</span>
+<span class="n">ordinal</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="s">'ordinal'</span><span class="p">]</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+<span class="c"># read</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">ordinal</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="c"># {</span>
+<span class="c">#     "path": {</span>
+<span class="c">#         "collection": "asdf",</span>
+<span class="c">#         "key": "key",</span>
+<span class="c">#         "ref": "ae3dfa4325abe21e",</span>
+<span class="c">#         "type": "played",</span>
+<span class="c">#         "timestamp": 1369832019085,</span>
+<span class="c">#         "ordinal": 9</span>
+<span class="c">#     },</span>
+<span class="c">#     "value": {</span>
+<span class="c">#       "msg": "hello world, again"</span>
+<span class="c">#     },</span>
+<span class="c">#     "timestamp": 1369832019085,</span>
+<span class="c">#     "ordinal": 9</span>
+<span class="c"># }</span>
+<span class="c"># update</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">ordinal</span><span class="p">,</span> <span class="p">{</span><span class="s">"msg"</span><span class="p">:</span> <span class="s">"goodnight moon"</span><span class="p">})</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+<span class="c"># query</span>
+<span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="nb">list</span><span class="p">():</span>
+    <span class="k">print</span> <span class="n">page</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="c"># {</span>
+    <span class="c">#   "results": [</span>
+    <span class="c">#     {</span>
+    <span class="c">#       "path": {</span>
+    <span class="c">#         "collection": "collection",</span>
+    <span class="c">#         "key": "key",</span>
+    <span class="c">#         "type": "type",</span>
+    <span class="c">#         "timestamp": 1369832019085,</span>
+    <span class="c">#         "ordinal": 9,</span>
+    <span class="c">#         "ref": "ae3dfa4325abe21e"</span>
+    <span class="c">#       },</span>
+    <span class="c">#       "value": {</span>
+    <span class="c">#         "msg": "goodnight moon"</span>
+    <span class="c">#       },</span>
+    <span class="c">#       "timestamp": 1369832019085,</span>
+    <span class="c">#       "ordinal": 9</span>
+    <span class="c">#     }</span>
+    <span class="c">#   "count": 1</span>
+    <span class="c"># }</span>
+<span class="c"># delete</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">ordinal</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+</pre>
+
+<h2 id="get">get</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">ordinal</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">==</span> <span class="n">datetime</span><span class="p">:</span>
+            <span class="n">timestamp</span> <span class="o">=</span> <span class="n">create_timestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
+        <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Resource</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">timestamp</span><span class="p">),</span> <span class="n">ordinal</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Retrieves a given event. 
+If timestamp is a datetime object, 
+it will be converted to milliseconds since epoch.</p>
+
+<h2 id="put">put</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">ordinal</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">==</span> <span class="n">datetime</span><span class="p">:</span>
+            <span class="n">timestamp</span> <span class="o">=</span> <span class="n">create_timestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
+        <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Resource</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">timestamp</span><span class="p">),</span> <span class="n">ordinal</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resource</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Updates a given event.
+If timestamp is a datetime object, 
+it will be converted to milliseconds since epoch.</p>
+
+<h2 id="post">post</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">timestamp</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">==</span> <span class="n">datetime</span><span class="p">:</span>
+                <span class="n">timestamp</span> <span class="o">=</span> <span class="n">create_timestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
+            <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Resource</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">timestamp</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Resource</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">resource</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Creates a new event.
+If timestamp is not provided, Orchestrate will give it one.</p>
+
+<h2 id="list">list</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querydict</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="n">Page</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">querydict</span><span class="p">,</span> <span class="n">session</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Returns a page representing a given query of events.
+See <code class="prettyprint">Page</code> for more details on the page object.</p>
+
+<h2 id="delete">delete</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">ordinal</span><span class="p">,</span> <span class="n">querydict</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">==</span> <span class="n">datetime</span><span class="p">:</span>
+            <span class="n">timestamp</span> <span class="o">=</span> <span class="n">create_timestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
+        <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Resource</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">timestamp</span><span class="p">),</span> <span class="n">ordinal</span><span class="p">)</span>
+        <span class="n">querydict</span><span class="p">[</span><span class="s">'purge'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="n">resource</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">querydict</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Deletes a given event.
+Automatically sets <code class="prettyprint">?purge=true</code> in the querystring.</p>
+
+<h1 id="|-relation">| Relation</h1>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_root_url</span> <span class="o">=</span> <span class="n">uri</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Relation</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</pre>
+
+<p>From the Orchestrate docs:</p>
+
+<p>&ldquo;The Graph functionality allows for directed relations 
+to be created between collection/key pairs 
+and for those relations to be traversed.&rdquo;</p>
+
+<p>A relation object allows you to create, delete, and query
+relations associated with a key.</p>
+<pre class="highlight python"><span class="n">relation</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">relation</span><span class="p">()</span>
+<span class="c"># create</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">relation</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s">'loves'</span><span class="p">,</span> <span class="s">'people'</span><span class="p">,</span> <span class="s">'David Bowie'</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+<span class="c"># query</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">relation</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'loves'</span><span class="p">)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="c"># {</span>
+<span class="c">#     "count": 1,</span>
+<span class="c">#     "results": [</span>
+<span class="c">#         {</span>
+<span class="c">#             "path": {</span>
+<span class="c">#                 "collection": "people",</span>
+<span class="c">#                 "key": "David Bowie",</span>
+<span class="c">#                 "ref": "0acfe7843316529f"</span>
+<span class="c">#             },</span>
+<span class="c">#             "value": {</span>
+<span class="c">#                 "age": 67,</span>
+<span class="c">#                 "name": "David Bowie"</span>
+<span class="c">#             }</span>
+<span class="c">#         }</span>
+<span class="c">#     ]</span>
+<span class="c"># }</span>
+<span class="c"># delete</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">relation</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s">'loves'</span><span class="p">,</span> <span class="s">'people'</span><span class="p">,</span> <span class="s">'David Bowie'</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+</pre>
+
+<h2 id="get">get</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">relations</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Resource</span><span class="p">,</span> <span class="s">'relations'</span><span class="p">,</span> <span class="o">*</span><span class="n">relations</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resource</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Queries all relations specified in <code class="prettyprint">relations</code>, ex:</p>
+
+<p>relation.get(&lsquo;friend&rsquo;, &lsquo;friend&rsquo;)</p>
+
+<p>&hellip;would return all friends of friends.</p>
+
+<p>N.B.: Graph query results are not currently paginated.</p>
+
+<h2 id="put">put</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relation</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Resource</span><span class="p">,</span> <span class="s">'relation'</span><span class="p">,</span> <span class="n">relation</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resource</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Creates a relationship between two objects.
+Relations can span collections.</p>
+
+<h2 id="delete">delete</h2>
+<pre class="highlight python">    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relation</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">querydict</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">headers</span><span class="p">):</span>
+
+        <span class="n">resource</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_child</span><span class="p">(</span><span class="n">Resource</span><span class="p">,</span> <span class="s">'relation'</span><span class="p">,</span> <span class="n">relation</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+        <span class="n">querydict</span><span class="p">[</span><span class="s">'purge'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="n">resource</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">querydict</span><span class="p">,</span> <span class="o">**</span><span class="n">headers</span><span class="p">)</span>
+
+</pre>
+
+<p>Deletes a relationship between two objects.
+Automatically sets <code class="prettyprint">?purge=true</code> in the querystring.</p>
+
+      </div>
+      <div class="dark-box">
+        <div id="lang-selector">
+                <a href="#" data-language-name="python">python</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

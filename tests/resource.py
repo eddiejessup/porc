@@ -104,6 +104,7 @@ class AsyncTest(BaseTest):
         assert response.path['ref'] == '$ref'
         del response.headers['ETag']
 
+    @vcr.use_cassette('fixtures/resource/async/multiple_callbacks.yaml')
     def testMultipleCallbacks(self):
         self.callback_ran = False
         def callback (session, response):

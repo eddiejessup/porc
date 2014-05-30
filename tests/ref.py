@@ -1,6 +1,6 @@
 import vcr
 import porc
-from credentials import API_KEY
+from .credentials import API_KEY
 import unittest
 
 class RefTest(unittest.TestCase):

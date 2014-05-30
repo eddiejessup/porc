@@ -2,7 +2,7 @@ import vcr
 import porc
 import unittest
 import time
-from credentials import API_KEY
+from .credentials import API_KEY
 
 class PageTest(unittest.TestCase):
 
@@ -22,9 +22,9 @@ class PageTest(unittest.TestCase):
     @vcr.use_cassette('fixtures/page/next.yaml')
     def testNext(self):
         pages = self.collection.list(limit=len(self.key_names))
-        response = pages.next()
+        response = next(pages)
         try: 
-            pages.next()
+            next(pages)
         except StopIteration:
             # good. this is expected
             pass
@@ -35,8 +35,8 @@ class PageTest(unittest.TestCase):
     def testPrev(self):
         page = self.collection.search(query="*", limit=1)
         # proceed two pages
-        page.next()
-        page.next()
+        next(page)
+        next(page)
         # go back one
         page.prev()
         # going back one more should raise StopIteration
@@ -51,11 +51,11 @@ class PageTest(unittest.TestCase):
     @vcr.use_cassette('fixtures/page/reset.yaml')
     def testReset(self):
         page = self.collection.list(limit=len(self.key_names))
-        response = page.next().result()
+        response = next(page).result()
         response.raise_for_status()
         page.reset()
         # now, nexting should work
-        response = page.next().result()
+        response = next(page).result()
         response.raise_for_status()
 
     @vcr.use_cassette('fixtures/page/iter.yaml')

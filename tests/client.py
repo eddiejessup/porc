@@ -1,7 +1,7 @@
 import vcr
 import porc
 import unittest
-from credentials import API_KEY
+from .credentials import API_KEY
 
 class ClientTest(unittest.TestCase):
 

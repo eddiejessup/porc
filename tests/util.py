@@ -1,4 +1,4 @@
-from credentials import API_KEY
+from .credentials import API_KEY
 from datetime import datetime
 import vcr
 import unittest

@@ -37,7 +37,7 @@ class CrudTest(unittest.TestCase):
         self.key.put(dict(hello='world')).raise_for_status()
         self.other_key.put(dict(konichiwa='sekai')).raise_for_status()
         # read
-        response = self.key.get(dict(hello='world'))
+        response = self.key.get()
         response.raise_for_status()
         assert response.json()['hello'] == 'world'
         # update

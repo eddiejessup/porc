@@ -15,11 +15,11 @@
         Accept\": \"application/json\",\n    \"Accept-Encoding\": \"gzip, deflate\"\
         ,\n    \"Connection\": \"close\",\n    \"Content-Type\": \"application/json\"\
         ,\n    \"Host\": \"httpbin.org\",\n    \"User-Agent\": \"python-requests/2.3.0\
-        \ CPython/2.7.5 Darwin/13.2.0\",\n    \"X-Request-Id\": \"d8279198-be46-43fc-bf61-cdb54faac907\"\
+        \ CPython/2.7.5 Darwin/13.2.0\",\n    \"X-Request-Id\": \"3bc1a488-861e-42bb-b1b2-557d3dea1ca3\"\
         \n  },\n  \"origin\": \"173.164.85.85\",\n  \"url\": \"http://httpbin.org/get\"\
         \n}"}
     headers: [!!python/unicode "Access-Control-Allow-Origin: *\r\n", !!python/unicode "Content-Type:\
-        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 17:33:18\
+        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 22:58:43\
         \ GMT\r\n", !!python/unicode "Server: gunicorn/18.0\r\n", !!python/unicode "Content-Length:\
         \ 398\r\n", !!python/unicode "Connection: keep-alive\r\n"]
     status: {code: 200, message: OK}

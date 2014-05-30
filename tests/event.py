@@ -1,6 +1,7 @@
 import vcr
 import porc
 import unittest
+import time
 from .credentials import API_KEY
 from datetime import datetime
 
@@ -42,6 +43,7 @@ class CrudTest(unittest.TestCase):
         # list
         responses['list'] = [response for response in self.event.get()]
         for response in responses['list']:
+            assert response.json()['count'] == 2
             response.raise_for_status()
         # read
         responses['get'] = self.event.get(timestamp, ordinal)

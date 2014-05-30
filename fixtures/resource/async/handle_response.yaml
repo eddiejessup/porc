@@ -1,26 +1,25 @@
 - request: !!python/object:vcr.request.Request
     body: null
     headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+    - - !!python/tuple [Accept, application/json]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
+      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
       - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [location, /v0/$collection/$key/refs/$ref]
     host: httpbin.org
     method: GET
     path: /get
     port: 80
     protocol: http
   response:
-    body: {string: !!python/unicode "{\n  \"url\": \"http://httpbin.org/get\",\n  \"args\":
-        {},\n  \"origin\": \"50.177.28.241\",\n  \"headers\": {\n    \"User-Agent\":
-        \"python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0\",\n    \"Location\":
-        \"/v0/$collection/$key/refs/$ref\",\n    \"Connection\": \"close\",\n    \"Accept-Encoding\":
-        \"gzip, deflate, compress\",\n    \"Accept\": \"application/json\",\n    \"Host\":
-        \"httpbin.org\",\n    \"Content-Type\": \"application/json\",\n    \"X-Request-Id\":
-        \"0e18366b-e55a-4147-85ed-e85d13dd3de4\"\n  }\n}"}
-    headers: [!!python/unicode "Access-Control-Allow-Origin: *\r\n", !!python/unicode "Content-Type:
-        application/json\r\n", !!python/unicode "Date: Thu, 01 May 2014 19:33:51 GMT\r\n",
-      !!python/unicode "Server: gunicorn/0.17.4\r\n", !!python/unicode "Content-Length:
-        458\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    body: {string: !!python/unicode "{\n  \"args\": {},\n  \"headers\": {\n    \"\
+        Accept\": \"application/json\",\n    \"Accept-Encoding\": \"gzip, deflate\"\
+        ,\n    \"Connection\": \"close\",\n    \"Content-Type\": \"application/json\"\
+        ,\n    \"Host\": \"httpbin.org\",\n    \"User-Agent\": \"python-requests/2.3.0\
+        \ CPython/2.7.5 Darwin/13.2.0\",\n    \"X-Request-Id\": \"45cd2d47-dee2-4164-aa5d-5ce6f31fd863\"\
+        \n  },\n  \"origin\": \"173.164.85.85\",\n  \"url\": \"http://httpbin.org/get\"\
+        \n}"}
+    headers: [!!python/unicode "Access-Control-Allow-Origin: *\r\n", !!python/unicode "Content-Type:\
+        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 22:58:42\
+        \ GMT\r\n", !!python/unicode "Server: gunicorn/18.0\r\n", !!python/unicode "Content-Length:\
+        \ 398\r\n", !!python/unicode "Connection: keep-alive\r\n"]
     status: {code: 200, message: OK}

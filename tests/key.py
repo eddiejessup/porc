@@ -2,6 +2,7 @@ import vcr
 import porc
 import unittest
 from .credentials import API_KEY
+import time
 
 class KeyTest(unittest.TestCase):
 

@@ -1,11 +1,12 @@
 - request: !!python/object:vcr.request.Request
     body: null
     headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Authorization, !!python/unicode Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==]
+    - - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
       - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [If-Match, '"2753418414bef840"']
       - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
+      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
       - !!python/tuple [Content-Length, '0']
     host: api.orchestrate.io
     method: DELETE
@@ -14,7 +15,8 @@
     protocol: https
   response:
     body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
-        Thu, 01 May 2014 18:28:34 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:
-        677a0db0-d15e-11e3-a8dc-12313d2f50f8\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
+        \ Fri, 30 May 2014 22:58:40 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
+        \ f1126fd0-e84d-11e3-b673-12313d2f50f8\r\n", !!python/unicode "Connection:\
+        \ keep-alive\r\n"]
     status: {code: 204, message: No Content}

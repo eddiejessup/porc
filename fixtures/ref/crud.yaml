@@ -1,11 +1,12 @@
 - request: !!python/object:vcr.request.Request
     body: null
     headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
-      - !!python/tuple [Authorization, !!python/unicode Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==]
+    - - !!python/tuple [If-Match, '"2753418414bef840"']
       - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
       - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
+      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
     host: api.orchestrate.io
     method: GET
     path: /v0/test/test/refs/2753418414bef840
@@ -15,21 +16,22 @@
     body:
       string: !!binary |
         H4sIAAAAAAAAAKtWykjNyclXslIqzy/KSVGqBQDRQQnYEQAAAA==
-    headers: [!!python/unicode "Content-Encoding: gzip\r\n", !!python/unicode "Content-Type:
-        application/json\r\n", !!python/unicode "Date: Thu, 01 May 2014 18:28:34 GMT\r\n",
-      !!python/unicode "ETag: \"2753418414bef840-gzip\"\r\n", !!python/unicode "Vary:
-        Accept-Encoding, User-Agent\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:
-        675f59c0-d15e-11e3-a8dc-12313d2f50f8\r\n", !!python/unicode "transfer-encoding:
-        chunked\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    headers: [!!python/unicode "Content-Encoding: gzip\r\n", !!python/unicode "Content-Type:\
+        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 22:58:40\
+        \ GMT\r\n", !!python/unicode "ETag: \"2753418414bef840-gzip\"\r\n", !!python/unicode "Vary:\
+        \ Accept-Encoding\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID: f0ddcb40-e84d-11e3-b673-12313d2f50f8\r\
+        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
+        \ keep-alive\r\n"]
     status: {code: 200, message: OK}
 - request: !!python/object:vcr.request.Request
     body: null
     headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Authorization, !!python/unicode Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==]
+    - - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
       - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [If-Match, '"2753418414bef840"']
       - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
+      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
       - !!python/tuple [Content-Length, '0']
     host: api.orchestrate.io
     method: DELETE
@@ -37,19 +39,22 @@
     port: 443
     protocol: https
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:
-        Thu, 01 May 2014 18:28:34 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:
-        67688180-d15e-11e3-8ad6-12313d2f9238\r\n", !!python/unicode "Connection: keep-alive\r\n"]
-    status: {code: 204, message: No Content}
+    body: {string: !!python/unicode '{"message":"The version of the item does not
+        match.","code":"item_version_mismatch"}'}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
+        \ Fri, 30 May 2014 22:58:40 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
+        \ f0f08ff0-e84d-11e3-a485-12313d2f7cdc\r\n", !!python/unicode "transfer-encoding:\
+        \ chunked\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 412, message: Precondition Failed}
 - request: !!python/object:vcr.request.Request
     body: null
     headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
-      - !!python/tuple [Authorization, !!python/unicode Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==]
+    - - !!python/tuple [If-Match, '"2753418414bef840"']
       - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
       - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
+      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
     host: api.orchestrate.io
     method: GET
     path: /v0/test/test/refs/2753418414bef840
@@ -59,10 +64,10 @@
     body:
       string: !!binary |
         H4sIAAAAAAAAAKtWykjNyclXslIqzy/KSVGqBQDRQQnYEQAAAA==
-    headers: [!!python/unicode "Content-Encoding: gzip\r\n", !!python/unicode "Content-Type:
-        application/json\r\n", !!python/unicode "Date: Thu, 01 May 2014 18:28:34 GMT\r\n",
-      !!python/unicode "ETag: \"2753418414bef840-gzip\"\r\n", !!python/unicode "Vary:
-        Accept-Encoding, User-Agent\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:
-        677049b0-d15e-11e3-a862-12313d2f7cdc\r\n", !!python/unicode "transfer-encoding:
-        chunked\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    headers: [!!python/unicode "Content-Encoding: gzip\r\n", !!python/unicode "Content-Type:\
+        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 22:58:40\
+        \ GMT\r\n", !!python/unicode "ETag: \"2753418414bef840-gzip\"\r\n", !!python/unicode "Vary:\
+        \ Accept-Encoding\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID: f0fff940-e84d-11e3-94f9-12313d2f9238\r\
+        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
+        \ keep-alive\r\n"]
     status: {code: 200, message: OK}

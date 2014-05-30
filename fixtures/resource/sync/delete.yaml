@@ -1,26 +1,27 @@
 - request: !!python/object:vcr.request.Request
     body: null
     headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept-Encoding, 'gzip, deflate, compress']
-      - !!python/tuple [Accept, application/json]
+    - - !!python/tuple [Accept, application/json]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
       - !!python/tuple [Content-Type, application/json]
       - !!python/tuple [Content-Length, '0']
-      - !!python/tuple [User-Agent, python-requests/2.2.1 CPython/2.7.2 Darwin/12.5.0]
+      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     host: httpbin.org
     method: DELETE
     path: /delete?hello=world
     port: 80
     protocol: http
   response:
-    body: {string: !!python/unicode "{\n  \"headers\": {\n    \"X-Request-Id\": \"df3aa68e-3e33-4f46-a982-7d53c0776287\",\n
-        \   \"Connection\": \"close\",\n    \"Host\": \"httpbin.org\",\n    \"Content-Type\":
-        \"application/json\",\n    \"User-Agent\": \"python-requests/2.2.1 CPython/2.7.2
-        Darwin/12.5.0\",\n    \"Accept-Encoding\": \"gzip, deflate, compress\",\n
-        \   \"Accept\": \"application/json\"\n  },\n  \"origin\": \"50.177.28.241\",\n
-        \ \"args\": {\n    \"hello\": \"world\"\n  },\n  \"json\": null,\n  \"data\":
-        \"\",\n  \"url\": \"http://httpbin.org/delete?hello=world\"\n}"}
-    headers: [!!python/unicode "Access-Control-Allow-Origin: *\r\n", !!python/unicode "Content-Type:
-        application/json\r\n", !!python/unicode "Date: Thu, 01 May 2014 17:30:08 GMT\r\n",
-      !!python/unicode "Server: gunicorn/0.17.4\r\n", !!python/unicode "Content-Length:
-        477\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    body: {string: !!python/unicode "{\n  \"args\": {\n    \"hello\": \"world\"\n\
+        \  },\n  \"data\": \"\",\n  \"headers\": {\n    \"Accept\": \"application/json\"\
+        ,\n    \"Accept-Encoding\": \"gzip, deflate\",\n    \"Connection\": \"close\"\
+        ,\n    \"Content-Type\": \"application/json\",\n    \"Host\": \"httpbin.org\"\
+        ,\n    \"User-Agent\": \"python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0\"\
+        ,\n    \"X-Request-Id\": \"f8ab1941-50e9-4fe0-a87e-794d0cf128f3\"\n  },\n\
+        \  \"json\": null,\n  \"origin\": \"173.164.85.85\",\n  \"url\": \"http://httpbin.org/delete?hello=world\"\
+        \n}"}
+    headers: [!!python/unicode "Access-Control-Allow-Origin: *\r\n", !!python/unicode "Content-Type:\
+        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 22:58:44\
+        \ GMT\r\n", !!python/unicode "Server: gunicorn/18.0\r\n", !!python/unicode "Content-Length:\
+        \ 467\r\n", !!python/unicode "Connection: keep-alive\r\n"]
     status: {code: 200, message: OK}

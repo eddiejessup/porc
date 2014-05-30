@@ -8,3 +8,4 @@ htmlcov
 .coverage
 *.cover
 .DS_STORE
+*.bak

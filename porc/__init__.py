@@ -6,4 +6,4 @@ from .key import Key
 from .ref import Ref
 from .event import Event
 from .relation import Relation
-import util
+from . import util

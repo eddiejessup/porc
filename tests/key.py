@@ -34,10 +34,14 @@ class CrudTest(unittest.TestCase):
     @vcr.use_cassette('fixtures/key/crud.yaml')
     def testCrud(self):
         # create
-        self.key.put(dict(hello='world')).raise_for_status()
-        self.other_key.put(dict(konichiwa='sekai')).raise_for_status()
+        response = self.key.put(dict(hello='world'))
+        response.raise_for_status()
+        response = self.other_key.put(dict(konichiwa='sekai'))
+        response.raise_for_status()
         # list
-        for page in self.collection.list(): page.raise_for_status()
+        for page in self.collection.list():
+            page.raise_for_status()
+            assert page.json()['count'] == 2
         # read
         response = self.key.get()
         response.raise_for_status()

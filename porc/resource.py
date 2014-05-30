@@ -18,10 +18,10 @@ URL_PATTERNS = [
     "(?P<collection>.+)"
 ]
 
-RESPONSE_PATTERNS = {
-    "ref": "/v0/(?P<collection>.+)/(?P<key>.+)/refs/(?P<ref>.+)",
-    "event": "/v0/(?P<collection>.+)/(?P<key>.+)/events/(?P<type>.+)/(?P<timestamp>.+)/(?P<ordinal>.+)"
-}
+RESPONSE_PATTERNS = [
+    "/v0/(?P<collection>.+)/(?P<key>.+)/events/(?P<type>.+)/(?P<timestamp>\d+)/(?P<ordinal>\d+)",
+    "/v0/(?P<collection>.+)/(?P<key>.+)/refs/(?P<ref>.+)"
+]
 
 class Resource(object):
 
@@ -124,7 +124,6 @@ class Resource(object):
         """
         # create a copy of options so we can mess with it
         opts = copy.copy(self.opts)
-        opts['headers'].update(headers)
 
         # normalize `params` kwarg according to method
         if body:
@@ -146,6 +145,8 @@ class Resource(object):
                 # wrap in quotes if not already surrounded
                 if headers[header][0] != '"':
                     headers[header] = '"%s"' % headers[header]
+        # update opts with headers following any modifications
+        opts['headers'].update(headers)
 
         # make the request
         if type(self._session) == FuturesSession:
@@ -171,7 +172,7 @@ class Resource(object):
         Modifies the response, normalizing headers and the like
         """
         response.path = dict()
-        for pattern, regex in list(RESPONSE_PATTERNS.items()):
+        for regex in RESPONSE_PATTERNS:
             # check location
             location_match = re.match(
                 regex, response.headers.get('location', ''))

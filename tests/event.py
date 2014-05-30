@@ -37,8 +37,12 @@ class CrudTest(unittest.TestCase):
         # create with timestamp
         timestamp = datetime(2014, 5, 2)
         responses['post'] = self.event.post(dict(hello='world'), timestamp)
-        responses['post'].raise_for_status()
         ordinal = responses['post'].path['ordinal']
+        responses['post'].raise_for_status()
+        # list
+        responses['list'] = [response for response in self.event.get()]
+        for response in responses['list']:
+            response.raise_for_status()
         # read
         responses['get'] = self.event.get(timestamp, ordinal)
         responses['get'].raise_for_status()

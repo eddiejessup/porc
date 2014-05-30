@@ -12,11 +12,13 @@ class RefTest(unittest.TestCase):
         self.key = self.collection.key('test')
         # create first ref
         response = self.key.put(dict(hello='world'))
+        response.raise_for_status()
         ref_index = response.headers['location'].rfind('/') + 1
         ref = response.headers['location'][ref_index:]
         self.ref_a = self.key.ref(ref)
         # create second ref
         response = self.key.put(dict(goodbye='world'), **{"If-Match": ref})
+        response.raise_for_status()
         ref_index = response.headers['location'].rfind('/') + 1
         ref = response.headers['location'][ref_index:]
         self.ref_b = self.key.ref(ref)

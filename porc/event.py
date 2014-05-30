@@ -71,16 +71,19 @@ class Event(Resource):
     ```
     """
 
-    def get(self, timestamp, ordinal, **headers):
+    def get(self, timestamp=None, ordinal=None, querydict={}, **headers):
         """
         Retrieves a given event. 
         If timestamp is a datetime object, 
         it will be converted to milliseconds since epoch.
         """
-        if type(timestamp) == datetime:
-            timestamp = create_timestamp(timestamp)
-        resource = self._init_child(Resource, str(timestamp), ordinal)
-        return resource.get(**headers)
+        if not timestamp and not ordinal:
+            return self.list(querydict, **headers)
+        else:
+            if type(timestamp) == datetime:
+                timestamp = create_timestamp(timestamp)
+            resource = self._init_child(Resource, str(timestamp), ordinal)
+            return resource.get(**headers)
 
     def post(self, body, timestamp=None, **headers):
         """

@@ -36,14 +36,14 @@ class CrudTest(unittest.TestCase):
         # create
         self.key.put(dict(hello='world')).raise_for_status()
         self.other_key.put(dict(konichiwa='sekai')).raise_for_status()
+        # list
+        for page in self.collection.list(): page.raise_for_status()
         # read
         response = self.key.get()
         response.raise_for_status()
         assert response.json()['hello'] == 'world'
         # update
         self.key.put(dict(goodbye='world')).raise_for_status()
-        # list
-        for page in self.collection.list(): page.raise_for_status()
         # delete
         self.key.delete().raise_for_status()
         self.other_key.delete().raise_for_status()

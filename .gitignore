@@ -1,6 +1,6 @@
 *.egg
 *.egg-info
-venv
+venv*
 *.pyc
 build
 dist

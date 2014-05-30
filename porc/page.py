@@ -71,6 +71,9 @@ class Page(Iterator, Resource):
         """
         return self._handle_page(querydict, **headers)
 
+    def __next__(self):
+        return self.next()
+
     def prev(self, querydict={}, **headers):
         """
         Gets the previous page of results.

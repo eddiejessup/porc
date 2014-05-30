@@ -3,7 +3,12 @@ import requests
 from requests_futures.sessions import FuturesSession
 import copy
 import re
-from urllib import quote
+try:
+    # python 2
+    from urllib import quote
+except ImportError:
+    # python 3
+    from urllib.parse import quote
 
 URL_PATTERNS = {
     "collection": "(?P<collection>.+)",
@@ -85,7 +90,7 @@ class Resource(object):
         start_after_index = self.uri.find(
             start_after_segment) + len(start_after_segment)
         path = self.uri[start_after_index:]
-        for pattern, regex in URL_PATTERNS.iteritems():
+        for pattern, regex in list(URL_PATTERNS.items()):
             match = re.match(regex, path)
             if match:
                 self.path = match.groupdict()
@@ -126,7 +131,7 @@ class Resource(object):
             if method in ['head', 'get', 'delete']:
                 if type(body) == dict:
                     # convert True and False to true and false
-                    for key, value in body.items():
+                    for key, value in list(body.items()):
                         if value == True:
                             body[key] = 'true'
                         elif value == False:
@@ -166,7 +171,7 @@ class Resource(object):
         Modifies the response, normalizing headers and the like
         """
         response.path = dict()
-        for pattern, regex in RESPONSE_PATTERNS.iteritems():
+        for pattern, regex in list(RESPONSE_PATTERNS.items()):
             # check location
             location_match = re.match(
                 regex, response.headers.get('location', ''))

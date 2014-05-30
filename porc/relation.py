@@ -1,5 +1,5 @@
-from resource import Resource
-from page import Page
+from .resource import Resource
+from .page import Page
 
 
 class Relation(Resource):

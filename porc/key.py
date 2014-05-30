@@ -1,8 +1,7 @@
-from resource import Resource
-from ref import Ref
-from event import Event
-from relation import Relation
-from urllib import quote
+from .resource import Resource
+from .ref import Ref
+from .event import Event
+from .relation import Relation
 
 
 class Key(Resource):

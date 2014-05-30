@@ -1,4 +1,4 @@
-from resource import Resource
+from .resource import Resource
 from collections import Iterator
 from requests_futures.sessions import FuturesSession
 

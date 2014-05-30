@@ -1,8 +1,7 @@
-from resource import Resource
-from page import Page
+from .resource import Resource
+from .page import Page
+from .util import create_timestamp
 from datetime import datetime
-from urllib import quote
-from util import create_timestamp
 
 class Event(Resource):
 

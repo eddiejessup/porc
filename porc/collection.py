@@ -1,7 +1,6 @@
-import resource
-import key
-import page
-from urllib import quote
+from . import resource
+from . import key
+from . import page
 
 
 class Collection(resource.Resource):

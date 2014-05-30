@@ -1,6 +1,5 @@
-import resource
-import collection
-from urllib import quote
+from . import resource
+from . import collection
 
 
 class Client(resource.Resource):

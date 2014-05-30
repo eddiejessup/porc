@@ -7,7 +7,10 @@ def create_timestamp(datetime_obj=datetime.now()):
     """
     epoch = datetime.utcfromtimestamp(0)
     delta = datetime_obj - epoch
-    seconds = delta.total_seconds()
+    if hasattr(delta, 'total_seconds'):
+        seconds = delta.total_seconds()
+    else:
+        seconds = (delta.microseconds + (delta.seconds + delta.days * 24 * 3600) * 10**6) / 10**6
     milliseconds = seconds * 1000
     return int(milliseconds)
 

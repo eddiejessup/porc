@@ -10,13 +10,13 @@ except ImportError:
     # python 3
     from urllib.parse import quote
 
-URL_PATTERNS = {
-    "collection": "(?P<collection>.+)",
-    "key": "(?P<collection>.+)/(?P<key>.+)",
-    "ref": "(?P<collection>.+)/(?P<key>.+)/refs/(?P<ref>.+)",
-    "event": "(?P<collection>.+)/(?P<key>.+)/events/(?P<type>.+)",
-    "relation": "(?P<collection>.+)/(?P<key>.+)/relations/(?P<kinds>.+)"
-}
+URL_PATTERNS = [
+    "(?P<collection>.+)/(?P<key>.+)/relations/(?P<kinds>.+)",
+    "(?P<collection>.+)/(?P<key>.+)/events/(?P<type>.+)",
+    "(?P<collection>.+)/(?P<key>.+)/refs/(?P<ref>.+)",
+    "(?P<collection>.+)/(?P<key>.+)",
+    "(?P<collection>.+)"
+]
 
 RESPONSE_PATTERNS = {
     "ref": "/v0/(?P<collection>.+)/(?P<key>.+)/refs/(?P<ref>.+)",
@@ -90,7 +90,7 @@ class Resource(object):
         start_after_index = self.uri.find(
             start_after_segment) + len(start_after_segment)
         path = self.uri[start_after_index:]
-        for pattern, regex in list(URL_PATTERNS.items()):
+        for regex in URL_PATTERNS:
             match = re.match(regex, path)
             if match:
                 self.path = match.groupdict()

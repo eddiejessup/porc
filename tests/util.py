@@ -22,10 +22,10 @@ class FutureTest(unittest.TestCase):
 
     def setUp(self):
         self.client = porc.Client(API_KEY)
-        self.futures = [self.client.ping(), self.client.ping(), self.client.ping()]
 
     @vcr.use_cassette('fixtures/util/futures.yaml')
     def testResolveFutures(self):
-        responses = porc.util.resolve_futures(self.futures)
+        futures = [self.client.ping(), self.client.ping(), self.client.ping()]
+        responses = porc.util.resolve_futures(futures)
         for response in responses:
             assert response.status_code == 200

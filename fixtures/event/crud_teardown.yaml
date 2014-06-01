@@ -1,21 +1,21 @@
-- request: !!python/object:vcr.request.Request
+interactions:
+- request:
     body: null
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-      - !!python/tuple [Content-Length, '0']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: DELETE
-    path: /v0/derptest?force=true
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/derptest?force=true
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Fri, 30 May 2014 22:58:34 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
-        \ ed4477e0-e84d-11e3-94f9-12313d2f9238\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Fri, 30 May 2014 22:58:34 GMT']
+      X-ORCHESTRATE-REQ-ID: [ed4477e0-e84d-11e3-94f9-12313d2f9238]
     status: {code: 204, message: No Content}
+version: 1

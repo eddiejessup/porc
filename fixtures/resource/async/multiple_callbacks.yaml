@@ -1,25 +1,26 @@
-- request: !!python/object:vcr.request.Request
+interactions:
+- request:
     body: null
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-    host: httpbin.org
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: GET
-    path: /get
-    port: 80
-    protocol: http
+    uri: http://httpbin.org/get
   response:
-    body: {string: !!python/unicode "{\n  \"args\": {},\n  \"headers\": {\n    \"\
-        Accept\": \"application/json\",\n    \"Accept-Encoding\": \"gzip, deflate\"\
-        ,\n    \"Connection\": \"close\",\n    \"Content-Type\": \"application/json\"\
-        ,\n    \"Host\": \"httpbin.org\",\n    \"User-Agent\": \"python-requests/2.3.0\
-        \ CPython/2.7.5 Darwin/13.2.0\",\n    \"X-Request-Id\": \"3bc1a488-861e-42bb-b1b2-557d3dea1ca3\"\
-        \n  },\n  \"origin\": \"173.164.85.85\",\n  \"url\": \"http://httpbin.org/get\"\
-        \n}"}
-    headers: [!!python/unicode "Access-Control-Allow-Origin: *\r\n", !!python/unicode "Content-Type:\
-        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 22:58:43\
-        \ GMT\r\n", !!python/unicode "Server: gunicorn/18.0\r\n", !!python/unicode "Content-Length:\
-        \ 398\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    body: {string: "{\n  \"args\": {},\n  \"headers\": {\n    \"Accept\": \"application/json\",\n
+        \   \"Accept-Encoding\": \"gzip, deflate\",\n    \"Connection\": \"close\",\n
+        \   \"Content-Type\": \"application/json\",\n    \"Host\": \"httpbin.org\",\n
+        \   \"User-Agent\": \"python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0\",\n
+        \   \"X-Request-Id\": \"3bc1a488-861e-42bb-b1b2-557d3dea1ca3\"\n  },\n  \"origin\":
+        \"173.164.85.85\",\n  \"url\": \"http://httpbin.org/get\"\n}"}
+    headers:
+      Access-Control-Allow-Origin: ['*']
+      Connection: [keep-alive]
+      Content-Length: ['398']
+      Content-Type: [application/json]
+      Date: ['Fri, 30 May 2014 22:58:43 GMT']
+      Server: [gunicorn/18.0]
     status: {code: 200, message: OK}
+version: 1

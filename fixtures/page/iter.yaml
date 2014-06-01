@@ -1,77 +1,79 @@
-- request: !!python/object:vcr.request.Request
+interactions:
+- request:
     body: null
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: GET
-    path: /v0/test?limit=1
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test?limit=1
   response:
     body:
       string: !!binary |
         H4sIAAAAAAAAABWOwQ6CMBBE/2UOnkhosQRsQvwAP8F4AFxC40IVFpQQ/t32Nps3szM7Wr+MAqsT
         TDQvLDPsfce7lh52D5SZWnF+hIXQLEjwoi0cTfNBzHRBZ0V+Nro02jTUlUbhSLDWvFB80ROzD6av
         n/gZSciIGwLTRmlzUYXOi8wcjwQj/cIUpKtKY9eV3eCk0qe6E5putFWx9PgDBr70TLQAAAA=
-    headers: [!!python/unicode "Content-Encoding: gzip\r\n", !!python/unicode "Content-Type:\
-        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 22:58:35\
-        \ GMT\r\n", !!python/unicode "Link: </v0/test?limit=1&afterKey=bbq>; rel=\"\
-        next\"\r\n", !!python/unicode "Vary: Accept-Encoding\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
-        \ ee3e1a20-e84d-11e3-a485-12313d2f7cdc\r\n", !!python/unicode "Content-Length:\
-        \ 167\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    headers:
+      Connection: [keep-alive]
+      Content-Encoding: [gzip]
+      Content-Length: ['167']
+      Content-Type: [application/json]
+      Date: ['Fri, 30 May 2014 22:58:35 GMT']
+      Link: ['</v0/test?limit=1&afterKey=bbq>; rel="next"']
+      Vary: [Accept-Encoding]
+      X-ORCHESTRATE-REQ-ID: [ee3e1a20-e84d-11e3-a485-12313d2f7cdc]
     status: {code: 200, message: OK}
-- request: !!python/object:vcr.request.Request
+- request:
     body: null
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: GET
-    path: /v0/test?limit=1&afterKey=bbq&limit=1
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test?limit=1&afterKey=bbq&limit=1
   response:
     body:
       string: !!binary |
         H4sIAAAAAAAAADWOQQ6CQAxF79KFq0mYagk4ifEAHsG4QCwysTAGCkoId3dm4aq/ef3/d4U6TL2C
         QwMDj5PoCO66wrvSFtwaqQjX6kMPDpRHBQMvXuISuickTxP1vsgPhCUh3bkpycJmYK5k4hTRskiI
         R58wyCOR6FHfRYZkkY62wJwK2m4Gev7GVyCbbZa6zuI7ryfc/WfVKA8XXk6pfPsBFfoUHrwAAAA=
-    headers: [!!python/unicode "Content-Encoding: gzip\r\n", !!python/unicode "Content-Type:\
-        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 22:58:36\
-        \ GMT\r\n", !!python/unicode "Link: </v0/test?limit=1&limit=1&afterKey=omg>;\
-        \ rel=\"next\"\r\n", !!python/unicode "Vary: Accept-Encoding\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
-        \ ee5a0690-e84d-11e3-b673-12313d2f50f8\r\n", !!python/unicode "Content-Length:\
-        \ 170\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    headers:
+      Connection: [keep-alive]
+      Content-Encoding: [gzip]
+      Content-Length: ['170']
+      Content-Type: [application/json]
+      Date: ['Fri, 30 May 2014 22:58:36 GMT']
+      Link: ['</v0/test?limit=1&limit=1&afterKey=omg>; rel="next"']
+      Vary: [Accept-Encoding]
+      X-ORCHESTRATE-REQ-ID: [ee5a0690-e84d-11e3-b673-12313d2f50f8]
     status: {code: 200, message: OK}
-- request: !!python/object:vcr.request.Request
+- request:
     body: null
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: GET
-    path: /v0/test?limit=1&limit=1&afterKey=omg&limit=1
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test?limit=1&limit=1&afterKey=omg&limit=1
   response:
     body:
       string: !!binary |
         H4sIAAAAAAAAABWMQQ7CIBBF7zJrFowOoeUqxkWt07RxLIYONYZwd2H3fl7eLzDHvCsENJD4yKIH
         hFuBz6QrhNKsCM+6xR0CKB8KBl78a+ObOydeGl+8uxIOhPTgZSAL1cA5SeZ+sbJI7EFM8uymNbq9
         m0OySKP16Nzo673+AQFbaWKNAAAA
-    headers: [!!python/unicode "Content-Encoding: gzip\r\n", !!python/unicode "Content-Type:\
-        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 22:58:36\
-        \ GMT\r\n", !!python/unicode "Vary: Accept-Encoding\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
-        \ ee75cbf0-e84d-11e3-94f9-12313d2f9238\r\n", !!python/unicode "Content-Length:\
-        \ 135\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    headers:
+      Connection: [keep-alive]
+      Content-Encoding: [gzip]
+      Content-Length: ['135']
+      Content-Type: [application/json]
+      Date: ['Fri, 30 May 2014 22:58:36 GMT']
+      Vary: [Accept-Encoding]
+      X-ORCHESTRATE-REQ-ID: [ee75cbf0-e84d-11e3-94f9-12313d2f9238]
     status: {code: 200, message: OK}
+version: 1

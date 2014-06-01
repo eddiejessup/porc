@@ -63,3 +63,10 @@ class PageTest(unittest.TestCase):
         pages = self.collection.list(limit=1)
         pages_responses = [page for page in pages]
         assert len(pages_responses) == 3
+
+    @vcr.use_cassette('fixtures/page/next_function_identity.yaml')
+    def testNextFunctionIdentity(self):
+        # ensure next and __next__ do the same thing
+        page1 = self.collection.list().next().result()
+        page2 = self.collection.list().__next__().result()
+        assert page1.text == page2.text

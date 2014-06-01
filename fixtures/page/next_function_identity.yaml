@@ -1,0 +1,40 @@
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Accept, application/json]
+      - !!python/tuple [Authorization, !!python/unicode 'Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==']
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
+      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
+      - !!python/tuple [Content-Type, application/json]
+    host: api.orchestrate.io
+    method: GET
+    path: /v0/test
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode '{"message":"Valid credentials are required.","code":"security_unauthorized"}'}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
+        \ Sun, 01 Jun 2014 05:13:43 GMT\r\n", !!python/unicode "WWW-Authenticate:\
+        \ Basic realm=\"orchestrate.io\"\r\n", !!python/unicode "Content-Length: 76\r\
+        \n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 401, message: Unauthorized}
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Accept, application/json]
+      - !!python/tuple [Authorization, !!python/unicode 'Basic NTEwNDM1MWUtODE2Ny00ZmYxLWI0NDEtMzMyMWYyNzcxZWNlOg==']
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
+      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
+      - !!python/tuple [Content-Type, application/json]
+    host: api.orchestrate.io
+    method: GET
+    path: /v0/test
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode '{"message":"Valid credentials are required.","code":"security_unauthorized"}'}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
+        \ Sun, 01 Jun 2014 05:13:43 GMT\r\n", !!python/unicode "WWW-Authenticate:\
+        \ Basic realm=\"orchestrate.io\"\r\n", !!python/unicode "Content-Length: 76\r\
+        \n", !!python/unicode "Connection: keep-alive\r\n"]
+    status: {code: 401, message: Unauthorized}

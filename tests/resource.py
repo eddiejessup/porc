@@ -106,16 +106,17 @@ class AsyncTest(BaseTest):
 
     @vcr.use_cassette('fixtures/resource/async/multiple_callbacks.yaml')
     def testMultipleCallbacks(self):
-        self.callback_ran = False
+        self.callbacks_ran = []
         def callback (session, response):
-            self.callback_ran = True
+            self.callbacks_ran.append(True)
 
         uri = '/'.join([self.uri, 'get'])
         resource = porc.Resource(uri, background_callback=callback)
-        future = resource.get()
+        child = resource._init_child(porc.Resource, background_callback=callback)
+        future = child.get()
         response = future.result()
         response.raise_for_status()
-        assert self.callback_ran is True
+        assert len(self.callbacks_ran) == 2 and all(self.callbacks_ran)
 
 class SyncTest(BaseTest):
 

@@ -15,8 +15,8 @@
   response:
     body: {string: !!python/unicode ''}
     headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Fri, 30 May 2014 22:58:36 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
-        \ ee90a6f0-e84d-11e3-a485-12313d2f7cdc\r\n", !!python/unicode "Connection:\
+        \ Sun, 01 Jun 2014 05:22:20 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
+        \ b443dee0-e94c-11e3-94f9-12313d2f9238\r\n", !!python/unicode "Connection:\
         \ keep-alive\r\n"]
     status: {code: 204, message: No Content}
 - request: !!python/object:vcr.request.Request
@@ -36,8 +36,8 @@
   response:
     body: {string: !!python/unicode ''}
     headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Fri, 30 May 2014 22:58:37 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
-        \ ef24d0a0-e84d-11e3-a485-12313d2f7cdc\r\n", !!python/unicode "Connection:\
+        \ Sun, 01 Jun 2014 05:22:20 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
+        \ b48d1ce0-e94c-11e3-b673-12313d2f50f8\r\n", !!python/unicode "Connection:\
         \ keep-alive\r\n"]
     status: {code: 204, message: No Content}
 - request: !!python/object:vcr.request.Request
@@ -57,8 +57,8 @@
   response:
     body: {string: !!python/unicode ''}
     headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Fri, 30 May 2014 22:58:38 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
-        \ efce7e20-e84d-11e3-b673-12313d2f50f8\r\n", !!python/unicode "Connection:\
+        \ Sun, 01 Jun 2014 05:22:21 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
+        \ b4cff240-e94c-11e3-a485-12313d2f7cdc\r\n", !!python/unicode "Connection:\
         \ keep-alive\r\n"]
     status: {code: 204, message: No Content}
 - request: !!python/object:vcr.request.Request
@@ -78,7 +78,28 @@
   response:
     body: {string: !!python/unicode ''}
     headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Fri, 30 May 2014 22:58:39 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
-        \ f07879c0-e84d-11e3-b673-12313d2f50f8\r\n", !!python/unicode "Connection:\
+        \ Sun, 01 Jun 2014 05:22:21 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
+        \ b51ab6e0-e94c-11e3-94f9-12313d2f9238\r\n", !!python/unicode "Connection:\
+        \ keep-alive\r\n"]
+    status: {code: 204, message: No Content}
+- request: !!python/object:vcr.request.Request
+    body: null
+    headers: !!python/object/apply:__builtin__.frozenset
+    - - !!python/tuple [Accept, application/json]
+      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
+      - !!python/tuple [Content-Type, application/json]
+      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
+      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
+      - !!python/tuple [Content-Length, '0']
+    host: api.orchestrate.io
+    method: DELETE
+    path: /v0/test?force=true
+    port: 443
+    protocol: https
+  response:
+    body: {string: !!python/unicode ''}
+    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
+        \ Sun, 01 Jun 2014 05:22:22 GMT\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
+        \ b55db350-e94c-11e3-b673-12313d2f50f8\r\n", !!python/unicode "Connection:\
         \ keep-alive\r\n"]
     status: {code: 204, message: No Content}

@@ -1,5 +1,10 @@
 # Porc
 
+[![Build Status](https://travis-ci.org/orchestrate-io/porc.svg?branch=master)](https://travis-ci.org/orchestrate-io/porc)
+[![Coverage Status](https://coveralls.io/repos/orchestrate-io/porc/badge.png?branch=master)](https://coveralls.io/r/orchestrate-io/porc?branch=master)
+[![PyPI version](https://badge.fury.io/py/porc.svg)](http://badge.fury.io/py/porc)
+[![PyPi downloads](https://pypip.in/d/porc/badge.png)](https://crate.io/packages/porc/)
+
 An effortless, asynchronous Python client for [orchestrate.io][].
 
 ## Install

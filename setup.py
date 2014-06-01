@@ -12,7 +12,7 @@ setup(name='porc',
       license='MIT',
       install_requires=[
           'requests-futures==0.9.4',
-          'vcrpy==0.7.0'
+          'vcrpy==1.0.2'
       ],
       test_suite="tests",
       classifiers=[
@@ -22,9 +22,8 @@ setup(name='porc',
           'Programming Language :: Python',
           'Programming Language :: Python :: 2',
           'Programming Language :: Python :: 2.7',
-          # TODO Python 3 support
-          # 'Programming Language :: Python :: 3',
-          # 'Programming Language :: Python :: 3.3',
-          # 'Programming Language :: Python :: 3.4'
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.3',
+          'Programming Language :: Python :: 3.4'
       ],
       )

@@ -1,25 +1,27 @@
-- request: !!python/object:vcr.request.Request
+interactions:
+- request:
     body: null
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: GET
-    path: /v0/test?limit=3
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test?limit=3
   response:
     body:
       string: !!binary |
         H4sIAAAAAAAAAK2NQRKCMAxF75J1F61EKL2K4wIwCGOgSlMZh+ndLTdgwe5nXv5/G3Q+zgKuULBQ
         iCwB3G2DdyMDuC1TZupk9DM4EAoCCl70y0fbfmDv9DlfqmuBxqLBlnqLGpKCb8OR9omBmH1+Wv3C
         j53kjoxTZga1wVpXptIlJnXE6qfnadbSFvaYdY1ynrVGm+7pD79QaIR5AQAA
-    headers: [!!python/unicode "Content-Encoding: gzip\r\n", !!python/unicode "Content-Type:\
-        \ application/json\r\n", !!python/unicode "Date: Fri, 30 May 2014 22:58:37\
-        \ GMT\r\n", !!python/unicode "Vary: Accept-Encoding\r\n", !!python/unicode "X-ORCHESTRATE-REQ-ID:\
-        \ ef0c3f90-e84d-11e3-b673-12313d2f50f8\r\n", !!python/unicode "Content-Length:\
-        \ 159\r\n", !!python/unicode "Connection: keep-alive\r\n"]
+    headers:
+      Connection: [keep-alive]
+      Content-Encoding: [gzip]
+      Content-Length: ['159']
+      Content-Type: [application/json]
+      Date: ['Fri, 30 May 2014 22:58:37 GMT']
+      Vary: [Accept-Encoding]
+      X-ORCHESTRATE-REQ-ID: [ef0c3f90-e84d-11e3-b673-12313d2f50f8]
     status: {code: 200, message: OK}
+version: 1

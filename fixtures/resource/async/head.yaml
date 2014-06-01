@@ -1,19 +1,21 @@
-- request: !!python/object:vcr.request.Request
+interactions:
+- request:
     body: null
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Accept, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-    host: httpbin.org
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: HEAD
-    path: /get?hello=world
-    port: 80
-    protocol: http
+    uri: http://httpbin.org/get?hello=world
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Access-Control-Allow-Origin: *\r\n", !!python/unicode "Content-length:\
-        \ 434\r\n", !!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Fri, 30 May 2014 22:58:42 GMT\r\n", !!python/unicode "Server: gunicorn/18.0\r\
-        \n", !!python/unicode "Connection: keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Access-Control-Allow-Origin: ['*']
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Content-length: ['434']
+      Date: ['Fri, 30 May 2014 22:58:42 GMT']
+      Server: [gunicorn/18.0]
     status: {code: 200, message: OK}
+version: 1

@@ -1,345 +1,332 @@
-- request: !!python/object:vcr.request.Request
+interactions:
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/omg
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/omg
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:21:59 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/omg/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a8204400-e94c-11e3-94f9-12313d2f9238\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:21:59 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/omg/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a8204400-e94c-11e3-94f9-12313d2f9238]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/wut
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/wut
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:00 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/wut/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a849c500-e94c-11e3-a485-12313d2f7cdc\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:00 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/wut/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a849c500-e94c-11e3-a485-12313d2f7cdc]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/bbq
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/bbq
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:00 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/bbq/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a8714a30-e94c-11e3-b673-12313d2f50f8\r\
-        \n", !!python/unicode "Content-Length: 0\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:00 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/bbq/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a8714a30-e94c-11e3-b673-12313d2f50f8]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/omg
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/omg
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:01 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/omg/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a8d82250-e94c-11e3-b673-12313d2f50f8\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:01 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/omg/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a8d82250-e94c-11e3-b673-12313d2f50f8]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/wut
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/wut
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:01 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/wut/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a9039f20-e94c-11e3-a485-12313d2f7cdc\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:01 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/wut/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a9039f20-e94c-11e3-a485-12313d2f7cdc]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/bbq
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/bbq
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:01 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/bbq/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a9179c50-e94c-11e3-94f9-12313d2f9238\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:01 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/bbq/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a9179c50-e94c-11e3-94f9-12313d2f9238]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/omg
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/omg
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:01 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/omg/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a961ebc0-e94c-11e3-b673-12313d2f50f8\r\
-        \n", !!python/unicode "Content-Length: 0\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:01 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/omg/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a961ebc0-e94c-11e3-b673-12313d2f50f8]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/wut
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/wut
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:02 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/wut/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a9743b40-e94c-11e3-a485-12313d2f7cdc\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:02 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/wut/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a9743b40-e94c-11e3-a485-12313d2f7cdc]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/bbq
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/bbq
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:02 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/bbq/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a9855240-e94c-11e3-94f9-12313d2f9238\r\
-        \n", !!python/unicode "Content-Length: 0\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:02 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/bbq/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a9855240-e94c-11e3-94f9-12313d2f9238]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/omg
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/omg
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:02 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/omg/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a9cfa1b0-e94c-11e3-94f9-12313d2f9238\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:02 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/omg/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a9cfa1b0-e94c-11e3-94f9-12313d2f9238]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/wut
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/wut
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:02 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/wut/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a9dfce50-e94c-11e3-a485-12313d2f7cdc\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:02 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/wut/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a9dfce50-e94c-11e3-a485-12313d2f7cdc]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/bbq
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/bbq
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:02 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/bbq/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: a9effaf0-e94c-11e3-b673-12313d2f50f8\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:02 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/bbq/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [a9effaf0-e94c-11e3-b673-12313d2f50f8]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/omg
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/omg
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:03 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/omg/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: aa4b8870-e94c-11e3-94f9-12313d2f9238\r\
-        \n", !!python/unicode "Content-Length: 0\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:03 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/omg/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [aa4b8870-e94c-11e3-94f9-12313d2f9238]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/wut
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/wut
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:04 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/wut/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: aab96570-e94c-11e3-b673-12313d2f50f8\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:04 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/wut/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [aab96570-e94c-11e3-b673-12313d2f50f8]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
-- request: !!python/object:vcr.request.Request
+- request:
     body: '{"hello": "world"}'
-    headers: !!python/object/apply:__builtin__.frozenset
-    - - !!python/tuple [Content-Length, '18']
-      - !!python/tuple [Accept, application/json]
-      - !!python/tuple [User-Agent, python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
-      - !!python/tuple [Content-Type, application/json]
-      - !!python/tuple [Accept-Encoding, 'gzip, deflate']
-      - !!python/tuple [Authorization, !!python/unicode 'Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==']
-    host: api.orchestrate.io
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Content-Length: ['18']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
     method: PUT
-    path: /v0/test/bbq
-    port: 443
-    protocol: https
+    uri: https://api.orchestrate.io:443/v0/test/bbq
   response:
-    body: {string: !!python/unicode ''}
-    headers: [!!python/unicode "Content-Type: application/json\r\n", !!python/unicode "Date:\
-        \ Sun, 01 Jun 2014 05:22:04 GMT\r\n", !!python/unicode "ETag: \"2753418414bef840\"\
-        \r\n", !!python/unicode "Location: /v0/test/bbq/refs/2753418414bef840\r\n",
-      !!python/unicode "X-ORCHESTRATE-REQ-ID: aac9e030-e94c-11e3-94f9-12313d2f9238\r\
-        \n", !!python/unicode "transfer-encoding: chunked\r\n", !!python/unicode "Connection:\
-        \ keep-alive\r\n"]
+    body: {string: ''}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Sun, 01 Jun 2014 05:22:04 GMT']
+      ETag: ['"2753418414bef840"']
+      Location: [/v0/test/bbq/refs/2753418414bef840]
+      X-ORCHESTRATE-REQ-ID: [aac9e030-e94c-11e3-94f9-12313d2f9238]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
+version: 1

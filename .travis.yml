@@ -5,6 +5,8 @@ rvm:
 
 before_install:
   - sudo apt-get update -qq
+  - sudo apt-get install python python-pip
+  - sudo pip install -r requirements.txt
   - sudo apt-get install -qq s3cmd
   - sudo apt-get install libicu-dev
 
@@ -12,17 +14,18 @@ install:
   - bundle install
 
 script:
+  - python docs
   - bundle exec middleman build
 
 env:
   global:
-    - secure: "gLRGoHQd6Vbjv7HQvKZJWr/cOJIhkYBJfy4zJ6GG2HmfjquP5WFx8AES6mzv7EpFpADNTSmEs6sB7zObvk4hqP5GzJGqxKsI2STp3xYhibNlrA8tWaGhxqHqzKC66CnDWkabI/OocPoogoXJbF91aUoyI6nvQETkO2jY6d6E/1E="
-    - secure: "cvTn+UAouR7e2qn9YXU4rT18NMPavA33oLiYJr78ndnGPsoCbE4iL5+1/zZYjzOIT1+p4fsEHyDqEPero/3UjGslVqotyNLMco71zYda/i/rV7pbmaKejGcow7mjiqX0x5BUamSLn0wNT1yVcHvzCU9ZfKbxhDPC1waTrXll4E4="
-    - secure: "NM7rnno3lqEulaUPF1jlmAhQaggUqe2scai2qxnWp0TtKLJ25UN53f5F+EY6i85Mm2M+aLi/JmnyEvIB7Xc7yUV6cNL6ol7uL5iLljczGF/lss5nsnCF9bswGAXXE2vNC2qMxs4GDz407e1wUz+eQ3bbWLOjh9tWyyPJszWM+Go="
+    # - secure: "gLRGoHQd6Vbjv7HQvKZJWr/cOJIhkYBJfy4zJ6GG2HmfjquP5WFx8AES6mzv7EpFpADNTSmEs6sB7zObvk4hqP5GzJGqxKsI2STp3xYhibNlrA8tWaGhxqHqzKC66CnDWkabI/OocPoogoXJbF91aUoyI6nvQETkO2jY6d6E/1E="
+    # - secure: "cvTn+UAouR7e2qn9YXU4rT18NMPavA33oLiYJr78ndnGPsoCbE4iL5+1/zZYjzOIT1+p4fsEHyDqEPero/3UjGslVqotyNLMco71zYda/i/rV7pbmaKejGcow7mjiqX0x5BUamSLn0wNT1yVcHvzCU9ZfKbxhDPC1waTrXll4E4="
+    # - secure: "NM7rnno3lqEulaUPF1jlmAhQaggUqe2scai2qxnWp0TtKLJ25UN53f5F+EY6i85Mm2M+aLi/JmnyEvIB7Xc7yUV6cNL6ol7uL5iLljczGF/lss5nsnCF9bswGAXXE2vNC2qMxs4GDz407e1wUz+eQ3bbWLOjh9tWyyPJszWM+Go="
 
 after_success:
-  - chmod 755 .travis/deploy.sh
-  - .travis/deploy.sh
+  # - chmod 755 .travis/deploy.sh
+  # - .travis/deploy.sh
 
 notifications:
   email: false

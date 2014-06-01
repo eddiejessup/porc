@@ -1,1651 +1,869 @@
 ---
-title: Orchestrate.io API Reference
+title: Porc API Reference
 
 language_tabs:
-  - shell: curl
-  - javascript: node.js
-  - java
-  - go
+  - python
 
 toc_footers:
- - <a href='https://dashboard.orchestrate.io'>Dashboard</a>
+  - <a href='#'>Porc Source</a>
+  - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
+  - <a href="http://orchestrate.io/docs/api/">Orchestrate Documentation</a>
+
 ---
 
-# API Version
+# Porc
 
-```
-/v0/$collection/$key
-```
+The effortless, asynchronous Python client for [orchestrate.io](http://orchestrate.io/).
 
-All request URIs must be prefixed with the current version of the Orchestrate API. The current version is `v0`.
 
-# Request Headers
+# | Resource
 
-```shell
-# With PUTs a Content-Type header must be set
-curl -XPUT "https://api.orchestrate.io/v0/$collection/$key" \
-	-u "$api_key:" \
-	-H "Content-Type: application/json" \
-	-d "$json"
-```
 
-Clients must use request headers accordingly:
+```python
+    def __init__(self, uri, **kwargs):
+        self.uri = uri
 
-* All `GET` requests return JSON and thus must set compatible accept headers, either `application/json` or `*/*`.
-* All `PUT` requests must contain a valid JSON body with the `Content-Type` header set to `application/json`.
+        # if given an existing session, use it
+        if kwargs.get('session'):
+            self._session = kwargs['session']
+            del kwargs['session']
+        # set the resource's session as either sync or async
+        # according to keyword arguments
+        elif kwargs.get('async') == False:
+            self._session = requests.Session()
+            del kwargs['async']
+        # default to async
+        else:
+            self._session = FuturesSession()
 
-# Authentication
+        # set path parameters according to given url
+        self._set_path()
 
-> Example authenticated GET for a collection/key
+        # pass remaining kwargs as defaults to requests
+        self._set_options(**kwargs)
 
-```shell
-# Pass in your API key as the basic auth username and no password
-curl "https://api.orchestrate.io/v0/$collection/$key" \
-	-u "$api_key:"
 ```
 
-```javascript
-var db = require('orchestrate')(token)
-```
 
-```java
-Client client = new OrchestrateClient("your api key");
-```
 
-```go
-// Create a new Orchestrate.io client with your API key
-c := gorc.NewClient(apiKey)
-```
+Ancestor for all Orchestrate resources.
+Handles storing URL state, headers, sessions, etc.
 
-Authentication for Orchestrate.io applications is provided by HTTP Basic Authentication over SSL. Authenticate with an API key as the username and no password. API keys can be created or revoked from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io) on a per-application basis.
+If you create an object, like a `Client`, then use that to
+create a `Collection` object, the `Collection` will inherit any options
+from the `Client` object, such as auth settings.
 
-## Ping
+Likewise, all objects inheriting from Resource can make HTTP requests
+using the methods `head`, `get`, `put`, `post`, and `delete`,
+even if Orchestrate would only return a `405 Method Not Allowed`
+for a given method.
 
-If you wish to validate your API key, you can make an authenticated HEAD request to the /v0 endpoint (no collection name necessary). These requests do not count towards your API usage.
 
-> Example API key validation via HEAD request
 
-```shell
-# Pass in your API key as the basic auth username and no password
-curl --head "https://api.orchestrate.io/v0" \
-	-u "$api_key:"
-```
 
-```javascript
-db.ping()
-.then(function () {
-  // you key is VALID
-})
-.fail(function (err) {
-  // your key is INVALID
-})
+## get
 
-```
 
-```java
-client.ping();
-```
+```python
+    def get(self, querydict={}, **headers):
+        
+        return self._make_request('get', querydict, **headers)
 
-```go
-c.Ping()
 ```
 
-> If the key is VALID, you will receive a HTTP 200 response
 
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-Date: Thu, 24 Apr 2014 15:17:53 GMT
-X-ORCHESTRATE-REQ-ID: 9b2dfb30-cbc3-11e3-a9ec-12313d2f7cdc
-Connection: keep-alive
-```
 
-> If the key is INVALID, you will receive a HTTP 401 response
+Make a GET request against the object's URI.
+`querydict` is a mapping object, like a dict, 
+that is serialized into the querystring.
+Any keyword arguments are passed along as headers.
 
-```http
-HTTP/1.1 401 Unauthorized
-Cache-Control: must-revalidate,no-cache,no-store
-Content-length: 1327
-Content-Type: text/html;charset=ISO-8859-1
-Date: Thu, 24 Apr 2014 15:15:11 GMT
-WWW-Authenticate: Basic realm="orchestrate.io"
-X-ORCHESTRATE-REQ-ID: 3ac61c50-cbc3-11e3-a70a-12313d2f50f8
-Connection: keep-alive
-```
 
-# Applications
 
-Applications in Orchestrate represent the highest level of your project. Users who are members of an Application are able to view, create, and revoke API keys and use those keys to access the Application’s data. Applications are created from the [Orchestrate.io Dashboard](https://dashboard.orchestrate.io).
 
-<aside class="warning">
-Application names must be globally unique. It is good practice to prefix application names with your username or organization name.
-</aside>
+## head
 
-# Collections
 
-Collections are groupings of the JSON objects. Collections are analogous to tables in a relational database.
+```python
+    def head(self, querydict={}, **headers):
+        
+        return self._make_request('head', querydict, **headers)
 
-## Create
+```
 
-You can create collections either from the Orchestrate.io Dashboard or by performing a Key/Value PUT to the collection.
 
-## Delete
 
-> Make sure to replace the collection variable with the appropriate collection name.
+Make a HEAD request against the object's URI.
+`querydict` is a mapping object, like a dict, 
+that is serialized into the querystring.
+Any keyword arguments are passed along as headers.
 
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection?force=true" \
-	-XDELETE \
-	-u "$api_key:"
-```
 
-```javascript
-db.deleteCollection('users')
-```
 
-```java
-boolean result =
-        client.deleteCollection(collection)
-              .get();
-```
+## put
 
-```go
-err := c.DeleteCollection(collection)
-```
 
-Deletes an entire collection.
+```python
+    def put(self, body={}, **headers):
+        
+        return self._make_request('put', body, **headers)
 
-<aside class="notice">
-To prevent accidental deletions, `force=true` must be provided in the query string.
-</aside>
+```
 
-> Returns response headers like so:
 
-```http
-HTTP/1.1 204 No Content
-Content-Type: application/json
-Date: Thu, 24 Oct 2013 15:20:42 GMT
-X-ORCHESTRATE-REQ-ID: d88d0ef1-3cbf-11e3-be54-22000ae8057a
-Connection: keep-alive
-```
 
-`DELETE https://api.orchestrate.io/v0/$collection?force=true`
+Make a PUT request against the object's URI.
+`querydict` is a mapping object, like a dict, 
+that is serialized into the querystring.
+Any keyword arguments are passed along as headers.
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection to delete.
-force      | must be set to `true` for the delete to succeed.
 
-# Key/Value
 
-Key/Value is core to Orchestrate.io. All other query types are built around this data type. Key/Value pairs are pieces of data identified by a unique key for a collection and have corresponding value.
+## post
 
-## Get
 
-> Make sure to replace the collection and key variables with the appropriate collection and key.
+```python
+    def post(self, body={}, **headers):
+        
+        return self._make_request('post', body, **headers)
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key" \
-	-u "$api_key:"
 ```
 
-```javascript
-db.get('collection', 'key')
-.then(function (result) {
 
-})
-.fail(function (err) {
-
-})
-```
 
-```java
-KvObject<DomainObject> object =
-        client.kv("someCollection", "someKey")
-              .get(DomainObject.class)
-              .get();
-```
+Make a POST request against the object's URI.
+`querydict` is a mapping object, like a dict, 
+that is serialized into the querystring.
+Any keyword arguments are passed along as headers.
 
-```go
-domainObject := new(DomainObject)
-result, err := c.Get(collection, key)
-err = result.Value(domainObject)
-```
 
-> The response body is valid JSON that was created by a user using the HTTP PUT method
 
-Get the latest value assigned to a key.
 
-<aside class="notice">
-Previous versions can be retrieved by performing a GET on the fully qualified value of a GET's `Content-Location` header or a PUT's `Location` header.
-</aside>
+## delete
 
-### HTTP Request
 
-> Returns response headers like so:
+```python
+    def delete(self, querydict={}, **headers):
+        
+        return self._make_request('delete', querydict, **headers)
 
-```http
-HTTP/1.1 200 OK
-Content-Location: /v0/collection/key/refs/ad39c0f8f807bf40
-Content-Type: application/json
-Date: Mon, 18 Nov 2013 12:39:44 GMT
-ETag: "ad39c0f8f807bf40"
-X-ORCHESTRATE-REQ-ID: 80caeaa0-504e-11e3-93d8-22000a1c9574
-transfer-encoding: chunked
-Connection: keep-alive
 ```
 
-`GET https://api.orchestrate.io/v0/$collection/$key`
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection from which to get the value.
-key        | the key for a value to be retrieved.
+Make a DELETE request against the object's URI.
+`querydict` is a mapping object, like a dict, 
+that is serialized into the querystring.
+Any keyword arguments are passed along as headers.
 
-## Put (Create/Update)
 
-> Make sure to replace the variables with the appropriate values.
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key" \
-	-XPUT \
-	-H "Content-Type: application/json" \
-	-u "$api_key:" \
-	-d "$json"
-```
 
-```javascript
-db.put('collection', 'key', {
-  "name": "Steve Kaliski",
-  "hometown": "New York, NY",
-  "twitter": "@stevekaliski"
-})
-.then(function (result) {
 
-})
-.fail(function (err) {
+# | Client
 
-})
-```
+
+```python
+    def __init__(self, api_key, api_version=0, **kwargs):
+        uri = 'https://%s:@api.orchestrate.io/v%d' % (api_key, api_version)
+        super(Client, self).__init__(uri, **kwargs)
 
-```java
-DomainObject obj = new DomainObject(); // a POJO
-final KvMetadata kvMetadata =
-        client.kv("someCollection", "someKey")
-              .put(obj)
-              .get();
 ```
+
+
 
-```go
-// Put a domain object
-path, err := c.Put(collection, key, domainObject)
+The top-level resource for interacting with Orchestrate.
+Handles authentication, spawns collections.
+
 ```
+client = porc.Client(API_KEY)
+client.ping().result().raise_for_status()
+# if it throws an error, you're not authenticated
+```
+
 
-Creates or updates the value at the collection/key specified. The new value will have its own unique version and that value will always be retrievable at its fully qualified 'ref' location.  That location is made available in the 'Location' response header.
 
-<aside class="warning">
-All values must be valid JSON.
-</aside>
 
-### HTTP Request
+## ping
 
-> Returns response headers like so:
 
-```http
-HTTP/1.1 201 Created
-Content-Type: application/json
-Date: Tue, 19 Nov 2013 15:51:04 GMT
-ETag: "cbb48f9464612f20"
-Location: /v0/collection/key/refs/cbb48f9464612f20
-X-ORCHESTRATE-REQ-ID: 65bc9800-5132-11e3-b722-22000ab79fbb
-transfer-encoding: chunked
-Connection: keep-alive
+```python
+    def ping(self):
+        
+        return self.head()
+
 ```
 
-`PUT https://api.orchestrate.io/v0/$collection/$key`
 
-### Conditional PUTs
 
-```shell
-# An If-Match PUT
-curl -i "https://api.orchestrate.io/v0/$collection/$key" \
-	-XPUT \
-	-H "Content-Type: application/json" \
-	-H "If-Match: \"cbb48f9464612f20\"" \
-	-u "$api_key:" \
-	-d "$json"
+Sends Orchestrate a HEAD request to determine
+connectivity and authentication.
 
-# An If-None-Match PUT
-curl -i "https://api.orchestrate.io/v0/$collection/$key" \
-	-XPUT \
-	-H "Content-Type: application/json" \
-	-H "If-None-Match: \"*\" \
-	-u "$api_key:" \
-	-d "$json"
-```
 
-```javascript
-// These calls are the Conditional PUTss
-db.put('collection', 'key', data, 'cbb48f9464612f20') // update-if-match
-db.put('collection', 'key', data, false) // create-if-absent
-```
 
-```java
-// An If-Match PUT
-DomainObject obj = new DomainObject(); // a POJO
-KvMetadata kvMetadata =
-        client.kv("someCollection", "someKey")
-              .ifMatch("someRef")
-              .put(obj)
-              .get();
 
-// An If-None-Match PUT
-DomainObject obj = new DomainObject(); // a POJO
-KvMetadata kvMetadata =
-        client.kv("someCollection", "someKey")
-              .ifAbsent()
-              .put(obj)
-              .get();
-```
+## collection
 
-```go
-// If-Match PUT. Takes the path of the last seen version.
-path, err := c.PutIfUnmodified(path, domainObject)
 
-// If-None-Match PUT.
-path, err := c.PutIfAbsent(collection, key, domainObject)
+```python
+    def collection(self, name, **kwargs):
+        
+        return self._init_child(collection.Collection, name, **kwargs)
+
 ```
 
-Conditional headers can be used to specify a pre-condition that determines whether the store operation happens. The `If-Match` header specifies that the store operation will succeed if and only if the _ref_ value matches current stored ref. The `If-None-Match` header specifies that the store operation will succeed if and only if the key doesn't already exist.
 
-<aside class="notice">
-Conditional headers must provide a double-quoted `ETag` value returned by either a GET or PUT.
-</aside>
 
-Header        | Description
-------------- | -----------
-<nobr>If-Match</nobr> | Stores the value for the key if the value for this header matches the current `ref` value.
-<nobr>If-None-Match</nobr> | Stores the value for the key if no key/value already exists, the only valid value for this header is `"*"`.
+Spawns a collection object, inheriting options from the client object.
+Note that this does not create a collection in Orchestrate.
 
-*If-Match* and *If-None-Match* headers cannot be supplied together.
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection to which to put the value.
-key        | the primary key for the value.
 
-## Delete
 
-> Make sure to replace the collection and key variables with the correct collection and key.
+# | Collection
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key" \
-	-XDELETE \
-	-u "$api_key:"
 
-# permanently delete KV object and all history
-curl -i "https://api.orchestrate.io/v0/$collection/$key?purge=true" \
-    -XDELETE \
-    -u "$api_key:"
-```
 
-```javascript
-// The third argument is the purge option
-db.remove('collection', 'key', true)
-.then(function (result) {
 
-})
-.fail(function (err) {
+From the Orchestrate docs:
 
-})
-```
+"Collections are groupings of the JSON objects. 
+Collections are analogous to tables in a relational database."
 
-```java
-boolean result =
-        client.kv("someCollection", "someKey")
-              .delete()
-              .get();
-```
+The collection object performs searches over the JSON objects stored in a collection, 
+and can spawn key objects representing JSON objects.
 
-```go
-err := c.Delete(collection, key)
+```python
+collection = porc.Client(API_KEY).collection(NAME)
+for page in collection.search({"query": "cool_*"}):
+    print page.json()
+    # {
+    #     "count": 1,
+    #     "next": "/v0/collection?limit=10&query=test&offset=1",
+    #     "prev": "/v0/collection?limit=10&query=test&offset=0",
+    #     "results": [
+    #         {
+    #             "path": {
+    #                 "collection": "neat_stuff",
+    #                 "key": "cool_beans",
+    #                 "ref": "20c14e8965d6cbb0"
+    #             },
+    #             "score": 1.0,
+    #             "value": {
+    #                 "coolness": 999
+    #             }
+    #         }
+    #     ],
+    #     "total_count": 100
+    # }
 ```
-
-Deletes set the value of a key to a null object. Previous versions of an object are retrievable at its fully qualified 'ref' location. If the `purge` parameter is supplied the object and its `ref` history will be permanently deleted.
 
-### HTTP Request
 
-> Returns response headers like so:
 
-```http
-HTTP/1.1 204 No Content
-Content-Type: application/json
-Date: Tue, 19 Nov 2013 15:53:04 GMT
-X-ORCHESTRATE-REQ-ID: ad131350-5132-11e3-b722-22000ab79fbb
-Connection: keep-alive
-```
 
-`DELETE https://api.orchestrate.io/v0/$collection/$key`
+## search
 
-### Conditional DELETEs
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key" \
-	-XDELETE \
-	-H "If-Match: \"cbb48f9464612f20\"" \
-	-u "$api_key:"
-```
+```python
+    def search(self, **kwargs):
+        
+        return self.list(**kwargs)
 
-```java
-boolean result =
-        client.kv("someCollection", "someKey")
-              .ifMatch("someRef")
-              .delete()
-              .get();
 ```
 
-```go
-// If-Match Delete
-err := c.DeleteIfUnmodified(path)
-```
 
-Conditional headers can be used to specify a pre-condition that determines whether the delete operation happens. The `If-Match` header specifies that the delete operation will succeed if and only if the _ref_ value matches current stored ref.
 
-<aside class="notice">
-Conditional headers must provide a double-quoted `ETag` value returned by either a GET or PUT.
-</aside>
+Returns a page object to page through search results.
 
-Header        | Description
-------------- | -----------
-<nobr>If-Match</nobr> | Deletes the value for the key if the value for this header matches the current `ref` value.
+Alias to `self.list`.
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection to delete from.
-key        | the key to delete.
-purge      | If `true` the KV object and all of its `ref` history will be permanently deleted. This operation cannot be undone.
 
-## List
 
-> Make sure to replace all the variables with the appropriate values.
+## key
 
-```shell
-# Inclusive start key
-curl -i "https://api.orchestrate.io/v0/$collection?startKey=$startKey&limit=$limit" \
-	-u "$api_key:"
 
-# Exclusive after key
-curl -i "https://api.orchestrate.io/v0/$collection?afterKey=$afterKey&limit=$limit" \
-	-u "$api_key:"
+```python
+    def key(self, name, **kwargs):
+        
+        return self._init_child(key.Key, name, **kwargs)
 
-# Inclusive start key up to an exclusive end key
-curl -i "https://api.orchestrate.io/v0/$collection?startKey=$startKey&beforeKey=$beforeKey&limit=$limit" \
-    -u "$api_key:"
 ```
 
-```java
-KvList<DomainObject> kvList =
-        client.listCollection("someCollection")
-              .limit(20)
-              .get(DomainObject.class)
-              .get();
-```
+
 
-```javascript
-db.list('collection')
-.then(function (result) {
-  var items = result.body.results;
-})
-.fail(function (err) {
+Spawns a key object, inheriting options from the collection object.
+Note that this does not create a key in Orchestrate.
 
-})
-/*
-Collection listings allow you to page through your collection in key order (sorted lexicographically so be aware of that if you have numeric keys). It is also useful to list parts of your collection starting from a particular key. For example, to list the first 10 keys starting from key 'c':
-*/
-db.list('address-book', {limit:10, startKey:'c'})
-.then(function (result) {
 
-})
-.fail(function (err) {
 
-})
 
-/* 
-Note: if there is no item with key 'c', the first page will simply have the first 10 results that sort after 'c'.
+## delete
 
-Collection listings support pagination. If there are more items that follow the page that was retrieved, the result will have a 'links.next' that you can use to fetch the next page.
-*/
 
-db.list('address-book', {limit:10, startKey:'c'})
-.then(function (page1) {
-  // Got First Page
-  if (page1.links && page1.links.next) {
-    page1.links.next.get().then(function (page2) {
-      // Got Second Page
-    })
-  }
-})
-.fail(function (err) {
+```python
+    def delete(self, querydict={}, **headers):
+        
+        querydict['force'] = True
+        return super(Collection, self).delete(querydict, **headers)
 
-})
 ```
 
-```go
-// List from beginning
-results, err := c.List(collection, limit)
 
-// List after key
-results, err := c.ListAfter(collection, afterKey, limit)
 
-//List starting with key
-results, err := c.ListStart(collection, startKey, limit)
+Deletes a collection and all the keys it contains.
+Automatically sets `?force=true` in the querystring.
 
-// Get next page
-if results.HasNext() {
-	nextResults, err := c.ListGetNext(results)
-}
-```
 
-Returns a paginated, lexicographically ordered list of items contained in a
-collection. The next page of results URL is specified by both the `next` field
-in the JSON response and the `Link` header value. If no `next` field or `Link`
-header is returned, there are no additional pages.
 
-### HTTP Request
 
-> Returns response headers like so:
+## list
 
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-Date: Wed, 22 Jan 2014 14:16:08 GMT
-Link: </v0/collection?limit=2&afterKey=002>; rel="next"
-X-ORCHESTRATE-REQ-ID: bce1f3e0-836f-11e3-abae-12313d2f7cdc
-transfer-encoding: chunked
-Connection: keep-alive
-```
 
-> Returns a response body like so:
+```python
+    def list(self, **kwargs):
+        
+        return page.Page(self.uri, kwargs, session=self._session, **self.opts)
 
-```json
-{
-    "count": 2,
-    "next": "/v0/collection?limit=2&afterKey=002",
-    "results": [
-        {
-            "path": {
-                "collection": "collection",
-                "key": "001",
-                "ref": "20c14e8965d6cbb0"
-            },
-            "value": {
-                "msg": "test"
-            }
-        },
-        {
-            "path": {
-                "collection": "collection",
-                "key": "002",
-                "ref": "20c14e8965d6cbb0"
-            },
-            "value": {
-                "msg": "test"
-            }
-        }
-    ]
-}
 ```
 
-`GET https://api.orchestrate.io/v0/$collection?limit=$limit&afterKey=$afterKey`
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection to list from.
-limit      | the number of results to return. (default: 10, max: 100)
-startKey   | the start of the key range to paginate from including the specified value if it exists.
-afterKey   | the start of the key range to paginate from excluding the specified value if it exists.
-beforeKey  | the end of the key range to paginate to excluding the specified value if it exists.
-endKey     | the end of the key range to paginate to including the specified value if it exists.
+Returns a page object to page through list results.
 
-<aside class="notice">
-To include all keys in a collection, do not provide any "Key" parmeters (`startKey`, `afterKey`, `beforeKey`, `endKey`).
-</aside>
 
-# Refs
 
-Refs are used to identify specific immutable values that have been assigned to keys.
 
-## Get
 
-> Make sure to replace the variables with the appropriate values.
+# | Page
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/$ref" \
-	-u "$api_key:"
-```
 
-```javascript
-// NOT SUPPORTED YET
-```
+```python
+    def __init__(self, uri, querydict={}, **kwargs):
+        opts = dict(kwargs, params=querydict)
+        # if async, create a callback that stores current page state after each request
+        if 'session' in kwargs and type(kwargs['session']) == FuturesSession:
+            opts['background_callback'] = self._handle_res
+        super(Page, self).__init__(uri, **opts)
+        self._url_root = self.uri[:self.uri.find('/v0')]
+        self.response = None
 
-```java
-KvObject<DomainObject> object =
-        client.kv("someCollection", "someKey")
-              .get(DomainObject.class, "someRef")
-              .get();
 ```
 
-```go
-domainObject := new(DomainObject)
-result, err := c.GetPath(path)
-err = result.Value(domainObject)
-```
 
-Returns the specified version of a value.
 
-### HTTP Request
+Class used for paging through search results.
 
-> Returns response headers like so:
+Can be used as an iterator, ex: `for page in Page`,
+or by using the methods `next` and `prev` explicitly
+to page through results.
 
-```http
-HTTP/1.1 200 OK
-Content-Location: /v0/collection/key/refs/ad39c0f8f807bf40
-Content-Type: application/json
-Date: Mon, 18 Nov 2013 12:39:44 GMT
-ETag: "ad39c0f8f807bf40"
-X-ORCHESTRATE-REQ-ID: 80caeaa0-504e-11e3-93d8-22000a1c9574
-transfer-encoding: chunked
-Connection: keep-alive
-```
+Used in searching collections and events.
 
-`GET https://api.orchestrate.io/v0/$collection/$key/refs/$ref`
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection from which to get the value.
-key        | the primary key of the value.
-ref        | an opaque version identifier for the value.
 
-## List
+## reset
 
-> Make sure to replace all the variables with the appropriate values.
 
-```shell
-# without values
-curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/?limit=$limit&offset=$offset" \
-	-u "$api_key:"
+```python
+    def reset(self):
+        
+        self.response = None
 
-# with values
-curl -i "https://api.orchestrate.io/v0/$collection/$key/refs/?limit=$limit&offset=$offset&values=true" \
-	-u "$api_key:"
 ```
 
-```javascript
-// NOT CURRENTLY SUPPORTED
-```
 
-```java
-// NOT CURRENTLY SUPPORTED
-```
 
-```go
-// NOT CURRENTLY SUPPORTED
-```
+Clear the page's current place.
 
-Returns a paginated, time-ordered, newest to oldest list of refs (or "versions") of the object for a
-given key in a collection. The next and prev page of results URL is specified by both the `next` and
-`prev` field in the JSON response and the `Link` header value. If no `next` or `prev` field or `Link`
-header is returned, there are no additional pages.
+    page_1 = page.next().result()
+    page_2 = page.next().result()
+    page.reset()
+    page_x = page.next().result()
+    assert page_x.url == page_1.url
 
-As well as the path segment and (optionally) the JSON values stored for the ref,
-the response body will contain a field called `reftime` for each ref. This field
-is the timestamp (milliseconds since epoch) when the version was created.
 
-### HTTP Request
 
-> Returns response headers like so:
 
-```http
-HTTP/1.1 200 OK
-Date: Wed, 14 May 2014 16:33:53 GMT
-Content-Type: application/json
-Vary: Accept-Encoding
-Transfer-Encoding: chunked
-X-ORCHESTRATE-REQ-ID: 89931d20-db85-11e3-a2e4-881fa10233b6
-```
+## next
+
 
-> Returns a response body like so:
+```python
+    def next(self, querydict={}, **headers):
+        
+        return self._handle_page(querydict, **headers)
 
-```json
-{
-  "count": 3,
-  "results": [
-    {
-      "path": {
-        "collection": "collection",
-        "key": "key",
-        "ref": "cbb48f9464612f20"
-      },
-      "value": {},
-      "reftime": 1400085119216
-    },
-    {
-      "path": {
-        "collection": "collection",
-        "key": "key",
-        "ref": "",
-        "tombstone": true
-      },
-      "reftime": 1400085117084
-    },
-    {
-      "path": {
-        "collection": "collection",
-        "key": "key",
-        "ref": "cbb48f9464612f20"
-      },
-      "value": {},
-      "reftime": 1400085084739
-    }
-  ]
-}
 ```
 
-`GET https://api.orchestrate.io/v0/$collection/$key/refs/?values=true`
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection containing the key.
-key        | the key to list the ref history for.
-limit      | the number of results to return. (default: 10, max: 100)
-offset     | the starting position of the results. (default: 0)
-values     | whether to return the value for each ref in the history. (default: false)
+Gets the next page of results.
+Raises `StopIteration` when there are no more results.
 
-<aside class="notice">
-Tombstone values will be returned with the ref history. These are markers for when the object was deleted.
-These object refs have no JSON `"value"` field and are marked with the field `"tombstone": true`.
 
-If the object has been "purged" (permanently deleted) it has no ref history and requests for its
-ref history will return a `404 Not Found`.
-</aside>
 
-# Search
 
-Search allows collections to be queried using [Lucene Query Parser Syntax](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview).
+## prev
 
-## Collection
 
-> Make sure to replace all the variables with the appropriate values.
+```python
+    def prev(self, querydict={}, **headers):
+        
+        return self._handle_page(querydict, 'prev', **headers)        
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection?query=$query&limit=$limit&offset=$offset" \
-	-u "$api_key:"
 ```
 
-```javascript
-db.search('collection', 'query')
-.then(function (result) {
 
-})
-.fail(function (err) {
 
-})
+Gets the previous page of results.
+Raises `StopIteration` when there are no more results.
 
-// If you want to include a limit or offset, the more verbose SearchBuilder is available:
+Note: Only collection searches provide a `prev` value.
+For all others, `prev` will always return `StopIteration`.
 
-db.newSearchBuilder()
-.collection('users')
-.limit(100)
-.offset(10)
-.query('steve')
-```
 
-```java
-String luceneQuery = "*";
-SearchResults<DomainObject> results =
-        client.searchCollection("someCollection")
-              .limit(20)
-              .get(DomainObject.class, luceneQuery)
-              .get();
-```
 
-```go
-results, err := c.Search(collection, query, offset, limit)
 
-// Get next page
-if results.HasNext() {
-	nextResults, err := c.SearchGetNext(results)
-}
 
-// Get previous page
-if results.HasPrev() {
-	nextResults, err := c.SearchGetPrev(results)
-}
-```
+# | Key
 
-Returns list of items matching the lucene query. The next page of results URL is specified by both the `next` field in the JSON response and the `Link` header value with a rel=`next`. If no `next` field or `Link` header is returned, there are no additional pages. The same is true for a previous page. If there are preceding results, then there will be a URL specified by both the `prev` field in the JSON response and a `Link` header with rel=`prev`. 
 
-### HTTP Request
 
-> Returns response headers like so:
 
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
-Date: Tue, 05 Nov 2013 14:32:00 GMT
-Link: </v0/collection?limit=10&query=test&offset=20>; rel="next"
-Link: </v0/collection?limit=10&query=test&offset=0>; rel="prev"
-X-ORCHESTRATE-REQ-ID: 082a5df0-4627-11e3-9f5a-22000ae8057a
-Transfer-Encoding: chunked
-Connection: Keep-Alive
-```
+From the Orchestrate docs:
 
-> Returns a response body like so (some `results` ommitted for brevity):
+"Key/Value is core to Orchestrate.io. 
+All other query types are built around this data type. 
+Key/Value pairs are pieces of data
+identified by a unique key for a collection
+and have corresponding value."
 
-```json
-{
-    "count": 10,
-    "next": "/v0/collection?limit=10&query=test&offset=20",
-    "prev": "/v0/collection?limit=10&query=test&offset=0",
-    "results": [
-        {
-            "path": {
-                "collection": "collection",
-                "key": "key",
-                "ref": "20c14e8965d6cbb0"
-            },
-            "score": 1.0,
-            "value": {
-                "msg": "test"
-            }
-        }
-    ],
-    "total_count": 40
-}
-```
+The key object represents a single key/value in Orchestrate,
+and provides methods for working with refs, events, and relations,
+as well as creating, reading, updating, and destroying key/values.
 
-`GET https://api.orchestrate.io/v0/$collection?query=$query&limit=$limit&offset=$offset`
+```python
+key = collection.key(NAME)
+# create
+response = key.put({"hello": "world"}).result()
+response.raise_for_status()
+# create a ref to work with this version of the key/value
+ref_value = response.path['ref']
+ref = key.ref(ref_value)
+# read
+response = key.get().result()
+print response.json()
+# {"hello": "world"}
+# update
+response = key.put({"goodnight": "moon"}, **{"If-Match": ref_value}).result()
+response.raise_for_status()
+ref_value = response.path['ref']
+# delete
+response = key.delete(**{"If-Match": ref_value}).result()
+response.raise_for_status()
+```
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection to search.
-query      | a [Lucene](http://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Overview) query string.
-limit      | the number of results to return. (default: 10, max: 100)
-offset     | the starting position of the results. (default: 0)
 
-# Events
 
-Events are a way to associate time-ordered data with a key.
+## relation
 
-## Get
 
-> Make sure to replace all the variables with the appropriate values.
+```python
+    def relation(self, **kwargs):
+        
+        return self._init_child(Relation, **kwargs)
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal" \
-	-u "$api_key:"
 ```
 
-```javascript
-/*
-NOT CURRENTLY SUPPORTED
 
-To get a single event, use the 'List' api with the start and end timestamps,
-and then loop through them. The results will only contain Events with the
-specified timestamp milliseconds.
-*/
-db.newEventReader()
-  .from('users', 'steve')
-  .start(1383684881089)
-  .end(1383684881089+1)
-  .type('wall_post')
-  .then(function(res){
-    res.body.results.forEach(function(obj){
-      console.log(obj);
-    });
-});
-```
 
-```java
-/*
-NOT CURRENTLY SUPPORTED
+Returns an object for creating and querying relations.
+See `Relation` for more info.
 
-To get a single event, use the 'List' api with the start and end timestamps,
-and then loop through them. The results will only contain Events with the
-specified timestamp milliseconds.
-*/
-Iterable<Event<DomainObject>> results =
-        client.event("someCollection", "someKey")
-              .type("eventType")
-              .start(someTimestamp)
-              .end(someTimestamp + 1)
-              .get(DomainObject.class)
-              .get();
-```
 
-```go
-/*
-NOT CURRENTLY SUPPORTED
 
-To get a single event, use the 'List' api with the start and end timestamps,
-and then loop through them. The results will only contain Events with the
-specified timestamp milliseconds.
-*/
-events, err := c.GetEventsInRange(collection, key, typ, timestamp, timestamp + 1)
-```
 
-Returns an individual event.
+## graph
 
-### HTTP Request
 
-> Returns response headers like so:
+```python
+    def graph(self, **kwargs):
+        
+        return self.relation(**kwargs)
 
-```http
-HTTP/1.1 200 OK
-Date: Wed, 11 Dec 2013 14:47:11 GMT
-Content-Type: application/json
-Connection: keep-alive
-X-ORCHESTRATE-REQ-ID: cd3965d0-cb2b-11e3-b13e-0e490195c851
-ETag: "ae3dfa4325abe21e"
 ```
 
-> And a response body like so:
 
-```json
-{
-    "path": {
-        "collection": "asdf",
-        "key": "key",
-        "ref": "ae3dfa4325abe21e",
-        "type": "played",
-        "timestamp": 1369832019085,
-        "ordinal": 9
-    },
-    "value": {
-      "msg": "hello world, again"
-    },
-    "timestamp": 1369832019085,
-    "ordinal": 9
-}
-```
 
-`GET https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal`
+Alias to `relation`
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection from which to get the event.
-key        | the primary key associated with the event.
-type       | the category for the event, e.g. "update" or "tweet" etc.
-timestamp  | the event timestamp.
-ordinal    | the event ordinal.
 
-<aside class="notice">
-The timestamp value should be formatted as described in [Timestamps](#timestamps).
-</aside>
 
-## Post (Create)
-> Make sure to replace all the variables with the appropriate values.
+## ref
 
-```shell
-# With timestamp
-curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp" \
-  -XPOST \
-  -H "Content-Type: application/json" \
-  -u "$api_key:" \
-  -d "{\"msg\":\"hello\"}"
 
-# Without timestamp (the event timestamp will be set to the current time in Orchestrate)
-curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type" \
-  -XPOST \
-  -H "Content-Type: application/json" \
-  -u "$api_key:" \
-  -d "{\"msg\":\"hello\"}"
+```python
+    def ref(self, name, **kwargs):
+        
+        return self._init_child(Ref, 'refs', name, **kwargs)
 
 ```
 
-```javascript
-// NOT CURRENTLY SUPPORTED
 
-db.newEventBuilder()
-.from('users', 'Steve')
-.type('wall_post')
-.data({"text": "Hello!"})
-```
 
-```java
-/*
-NOT CURRENTLY SUPPORTED
+Returns an object for dealing with a given Ref value.
+See `Ref` for more info.
 
-To create an Event, use the 'Put' api (which is now deprecated).
-*/
-DomainObject obj = new DomainObject(); // a POJO
-boolean result =
-        client.event("someCollection", "someKey")
-              .type("eventType")
-              .put(obj)
-              .get();
-```
 
-```go
-/*
-NOT CURRENTLY SUPPORTED
 
-To create an Event, use the 'Put' api (which is now deprecated).
-*/
-err := c.PutEvent(collection, key, typ, domainObject)
-```
 
-Creates an event with an optional user defined timestamp.
+## event
 
-### HTTP Request
 
-> Returns response headers like so:
+```python
+    def event(self, event_type, **kwargs):
+        
+        return self._init_child(Event, 'events', event_type, **kwargs)
 
-```http
-HTTP/1.1 201 Created
-Date: Tue, 19 Nov 2013 13:51:54 GMT
-Content-Type: application/json
-Connection: keep-alive
-X-ORCHESTRATE-REQ-ID: 93a94ad0-cb29-11e3-b13e-0e490195c851
-Location: /v0/collection/key/events/type/1398286518286/6
-ETag: "f8a86a25029a907b"
 ```
 
-```POST /v0/$collection/$key/events/$type/$timestamp```
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection to which to put the event.
-key        | the primary key associated with the event.
-type       | the category for an event, e.g. "update" or "tweet" etc.
-timestamp  | the timestamp to associate with the event. (optional) 
+Returns an object for creating and querying events.
+See `Event` for more info.
 
-<aside class="notice">
-The timestamp value should be formatted as described in [Timestamps](#timestamps).
-</aside>
 
-<aside class="warning">
-Previously, a PUT to the $type would create and Event. This is now deprecated, and will be removed in the next version.
-</aside>
 
 
-## Put (Update)
 
-> Make sure to replace all the variables with the appropriate values.
+# | Ref
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal" \
-	-XPUT \
-	-H "Content-Type: application/json" \
-	-u "$api_key:" \
-	-d "{\"msg\":\"hello2\"}"
-```
 
-```javascript
-// NOT CURRENTLY SUPPORTED
-```
 
-```java
-// NOT CURRENTLY SUPPORTED
-```
+
+From the Orchestrate docs:
 
-```go
-// NOT CURRENTLY SUPPORTED
+"Refs are used to identify specific immutable values that have been assigned to keys."
+
+Ref objects allow you to work with specific versions of a doc,
+particularly past versions.
+
+```python
+ref = key.ref(ref_value)
+response = ref.get().result()
+print response.json()
+# {"hello": "world"}
 ```
 
-Updates an existing event.
 
-### HTTP Request
 
-> Returns response headers like so:
 
-```http
-HTTP/1.1 204 No Content
-Date: Tue, 19 Nov 2013 13:51:54 GMT
-Content-Type: application/json
-Connection: keep-alive
-X-ORCHESTRATE-REQ-ID: 7fa4d260-cb2a-11e3-b13e-0e490195c851
-Location: /v0/collection/key/events/type/1398286914202/9
-ETag: "ae3dfa4325abe21e"
-```
 
-```PUT /v0/$collection/$key/events/$type/$timestamp/$ordinal```
-### Conditional PUTs
+# | Event
 
-```shell
-# An If-Match PUT
-curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal" \
-  -XPUT \
-  -H "Content-Type: application/json" \
-  -H "If-Match: \"ae3dfa4325abe21e\"" \
-  -u "$api_key:" \
-  -d "$json"
-```
 
-```javascript
-// NOT CURRENTLY SUPPORTED
-```
 
-```java
-// NOT CURRENTLY SUPPORTED
-```
 
-```go
-// NOT CURRENTLY SUPPORTED
-```
+From the Orchestrate docs:
 
-Conditional headers can be used to specify a pre-condition that determines whether the update operation happens. The `If-Match` header specifies that the update will succeed if and only if the _ref_ value matches current stored ref for the Event.
+"Events are a way to associate time-ordered data with a key."
 
-<aside class="notice">
-Conditional headers must provide a double-quoted `ETag` value returned by other api calls or the "path.ref" value of an event.
-</aside>
+The event object allows you to create, read, update, and delete
+different events, and to perform queries over events associated
+with a key.
 
-Header        | Description
-------------- | -----------
-<nobr>If-Match</nobr> | Stores the value for the event if the value for this header matches the current `ref` value.
+```python
+event = key.event(TYPE)
+# create
+response = event.post({"msg": "hello world, again"}).result()
+timestamp = response.path['timestamp']
+ordinal = response.path['ordinal']
+response.raise_for_status()
+# read
+response = event.get(timestamp, ordinal).result()
+response.raise_for_status()
+print response.json()
+# {
+#     "path": {
+#         "collection": "asdf",
+#         "key": "key",
+#         "ref": "ae3dfa4325abe21e",
+#         "type": "played",
+#         "timestamp": 1369832019085,
+#         "ordinal": 9
+#     },
+#     "value": {
+#       "msg": "hello world, again"
+#     },
+#     "timestamp": 1369832019085,
+#     "ordinal": 9
+# }
+# update
+response = event.put(timestamp, ordinal, {"msg": "goodnight moon"}).result()
+response.raise_for_status()
+# query
+for page in event.list():
+    print page.json()
+    # {
+    #   "results": [
+    #     {
+    #       "path": {
+    #         "collection": "collection",
+    #         "key": "key",
+    #         "type": "type",
+    #         "timestamp": 1369832019085,
+    #         "ordinal": 9,
+    #         "ref": "ae3dfa4325abe21e"
+    #       },
+    #       "value": {
+    #         "msg": "goodnight moon"
+    #       },
+    #       "timestamp": 1369832019085,
+    #       "ordinal": 9
+    #     }
+    #   "count": 1
+    # }
+# delete
+response = event.delete(timestamp, ordinal).result()
+response.raise_for_status()
+```
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection the event is in.
-key        | the primary key associated with the event.
-type       | the category for the event, e.g. "update" or "tweet" etc.
-timestamp  | the event's timestamp.
-ordinal    | the event's ordinal value.
 
-<aside class="notice">
-The timestamp value should be formatted as described in [Timestamps](#timestamps).
-</aside>
 
-## Delete
+## get
 
-> Make sure to replace all the variables with the appropriate values.
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal?purge=true" \
-  -u "$api_key:"
-  -XDELETE
-```
+```python
+    def get(self, timestamp=None, ordinal=None, querydict={}, **headers):
+        
+        if not timestamp and not ordinal:
+            return self.list(querydict, **headers)
+        else:
+            if type(timestamp) == datetime:
+                timestamp = create_timestamp(timestamp)
+            resource = self._init_child(Resource, str(timestamp), ordinal)
+            return resource.get(**headers)
 
-```javascript
-// NOT CURRENTLY SUPPORTED
 ```
 
-```java
-// NOT CURRENTLY SUPPORTED
-```
 
-```go
-// NOT CURRENTLY SUPPORTED
-```
 
-Deletes an individual event.
+Retrieves a given event. 
+If timestamp is a datetime object, 
+it will be converted to milliseconds since epoch.
 
-### HTTP Request
 
-> Returns response headers like so:
 
-```http
-HTTP/1.1 204 No Content
-Date: Wed, 11 Dec 2013 14:47:11 GMT
-Content-Type: application/json
-Connection: keep-alive
-X-ORCHESTRATE-REQ-ID: cd3965d0-cb2b-11e3-b13e-0e490195c851
-```
 
-`DELETE https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal?purge=true`
+## put
 
-### Conditional DELETEs
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type/$timestamp/$ordinal" \
-  -XDELETE \
-  -H "If-Match: \"ae3dfa4325abe21e\"" \
-  -u "$api_key:"
-```
+```python
+    def put(self, timestamp, ordinal, body, **headers):
+        
+        if type(timestamp) == datetime:
+            timestamp = create_timestamp(timestamp)
+        resource = self._init_child(Resource, str(timestamp), ordinal)
+        return resource.put(body, **headers)
 
-```javascript
-// NOT CURRENTLY SUPPORTED
 ```
 
-```java
-// NOT CURRENTLY SUPPORTED
-```
 
-```go
-// NOT CURRENTLY SUPPORTED
-```
 
-Conditional headers can be used to specify a pre-condition that determines whether the delete operation happens. The `If-Match` header specifies that the delete operation will succeed if and only if the _ref_ value matches current stored ref.
+Updates a given event.
+If timestamp is a datetime object, 
+it will be converted to milliseconds since epoch.
 
-<aside class="notice">
-Conditional headers must provide a double-quoted `ETag` value returned by either a GET or PUT.
-</aside>
 
-Header        | Description
-------------- | -----------
-<nobr>If-Match</nobr> | Deletes the value for the Event if the value for this header matches the current `ref` value.
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection from which to get the event.
-key        | the primary key associated with the event.
-type       | the category for the event, e.g. "update" or "tweet" etc.
-timestamp  | the event timestamp.
-ordinal    | the event ordinal.
-purge      | indicates that all versions will be deleted (currently required for events).
+## post
 
-<aside class="notice">
-The timestamp value should be formatted as described in [Timestamps](#timestamps).
-</aside>
 
-## List
+```python
+    def post(self, body, timestamp=None, **headers):
+        
+        if timestamp:
+            if type(timestamp) == datetime:
+                timestamp = create_timestamp(timestamp)
+            resource = self._init_child(Resource, str(timestamp))
+        else:
+            resource = self._init_child(Resource)
 
-> Make sure to replace all the variables with the appropriate values.
+        return resource.post(body, **headers)
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/events/$type?startEvent=$startEvent&endEvent=$endEvent" \
-  -u "$api_key:"
 ```
 
-```javascript
-db.newEventReader()
-.from('users', 'Steve')
-.start(1384534722568)
-.end(1384535726540)
-.type('update')
-```
 
-```java
-Iterable<Event<DomainObject>> results =
-        client.event("someCollection", "someKey")
-              .type("eventType")
-              .get(DomainObject.class)
-              .get();
-```
 
-```go
-// Get most recent events
-events, err := c.GetEvents(collection, key, typ)
+Creates a new event.
+If timestamp is not provided, Orchestrate will give it one.
 
-// Get events in range
-events, err := c.GetEventsInRange(collection, key, typ, start, end)
-```
 
-Returns a paginated list of events, optionally limited to specified time range in reverse chronological order. The next page of results URL is specified by both the next field in the JSON response and the Link header value. If no next field or Link header is returned, there are no additional pages.
 
-### HTTP Request
 
-> Returns response headers like so:
+## list
 
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-Date: Wed, 11 Dec 2013 14:47:11 GMT
-X-ORCHESTRATE-REQ-ID: 1db50310-6273-11e3-9fbc-12313d2f7cdc
-Link: </v0/collection/key/events/type/?limit=2&beforeEvent=1369832019080/7>; rel="next"
-```
 
-> And a response body like so:
+```python
+    def list(self, querydict, **headers):
+        
+        return Page(self.uri, querydict, session=self._session, headers=headers)
 
-```json
-{
-  "results": [
-    {
-      "path": {
-        "collection": "collection",
-        "key": "key",
-        "type": "type",
-        "timestamp": 1369832019085,
-        "ordinal": 9,
-        "ref": "ae3dfa4325abe21e"
-      },
-      "value": {
-        "msg": "hello world, again"
-      },
-      "timestamp": 1369832019085,
-      "ordinal": 9
-    },
-    {
-      "path": {
-        "collection": "collection",
-        "key": "key",
-        "type": "type",
-        "timestamp": 1369832019080,
-        "ordinal": 7,
-        "ref": "f8a86a25029a907b"
-      },
-      "value": {
-        "msg": "hello world"
-      },
-      "timestamp": 1369832019080,
-      "ordinal": 7
-    }
-  ],
-  "count": 2,
-  "next": "/v0/collection/key/events/type/?limit=2&beforeEvent=1369832019080/7"
-}
 ```
 
-`GET https://api.orchestrate.io/v0/$collection/$key/events/$type?startEvent=$startEvent&endEvent=$endEvent`
 
-### Parameters
 
-Parameter   | Description
------------ | -----------
-collection  | the collection from which to get the events.
-key         | the primary key associated with the events.
-type        | the category for an event, e.g. "update" or "tweet" etc.
-limit       | the number of results to return. (default: 10, max: 100)
-start       | [DEPRECATED] the inclusive start of a time range to query. (optional)
-end         | [DEPRECATED] the exclusive end of a time range to query. (optional)
-startEvent  | the inclusive start of a range to query. (optional)
-afterEvent  | the non-inclusive start of a range to query. (optional)
-beforeEvent | the non-inclusive end of a range to query. (optional)
-endEvent    | the inclusive end of a range to query. (optional)
+Returns a page representing a given query of events.
+See `Page` for more details on the page object.
 
-<aside class="notice">
-The range parameters are formatted as "$timestamp/$ordinal" where $ordinal is optional.
-The timestamp value should be formatted as described in [Timestamps](#timestamps).
-</aside>
-## Timestamps
 
 
-There are several event api calls that take a "timestamp" as a parameter (either as a url path parm or a query param).
 
-Wherever a timestamp is expected in the events api calls, the value can be in any of the following formats:
+## delete
 
-- A Long that is the milliseconds since epoch
-  - 784111777000
-  - 784111777221
-- ISO8601 Basic with or without the milliseconds portion
-  - 19941106T084937Z
-  - 19941106T084937.221Z
-  - 19941106T014937-0700
-  - 19941106T014937.221-0700
-- ISO8601 Extended with or without the milliseconds portion
-  - 1994-11-06T08:49:37Z
-  - 1994-11-06T08:49:37.221Z
-  - 1994-11-06T01:49:37-07:00
-  - 1994-11-06T01:49:37.221-07:00
-- RFC2616 Compatible Dates. This allows the following formats:
-  - RFC1123
-     - Sun, 06 Nov 1994 08:49:37 UTC
-     - Sun, 06 Nov 1994 01:49:37 MST
-     - Sun, 06 Nov 1994 01:49:37 -0700
-  - RFC1036 (2-digit date supported and uses 2000 as start year)
-     - Sunday, 06-Nov-1994 08:49:37 UTC
-     - Sunday, 06-Nov-1994 01:49:37 MST
-     - Sunday, 06-Nov-1994 01:49:37 -0700
-  - ASCTIME (UTC Enforced)
-     - Sun Nov 6 08:49:37 1994
 
-<aside class="notice">
-While the api will accept all these formats as input parameters, the event timestamp is always returned by the api as milliseconds since epoch.
-</aside>
+```python
+    def delete(self, timestamp, ordinal, querydict={}, **headers):
+        
+        if type(timestamp) == datetime:
+            timestamp = create_timestamp(timestamp)
+        resource = self._init_child(Resource, str(timestamp), ordinal)
+        querydict['purge'] = True
+        return resource.delete(querydict, **headers)
 
+```
 
-# Graph
 
-The Graph functionality allows for directed relations to be created between collection/key pairs and for those relations to be traversed.
 
-## Get
+Deletes a given event.
+Automatically sets `?purge=true` in the querystring.
 
-> Make sure to replace all the variables with the appropriate values.
 
-```shell
-# One hop
-curl -i "https://api.orchestrate.io/v0/$collection/$key/relations/$kind" \
-	-u "$api_key:"
 
-# Two hops
-curl -i "https://api.orchestrate.io/v0/$collection/$key/relations/$kind1/$kind2" \
-	-u "$api_key:"
-```
 
-```javascript
-// One hop
-db.newGraphReader()
-.get()
-.from('users', 'Steve')
-.related('likes')
 
-// Two hops
-db.newGraphReader()
-.get()
-.from('users', 'Steve')
-.related('friends', 'likes')
-```
+# | Relation
+
 
-```java
-// One hop
-Iterable<KvObject<DomainObject>> results =
-        client.relation("someCollection", "someKey")
-              .get(DomainObject.class, "someKind")
-              .get();
+```python
+    def __init__(self, uri, **kwargs):
+        self._root_url = uri
+        super(Relation, self).__init__(uri, **kwargs)
 
-// Two hops
-Iterable<KvObject<DomainObject>> results =
-        client.relation("someCollection", "someKey")
-              .get(DomainObject.class, "someKind", "someKind")
-              .get();
 ```
+
+
 
-```go
-// One hop
-results, err := c.GetRelations(collection, key, []string{kind})
+From the Orchestrate docs:
 
-// Two hops
-results, err := c.GetRelations(collection, key, []string{kind1, kind2})
+"The Graph functionality allows for directed relations 
+to be created between collection/key pairs 
+and for those relations to be traversed."
+
+A relation object allows you to create, delete, and query
+relations associated with a key.
+
+```python
+relation = key.relation()
+# create
+response = relation.put('loves', 'people', 'David Bowie').result()
+response.raise_for_status()
+# query
+response = relation.get('loves')
+response.raise_for_status()
+print response.json()
+# {
+#     "count": 1,
+#     "results": [
+#         {
+#             "path": {
+#                 "collection": "people",
+#                 "key": "David Bowie",
+#                 "ref": "0acfe7843316529f"
+#             },
+#             "value": {
+#                 "age": 67,
+#                 "name": "David Bowie"
+#             }
+#         }
+#     ]
+# }
+# delete
+response = relation.delete('loves', 'people', 'David Bowie').result()
+response.raise_for_status()
 ```
 
-Returns relation's collection, key, ref, and values. The "kind" parameter(s) indicate which relations to walk and the depth to walk.
 
-e.g. Get users that are friends of John's family members.
 
-### HTTP Request
 
-> Returns response headers like so:
+## get
 
-```http
-HTTP/1.1 200 OK
-Content-Type: application/json
-Date: Tue, 19 Nov 2013 15:33:58 GMT
-X-ORCHESTRATE-REQ-ID: 01c318d0-5130-11e3-b722-22000ab79fbb
-transfer-encoding: chunked
-Connection: keep-alive
-```
 
-> And a response body like so:
+```python
+    def get(self, *relations, **headers):
+        
+        resource = self._init_child(Resource, 'relations', *relations)
+        return resource.get(**headers)
 
-```json
-{
-    "count": 1,
-    "results": [
-        {
-            "path": {
-                "collection": "users",
-                "key": "matt",
-                "ref": "0acfe7843316529f"
-            },
-            "value": {
-                "age": 23,
-                "name": "Matthew Jones"
-            }
-        }
-    ]
-}
 ```
 
-```GET /v0/$collection/$key/relations/$kind1/$kind2 ...```
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection to query.
-key        | the primary key for a value.
-kind       | the relationship kind to query, e.g. "follows" or "friend" etc.
+Queries all relations specified in `relations`, ex:
 
-## Put
+    relation.get('friend', 'friend')
 
-> Make sure to replace all the variables with the appropriate values.
+...would return all friends of friends.
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$to_collection/$to_key" \
-	-XPUT \
-	-u "$api_key:"
-```
-
-```javascript
-db.newGraphBuilder()
-.create()
-.from('users', 'Steve')
-.related('likes')
-.to('movies', 'Superbad')
-```
+N.B.: Graph query results are not currently paginated.
 
-```java
-boolean result =
-        client.relation("sourceCollection", "sourceKey")
-              .to("destCollection", "destKey")
-              .put("someKind")
-              .get();
-```
 
-```go
-err := c.PutRelation(collection, key, kind, toCollection, toKey)
-```
 
-Creates a relationship between two objects. Relations can span collections.
 
-<aside class="notice">
-Both ends of the relation must exist.
-</aside>
+## put
 
-### HTTP Request
 
-> Returns response headers like so:
+```python
+    def put(self, relation, collection, key, **headers):
+        
+        resource = self._init_child(Resource, 'relation', relation, collection, key)
+        return resource.put(**headers)
 
-```http
-HTTP/1.1 204 No Content
-Content-Type: application/json
-Date: Tue, 19 Nov 2013 13:51:54 GMT
-X-ORCHESTRATE-REQ-ID: bfc4e750-5121-11e3-be8f-22000ab58c12
-Connection: keep-alive
 ```
 
-```PUT /v0/$collection/$key/relation/$kind/$toCollection/$toKey```
 
-### Parameters
 
-Parameter  | Description
----------- | -----------
-collection | the collection from which the relation originates.
-key        | the key from which the relation originates.
-kind       | the relationship kind to query, e.g. "follows" or "friend" etc.
-toCollection | the collection to which the relation goes.
-toKey      | the key to which the relation goes.
+Creates a relationship between two objects.
+Relations can span collections.
 
-## Delete
 
-> Make sure to replace all the variables with the appropriate values.
 
-```shell
-curl -i "https://api.orchestrate.io/v0/$collection/$key/relation/$kind/$to_collection/$to_key?purge=true" \
-    -XDELETE \
-    -u "$api_key:"
-```
 
-```javascript
-db.newGraphBuilder()
-.remove()
-.from('users', 'Steve')
-.related('likes')
-.to('movies', 'Superbad')
-```
+## delete
 
-```java
-boolean result =
-        client.relation("sourceCollection", "sourceKey")
-              .to("destCollection", "destKey")
-              .purge("someKind")
-              .get();
-```
+
+```python
+    def delete(self, relation, collection, key, querydict={}, **headers):
+        
+        resource = self._init_child(Resource, 'relation', relation, collection, key)
+        querydict['purge'] = True
+        return resource.delete(querydict, **headers)
 
-```go
-err := c.DeleteRelation(sourceCollection, sourceKey, kind, destCollection, destKey)
 ```
+
+
 
 Deletes a relationship between two objects.
+Automatically sets `?purge=true` in the querystring.
 
-<aside class="notice">
-You must supply the `purge` parameter to delete a relationship. This parameter is not optional.
-</aside>
 
-### HTTP Request
 
-> Returns response headers like so:
 
-```http
-HTTP/1.1 204 No Content
-Content-Type: application/json
-Date: Tue, 19 Nov 2013 13:51:54 GMT
-X-ORCHESTRATE-REQ-ID: bfc4e750-5121-11e3-be8f-22000ab58c12
-Connection: keep-alive
-```
-
-```DELETE /v0/$collection/$key/relation/$kind/$toCollection/$toKey?purge=true```
-
-### Parameters
-
-Parameter  | Description
----------- | -----------
-collection | the collection from which the relation originates.
-key        | the key from which the relation originates.
-kind       | the relationship kind to query, e.g. "follows" or "friend" etc.
-toCollection | the collection to which the relation goes.
-toKey      | the key to which the relation goes.
-purge      | This parameter is required to delete a relationship. This operation cannot be undone.
-
-# Errors
-
-Orchestrate.io uses the following error codes:
-
-Status | Error Code | Description
------- | ---------- | -----------
-400 | api_bad_request | The API request is malformed.
-500 | security_authentication | An error occurred while trying to authenticate.
-401 | security_unauthorized | Valid credentials are required.
-400 | search_param_invalid | A provided search query param is invalid.
-500 | search_index_not_found | Index could not be queried for this application.
-500 | internal_error | Internal Error.
-404 | items_not_found | The requested items could not be found.
-412 | item_version_mismatch | The version of the item does not match.
-412 | item_already_present | The item is already present.
-400 | item_ref_malformed | The provided Item Ref is malformed.
-409 | indexing_conflict | The item has been stored but conflicts were detected when indexing. Conflicting fields have not been indexed.

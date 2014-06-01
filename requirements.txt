@@ -1,0 +1,12 @@
+Jinja2==2.7.2
+Markdown==2.4.1
+MarkupSafe==0.23
+PyYAML==3.11
+contextdecorator==0.10.0
+futures==2.1.6
+porc==0.2.0
+requests==2.3.0
+requests-futures==0.9.4
+six==1.6.1
+vcrpy==1.0.2
+wsgiref==0.1.2

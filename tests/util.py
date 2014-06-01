@@ -17,15 +17,3 @@ class TimestampTest(unittest.TestCase):
         milliseconds = int(seconds * 1000)
         timestamp = porc.util.create_timestamp(datetime_obj)
         assert milliseconds == timestamp
-
-class FutureTest(unittest.TestCase):
-
-    def setUp(self):
-        self.client = porc.Client(API_KEY)
-
-    @vcr.use_cassette('fixtures/util/futures.yaml')
-    def testResolveFutures(self):
-        futures = [self.client.ping(), self.client.ping(), self.client.ping()]
-        responses = porc.util.resolve_futures(futures)
-        for response in responses:
-            assert response.status_code == 200

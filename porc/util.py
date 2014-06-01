@@ -12,15 +12,3 @@ def create_timestamp(datetime_obj=datetime.now()):
     seconds = (delta.microseconds + (delta.seconds + delta.days * 24 * 3600) * 10**6) / 10.0**6
     milliseconds = seconds * 1000
     return int(milliseconds)
-
-def resolve_futures(futures):
-    """
-    Resolve futures en masse, throwing a fit if any have non-20X responses.
-    """
-    results = []
-    for future in futures:
-        result = future.result()
-        # any failure will automatically escalate to the next scope
-        result.raise_for_status()
-        results.append(result)
-    return results

@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='porc',
-      version='0.1.0',
+      version='0.2.0',
       description='Asynchronous Orchestrate.io Interface',
       author='Max Thayer',
       author_email='max@orchestrate.io',

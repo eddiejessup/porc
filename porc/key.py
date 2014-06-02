@@ -2,6 +2,7 @@ from .resource import Resource
 from .ref import Ref
 from .event import Event
 from .relation import Relation
+from .page import Page
 
 
 class Key(Resource):
@@ -47,6 +48,12 @@ class Key(Resource):
         See `Ref` for more info.
         """
         return self._init_child(Ref, 'refs', name, **kwargs)
+
+    def refs(self, **kwargs):
+        """
+        Returns a cursor for iterating over all versions of the Key.
+        """
+        return self._init_child(Page, 'refs', **kwargs)
 
     def event(self, event_type, **kwargs):
         """

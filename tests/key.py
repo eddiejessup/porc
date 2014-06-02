@@ -49,6 +49,8 @@ class CrudTest(unittest.TestCase):
         assert response.json()['hello'] == 'world'
         # update
         self.key.put(dict(goodbye='world')).raise_for_status()
+        # read all versions
+        [page.raise_for_status() for page in self.key.refs()]
         # delete
         self.key.delete().raise_for_status()
         self.other_key.delete().raise_for_status()

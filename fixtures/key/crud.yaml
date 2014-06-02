@@ -4,69 +4,69 @@ interactions:
     headers:
       Accept: [application/json]
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Authorization: [Basic NmRjM2I5ZmQtZGU1MS00YWY2LThkMDQtMjExNzgwOWZhNDZiOg==]
       Content-Length: ['18']
       Content-Type: [application/json]
-      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
+      User-Agent: [python-requests/2.3.0 CPython/3.3.5 Darwin/13.2.0]
     method: PUT
     uri: https://api.orchestrate.io:443/v0/derptest/testderp
   response:
     body: {string: ''}
     headers:
       Connection: [keep-alive]
-      Content-Length: ['0']
       Content-Type: [application/json]
-      Date: ['Fri, 30 May 2014 23:00:45 GMT']
+      Date: ['Mon, 02 Jun 2014 21:01:57 GMT']
       ETag: ['"2753418414bef840"']
       Location: [/v0/derptest/testderp/refs/2753418414bef840]
-      X-ORCHESTRATE-REQ-ID: [3b87de60-e84e-11e3-a485-12313d2f7cdc]
+      X-ORCHESTRATE-REQ-ID: [223e4910-ea99-11e3-94f9-12313d2f9238]
+      transfer-encoding: [chunked]
     status: {code: 201, message: Created}
 - request:
     body: '{"konichiwa": "sekai"}'
     headers:
       Accept: [application/json]
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Authorization: [Basic NmRjM2I5ZmQtZGU1MS00YWY2LThkMDQtMjExNzgwOWZhNDZiOg==]
       Content-Length: ['22']
       Content-Type: [application/json]
-      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
+      User-Agent: [python-requests/2.3.0 CPython/3.3.5 Darwin/13.2.0]
     method: PUT
     uri: https://api.orchestrate.io:443/v0/derptest/testderp2
   response:
     body: {string: ''}
     headers:
       Connection: [keep-alive]
+      Content-Length: ['0']
       Content-Type: [application/json]
-      Date: ['Fri, 30 May 2014 23:00:45 GMT']
+      Date: ['Mon, 02 Jun 2014 21:01:57 GMT']
       ETag: ['"440953f4f3360130"']
       Location: [/v0/derptest/testderp2/refs/440953f4f3360130]
-      X-ORCHESTRATE-REQ-ID: [3b9f5e00-e84e-11e3-94f9-12313d2f9238]
-      transfer-encoding: [chunked]
+      X-ORCHESTRATE-REQ-ID: [22530990-ea99-11e3-a485-12313d2f7cdc]
     status: {code: 201, message: Created}
 - request:
     body: null
     headers:
       Accept: [application/json]
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Authorization: [Basic NmRjM2I5ZmQtZGU1MS00YWY2LThkMDQtMjExNzgwOWZhNDZiOg==]
       Content-Type: [application/json]
-      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
+      User-Agent: [python-requests/2.3.0 CPython/3.3.5 Darwin/13.2.0]
     method: GET
     uri: https://api.orchestrate.io:443/v0/derptest
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAAJWOOQ7DIBBF7zI1BZjBC1eJUhB7kJGJiQyOFVncPdBESpEi5fxl3j9hDPuaQDcM
-        Noq7TxH05YSHSTPos7je05hcWEHDRNsjUUzAYKFXEepRRahlW4SmUxJFjwJvZHvkkBk8jd+p/prJ
-        +1BCR9j8VJ3SSe5ePIFc4MB7VApVZv/imw8fkQ9KWrRStlzIb/4SVjfO7jAlGGkx7seGtuvyNb8B
-        +SsKIhoBAAA=
+        H4sIAAAAAAAAAJWOyw6DIBBF/2XWLHiMivxK0wXVIRKpNIo1jeHfC5smXXTR5dzHnHvCEPclgZEM
+        Vtr2kDYwlxMeNk1gzuKGQEPycQEDI62PRFsCBjO9ilCPKkItuyLIrlEoNAq8kdPIITN42rBT/TVR
+        CLGEjriGsTqlk/y9eAK56FD2oms1ZvYvXn74iLxvlEOnVMuF+ubPcfHD5A9bghvN1v/YoEWTr/kN
+        EIkMWxoBAAA=
     headers:
       Connection: [keep-alive]
       Content-Encoding: [gzip]
       Content-Type: [application/json]
-      Date: ['Fri, 30 May 2014 23:00:48 GMT']
+      Date: ['Mon, 02 Jun 2014 21:01:57 GMT']
       Vary: [Accept-Encoding]
-      X-ORCHESTRATE-REQ-ID: [3d7cd090-e84e-11e3-b673-12313d2f50f8]
+      X-ORCHESTRATE-REQ-ID: [22664370-ea99-11e3-b577-12313d2f50f8]
       transfer-encoding: [chunked]
     status: {code: 200, message: OK}
 - request:
@@ -74,9 +74,9 @@ interactions:
     headers:
       Accept: [application/json]
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Authorization: [Basic NmRjM2I5ZmQtZGU1MS00YWY2LThkMDQtMjExNzgwOWZhNDZiOg==]
       Content-Type: [application/json]
-      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
+      User-Agent: [python-requests/2.3.0 CPython/3.3.5 Darwin/13.2.0]
     method: GET
     uri: https://api.orchestrate.io:443/v0/derptest/testderp
   response:
@@ -88,10 +88,10 @@ interactions:
       Content-Encoding: [gzip]
       Content-Location: [/v0/derptest/testderp/refs/2753418414bef840]
       Content-Type: [application/json]
-      Date: ['Fri, 30 May 2014 23:00:48 GMT']
+      Date: ['Mon, 02 Jun 2014 21:01:58 GMT']
       ETag: ['"2753418414bef840-gzip"']
       Vary: [Accept-Encoding]
-      X-ORCHESTRATE-REQ-ID: [3d993230-e84e-11e3-a485-12313d2f7cdc]
+      X-ORCHESTRATE-REQ-ID: [229ff110-ea99-11e3-94f9-12313d2f9238]
       transfer-encoding: [chunked]
     status: {code: 200, message: OK}
 - request:
@@ -99,10 +99,10 @@ interactions:
     headers:
       Accept: [application/json]
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Authorization: [Basic NmRjM2I5ZmQtZGU1MS00YWY2LThkMDQtMjExNzgwOWZhNDZiOg==]
       Content-Length: ['20']
       Content-Type: [application/json]
-      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
+      User-Agent: [python-requests/2.3.0 CPython/3.3.5 Darwin/13.2.0]
     method: PUT
     uri: https://api.orchestrate.io:443/v0/derptest/testderp
   response:
@@ -110,10 +110,10 @@ interactions:
     headers:
       Connection: [keep-alive]
       Content-Type: [application/json]
-      Date: ['Fri, 30 May 2014 23:00:49 GMT']
+      Date: ['Mon, 02 Jun 2014 21:01:58 GMT']
       ETag: ['"b85852926758f3d6"']
       Location: [/v0/derptest/testderp/refs/b85852926758f3d6]
-      X-ORCHESTRATE-REQ-ID: [3daa9750-e84e-11e3-94f9-12313d2f9238]
+      X-ORCHESTRATE-REQ-ID: [22c1f800-ea99-11e3-a485-12313d2f7cdc]
       transfer-encoding: [chunked]
     status: {code: 201, message: Created}
 - request:
@@ -121,10 +121,35 @@ interactions:
     headers:
       Accept: [application/json]
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Authorization: [Basic NmRjM2I5ZmQtZGU1MS00YWY2LThkMDQtMjExNzgwOWZhNDZiOg==]
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.3.0 CPython/3.3.5 Darwin/13.2.0]
+    method: GET
+    uri: https://api.orchestrate.io:443/v0/derptest/testderp/refs
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAALWPMQ6DMAxF7+I5A0mcxOQqVYcCjopKAYEZKpS7N3TuULXq6Pf19fx3aKdtFIio
+        YOF1G2SFeNphvsgV4l7SYeBW+mmECB0vs/AqoODGjwKO44BwlFMBDTlypjY+OEq285BfifR3hqix
+        0gFNrclZl9XXEhOcRU2oseFEWL2XBE/4g+STJUS2PPLnJUTGo83n/ATDlIwgqwEAAA==
+    headers:
+      Connection: [keep-alive]
+      Content-Encoding: [gzip]
+      Content-Type: [application/json]
+      Date: ['Mon, 02 Jun 2014 21:01:58 GMT']
+      Vary: [Accept-Encoding]
+      X-ORCHESTRATE-REQ-ID: [22d4e3c0-ea99-11e3-b577-12313d2f50f8]
+      transfer-encoding: [chunked]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Authorization: [Basic NmRjM2I5ZmQtZGU1MS00YWY2LThkMDQtMjExNzgwOWZhNDZiOg==]
       Content-Length: ['0']
       Content-Type: [application/json]
-      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
+      User-Agent: [python-requests/2.3.0 CPython/3.3.5 Darwin/13.2.0]
     method: DELETE
     uri: https://api.orchestrate.io:443/v0/derptest/testderp
   response:
@@ -132,18 +157,18 @@ interactions:
     headers:
       Connection: [keep-alive]
       Content-Type: [application/json]
-      Date: ['Fri, 30 May 2014 23:00:49 GMT']
-      X-ORCHESTRATE-REQ-ID: [3dbce6d0-e84e-11e3-b673-12313d2f50f8]
+      Date: ['Mon, 02 Jun 2014 21:01:58 GMT']
+      X-ORCHESTRATE-REQ-ID: [22e3d7e0-ea99-11e3-94f9-12313d2f9238]
     status: {code: 204, message: No Content}
 - request:
     body: null
     headers:
       Accept: [application/json]
       Accept-Encoding: ['gzip, deflate']
-      Authorization: [Basic NDI4MzNmY2ItZTFjYi00MjliLWFkMDItOTVjMjYzYWJmM2E0Og==]
+      Authorization: [Basic NmRjM2I5ZmQtZGU1MS00YWY2LThkMDQtMjExNzgwOWZhNDZiOg==]
       Content-Length: ['0']
       Content-Type: [application/json]
-      User-Agent: [python-requests/2.3.0 CPython/2.7.5 Darwin/13.2.0]
+      User-Agent: [python-requests/2.3.0 CPython/3.3.5 Darwin/13.2.0]
     method: DELETE
     uri: https://api.orchestrate.io:443/v0/derptest/testderp2
   response:
@@ -151,7 +176,7 @@ interactions:
     headers:
       Connection: [keep-alive]
       Content-Type: [application/json]
-      Date: ['Fri, 30 May 2014 23:00:49 GMT']
-      X-ORCHESTRATE-REQ-ID: [3dce24e0-e84e-11e3-a485-12313d2f7cdc]
+      Date: ['Mon, 02 Jun 2014 21:01:58 GMT']
+      X-ORCHESTRATE-REQ-ID: [22f3b660-ea99-11e3-a485-12313d2f7cdc]
     status: {code: 204, message: No Content}
 version: 1

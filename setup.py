@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 from setuptools import setup
-import porc
+from porc.__version__ import VERSION
 
 setup(name='porc',
-      version=porc.VERSION,
+      version=VERSION,
       description='Asynchronous Orchestrate.io Interface',
       author='Max Thayer',
       author_email='max@orchestrate.io',

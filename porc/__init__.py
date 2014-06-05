@@ -7,3 +7,4 @@ from .ref import Ref
 from .event import Event
 from .relation import Relation
 from . import util
+from .__version__ import VERSION

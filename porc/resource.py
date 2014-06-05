@@ -3,6 +3,7 @@ import requests
 from requests_futures.sessions import FuturesSession
 import copy
 import re
+from .__version__ import VERSION
 try:
     # python 2
     from urllib import quote
@@ -110,7 +111,8 @@ class Resource(object):
             self.opts = {
                 'headers': {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'User-Agent': 'python-requests/1.2.0 porc/%s' % VERSION
                 }
             }
         # merge passed kwargs into opts

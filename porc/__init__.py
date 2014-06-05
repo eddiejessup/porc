@@ -1,3 +1,6 @@
+from .version import VERSION
+__version__ = VERSION
+
 from .resource import Resource
 from .client import Client
 from .collection import Collection
@@ -7,4 +10,3 @@ from .ref import Ref
 from .event import Event
 from .relation import Relation
 from . import util
-from .__version__ import VERSION

@@ -3,7 +3,7 @@ import requests
 from requests_futures.sessions import FuturesSession
 import copy
 import re
-from .__version__ import VERSION
+from .version import VERSION
 try:
     # python 2
     from urllib import quote

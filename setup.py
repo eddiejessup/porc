@@ -1,7 +1,16 @@
 #!/usr/bin/env python
 
+import re
 from setuptools import setup
-from porc.__version__ import VERSION
+
+VERSIONFILE="porc/version.py"
+verstrline = open(VERSIONFILE, "rt").read()
+VSRE = r"^VERSION = ['\"]([^'\"]*)['\"]"
+mo = re.search(VSRE, verstrline, re.M)
+if mo:
+    VERSION = mo.group(1)
+else:
+    raise RuntimeError("Unable to find version string in %s." % (VERSIONFILE,))
 
 setup(name='porc',
       version=VERSION,

@@ -19,9 +19,8 @@ class Collection(resource.Resource):
     for page in collection.search({"query": "cool_*"}):
         print page.json()
         # {
-        #     "count": 1,
-        #     "next": "/v0/collection?limit=10&query=test&offset=1",
-        #     "prev": "/v0/collection?limit=10&query=test&offset=0",
+        #     "count": 10,
+        #     "next": "/v0/collection?query=cool_*&offset=10",
         #     "results": [
         #         {
         #             "path": {
@@ -33,7 +32,8 @@ class Collection(resource.Resource):
         #             "value": {
         #                 "coolness": 999
         #             }
-        #         }
+        #         },
+        #         // ... results elided for clarity ...
         #     ],
         #     "total_count": 100
         # }

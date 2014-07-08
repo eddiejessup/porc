@@ -1,28 +1,46 @@
 from .resource import Resource
 from collections import Iterator
-from requests_futures.sessions import FuturesSession
+import copy
+try:
+    # python 2
+    from urllib import quote
+except ImportError:
+    # python 3
+    from urllib.parse import quote
 
-
-class Page(Iterator, Resource):
-
-    """
-    Class used for paging through search results.
-
-    Can be used as an iterator, ex: `for page in Page`,
-    or by using the methods `next` and `prev` explicitly
-    to page through results.
-
-    Used in searching collections and events.
-    """
-
-    def __init__(self, uri, querydict={}, **kwargs):
-        opts = dict(kwargs, params=querydict)
-        # if async, create a callback that stores current page state after each request
-        if 'session' in kwargs and type(kwargs['session']) == FuturesSession:
-            opts['background_callback'] = self._handle_res
-        super(Page, self).__init__(uri, **opts)
+class Pages(Iterator):
+    def __init__(self, opts, url, path, params):
+        self.resource = Resource(url, **opts)
+        if isinstance(list, path):
+            self.resource.url = '/'.join([url] + [quote(elem) for elem in path])
+        else:
+            self.resource.url = '/'.join([url, quote(path)])
+        self.params = params
         self._url_root = self.uri[:self.uri.find('/v0')]
         self.response = None
+
+    def _handle_page(self, querydict={}, val='next', **headers):
+        """
+        Executes the request getting the next (or previous) page,
+        incrementing (or decrementing) the current page.
+        """
+        params = copy.copy(self.params)
+        params.update(querydict)
+        # if async, wait for previous page to load
+        if hasattr(self.response, 'result'):
+            self.response.result()
+        # update uri based on next page
+        if self.response:
+            self.response.raise_for_status()
+            _next = self.response.links().get(val, False)
+            if _next:
+                self.uri = self._url_root + _next
+            else:
+                raise StopIteration
+        # execute request
+        response = self.resource._make_request('GET', '', params, **headers)
+        self._handle_res(None, response)
+        return response
 
     def _handle_res(self, session, response):
         """
@@ -43,27 +61,6 @@ class Page(Iterator, Resource):
         """
         self.response = None
 
-    def _handle_page(self, querydict={}, val='next', **headers):
-        """
-        Executes the request getting the next (or previous) page,
-        incrementing (or decrementing) the current page.
-        """
-        # if async, wait for previous page to load
-        if hasattr(self.response, 'result'):
-            self.response.result()
-        # update uri based on next page
-        if self.response:
-            self.response.raise_for_status()
-            _next = self.response.json().get(val, False)
-            if _next:
-                self.uri = self._url_root + _next
-            else:
-                raise StopIteration
-        # execute request
-        response = self.get(querydict, **headers)
-        self._handle_res(None, response)
-        return response
-
     def next(self, querydict={}, **headers):
         """
         Gets the next page of results.
@@ -83,3 +80,6 @@ class Page(Iterator, Resource):
         For all others, `prev` will always return `StopIteration`.
         """
         return self._handle_page(querydict, 'prev', **headers)        
+
+    def all(self):
+        return [response for response in self]

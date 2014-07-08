@@ -22,7 +22,8 @@ setup(name='porc',
       license='MIT',
       install_requires=[
           'requests-futures==0.9.4',
-          'vcrpy==1.0.2'
+          'vcrpy==1.0.2',
+          'lucene-querybuilder==0.2'
       ],
       test_suite="tests",
       classifiers=[

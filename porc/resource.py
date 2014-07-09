@@ -1,8 +1,9 @@
+from . import util
 import json
 import requests
 from .response import Response
-from requests_futures.sessions import FuturesSession
 import copy
+from requests_futures.sessions import FuturesSession
 try:
     # python 2
     from urllib import quote
@@ -11,12 +12,18 @@ except ImportError:
     from urllib.parse import quote
 
 class Resource(object):
-    def __init__(self, uri, **kwargs):
+    def __init__(self, uri, use_async=False, **kwargs):
         self.uri = uri
         self.opts = kwargs
         self.session = requests.Session()
-        for key, value in kwargs.iteritems():
-            setattr(self.session, key, value)
+        self.async = FuturesSession()
+        self.use_async = use_async
+        kwargs['hooks'] = {
+            "response": self._handle_response
+        }
+        for obj in [self.session, self.async]:
+            for key, value in kwargs.iteritems():
+                setattr(obj, key, value)
 
     def init_child(self, child_obj, path, **kwargs):
         uri = self._merge_paths(path)
@@ -27,8 +34,8 @@ class Resource(object):
     def _merge_paths(self, path):
         if path:
             if isinstance(path, list):
-                path = '/'.join([quote(elem) for elem in path])
-            return '/'.join([self.uri, quote(path)])
+                path = '/'.join([quote(str(elem)) for elem in path])
+            return '/'.join([self.uri, quote(str(path))])
         else:
             return self.uri
 
@@ -39,49 +46,22 @@ class Resource(object):
         """
         uri = self._merge_paths(path)
         opts = dict(headers=headers)
-
+        session = self.async if self.use_async else self.session
         # normalize body according to method and type
         if body:
-            if method in ['head', 'get', 'delete']:
+            if method.lower() in ['head', 'get', 'delete']:
                 if type(body) == dict:
                     # convert True and False to true and false
                     for key, value in list(body.items()):
-                        if value == True:
+                        if value is True:
                             body[key] = 'true'
-                        elif value == False:
+                        elif value is False:
                             body[key] = 'false'
                 opts['params'] = body
             else:
                 opts['data'] = json.dumps(body)
 
-        return self.session.request(method, uri, **opts)
+        return session.request(method, uri, **opts)
 
-    def async(self):
-        return Async(self.uri, self.opts)
-
-class Async(object):
-    def __init__(self, uri, opts):
-        self.client = Resource(self.uri, **self.opts)
-        
-        if 'background_callback' in self.client.opts:
-            self.client.opts['background_callback'] = self._merge_callbacks(self.client.opts['background_callback'])
-        else:
-            self.client.opts['background_callback'] = self._handle_response
-
-        self.client.session = FuturesSession(**self.client.opts)
-
-    def _merge_callbacks(self, callback):
-        def merger(session, response):
-            callback(session, response)
-            self._handle_response(session, response)
-
-        return merger
-
-    def _handle_response(session, response):
-        response = Response(response)
-
-    def __enter__(self):
-        return self.client
-
-    def __exit__(self, type, value, traceback):
-        return True
+    def _handle_response(self, response, *args, **kwargs):
+        return Response(response)

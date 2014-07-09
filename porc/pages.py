@@ -10,13 +10,13 @@ except ImportError:
 
 class Pages(Iterator):
     def __init__(self, opts, url, path, params):
-        self.resource = Resource(url, **opts)
-        if isinstance(list, path):
-            self.resource.url = '/'.join([url] + [quote(elem) for elem in path])
+        if isinstance(path, list):
+            pages_url = '/'.join([url] + [quote(elem) for elem in path])
         else:
-            self.resource.url = '/'.join([url, quote(path)])
+            pages_url = '/'.join([url, quote(path)])    
+        self.resource = Resource(pages_url, **opts)
         self.params = params
-        self._url_root = self.uri[:self.uri.find('/v0')]
+        self._root_resource = Resource(url[:url.find('/v0')], **opts)
         self.response = None
 
     def _handle_page(self, querydict={}, val='next', **headers):
@@ -24,23 +24,20 @@ class Pages(Iterator):
         Executes the request getting the next (or previous) page,
         incrementing (or decrementing) the current page.
         """
-        params = copy.copy(self.params)
-        params.update(querydict)
-        # if async, wait for previous page to load
-        if hasattr(self.response, 'result'):
-            self.response.result()
         # update uri based on next page
         if self.response:
             self.response.raise_for_status()
             _next = self.response.links().get(val, False)
             if _next:
-                self.uri = self._url_root + _next
+                response = self._root_resource._make_request('GET', _next.split('/'), self.params, **headers)
+                self._handle_res(None, response)
+                return response
             else:
                 raise StopIteration
-        # execute request
-        response = self.resource._make_request('GET', '', params, **headers)
-        self._handle_res(None, response)
-        return response
+        else:
+            response = self.resource._make_request('GET', '', self.params, **headers)
+            self._handle_res(None, response)
+            return response
 
     def _handle_res(self, session, response):
         """

@@ -15,3 +15,7 @@ def datetime_to_timestamp(datetime_obj=datetime.now()):
 
 def timestamp_to_datetime(timestamp):
     return datetime.utcfromtimestamp(timestamp)
+
+def resolve_futures(futures):
+    return [future.result() for future in futures]
+    

@@ -55,13 +55,15 @@ class ClientTest(unittest.TestCase):
         # test creates with If-None-Match
         resp = self.client.put(self.collections[0], self.keys[0], {"derp": True}, False)
         resp.raise_for_status()
-        ref = resp.ref
-        # test update with If-Match
-        resp = self.client.put(self.collections[0], self.keys[0], {"derp": False}, ref)
-        ref = resp.ref
+        # get item
+        resp = self.client.get(resp.collection, resp.key)
         resp.raise_for_status()
+        # test update with If-Match
+        resp['derp'] = False
+        self.client.put(resp.collection, resp.key, resp.json, resp.ref).raise_for_status()
         # test update with neither
-        self.client.put(self.collections[0], self.keys[0], {"derp": True}).raise_for_status()
+        resp['derp'] = True
+        self.client.put(resp.collection, resp.key, resp.json).raise_for_status()
         # delete
         self.client.delete(self.collections[0], self.keys[0]).raise_for_status()
 

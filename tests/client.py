@@ -105,6 +105,8 @@ class ClientTest(unittest.TestCase):
         # create
         resp = self.client.post(self.collections[0], {"herp": "hello"})
         resp.raise_for_status()
+        # wait; search is eventually consistent
+        import time; time.sleep(3)
         # list
         pages = self.client.search(resp.collection, 'herp:hello', limit=1)
         page = pages.next()

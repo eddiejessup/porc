@@ -4,7 +4,9 @@ from .version import VERSION
 from .pages import Pages
 from . import util
 
+
 class Client(Resource):
+
     def __init__(self, api_key, custom_url=None, use_async=False, **kwargs):
         self.api_key = api_key
         self.url = custom_url or 'https://api.orchestrate.io/v0'
@@ -33,7 +35,7 @@ class Client(Resource):
     def put(self, collection, key, body, ref=None):
         opts = dict()
         if ref:
-            opts['If-Match'] = ref.center(len(ref)+2, '"')
+            opts['If-Match'] = ref.center(len(ref) + 2, '"')
         elif ref == False:
             opts['If-None-Match'] = '"*"'
         return self._make_request('PUT', [collection, key], body, opts)
@@ -43,7 +45,7 @@ class Client(Resource):
             opts = dict()
             params = dict()
             if ref:
-                opts['If-Match'] = ref.center(len(ref)+2, '"')
+                opts['If-Match'] = ref.center(len(ref) + 2, '"')
             else:
                 params['purge'] = True
             return self._make_request('DELETE', [collection, key], params, opts)
@@ -92,7 +94,7 @@ class Client(Resource):
         path = [collection, key, 'events', event_type, timestamp, ordinal]
         headers = dict()
         if ref:
-            headers['If-Match'] = ref.center(len(ref)+2, '"')
+            headers['If-Match'] = ref.center(len(ref) + 2, '"')
         return self._make_request('PUT', path, data, headers=headers)
 
     def delete_event(self, collection, key, event_type, timestamp, ordinal, ref=None):
@@ -102,10 +104,10 @@ class Client(Resource):
         headers = dict()
         params = dict(purge=True)
         if ref:
-            headers['If-Match'] = ref.center(len(ref)+2, '"')
+            headers['If-Match'] = ref.center(len(ref) + 2, '"')
         return self._make_request('DELETE', path, params, headers=headers)
 
-    def list_events(self, collection, key, event_type, **params): 
+    def list_events(self, collection, key, event_type, **params):
         path = [collection, key, 'events', event_type]
         for param in ['startEvent', 'afterEvent', 'beforeEvent', 'endEvent']:
             if param in params and isinstance(params[param], datetime):
@@ -115,7 +117,9 @@ class Client(Resource):
     def async(self):
         return Async(self.api_key, self.url, **self.opts)
 
+
 class Async(Client):
+
     def __init__(self, api_key, url, **opts):
         super(Async, self).__init__(api_key, url, True, **opts)
 

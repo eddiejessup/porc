@@ -8,12 +8,14 @@ except ImportError:
     # python 3
     from urllib.parse import quote
 
+
 class Pages(Iterator):
+
     def __init__(self, opts, url, path, params):
         if isinstance(path, list):
             pages_url = '/'.join([url] + [quote(elem) for elem in path])
         else:
-            pages_url = '/'.join([url, quote(path)])    
+            pages_url = '/'.join([url, quote(path)])
         self.resource = Resource(pages_url, **opts)
         self.params = params
         self._root_resource = Resource(url[:url.find('/v0')], **opts)
@@ -31,13 +33,15 @@ class Pages(Iterator):
             self.response.raise_for_status()
             _next = self.response.links.get(val, {}).get('url')
             if _next:
-                response = self._root_resource._make_request('GET', _next, params, **headers)
+                response = self._root_resource._make_request(
+                    'GET', _next, params, **headers)
                 self._handle_res(None, response)
                 return response
             else:
                 raise StopIteration
         else:
-            response = self.resource._make_request('GET', '', params, **headers)
+            response = self.resource._make_request(
+                'GET', '', params, **headers)
             self._handle_res(None, response)
             return response
 
@@ -78,7 +82,7 @@ class Pages(Iterator):
         Note: Only collection searches provide a `prev` value.
         For all others, `prev` will always return `StopIteration`.
         """
-        return self._handle_page(querydict, 'prev', **headers)        
+        return self._handle_page(querydict, 'prev', **headers)
 
     def all(self):
         return [response for response in self]

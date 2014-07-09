@@ -11,7 +11,9 @@ except ImportError:
     # python 3
     from urllib.parse import quote
 
+
 class Resource(object):
+
     def __init__(self, uri, use_async=False, **kwargs):
         self.uri = uri
         self.opts = kwargs

@@ -14,7 +14,9 @@ URL_PATTERNS = [
     "/v0/(?P<collection>.+)"
 ]
 
+
 class Response(MutableMapping):
+
     def __init__(self, resp):
         self.response = resp
         if self.response.text:
@@ -47,7 +49,8 @@ class Response(MutableMapping):
                     setattr(self, key, value)
                 break
         # finally, try the etag
-        etag_match = re.match('"(?P<ref>.+)"', self.response.headers.get('etag', ''))
+        etag_match = re.match(
+            '"(?P<ref>.+)"', self.response.headers.get('etag', ''))
         if etag_match:
             for key, value in etag_match.groupdict().items():
                 setattr(self, key, value)

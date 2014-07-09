@@ -1,3 +1,4 @@
+import time
 import vcr
 import porc
 import unittest
@@ -5,7 +6,7 @@ from .credentials import API_KEY
 
 class PagesTest(unittest.TestCase):
 
-    @vcr.use_cassette('fixtures/pages/setup.yaml')
+    # @vcr.use_cassette('fixtures/pages/setup.yaml')
     def setUp(self):
         self.api_key = API_KEY
         self.client = porc.Client(self.api_key)
@@ -42,6 +43,7 @@ class PagesTest(unittest.TestCase):
 
     @vcr.use_cassette('fixtures/pages/prev.yaml')
     def test_prev(self):
+        time.sleep(3)
         resp = self.pages.next()
         resp.raise_for_status()
         resp = self.pages.next()

@@ -28,13 +28,11 @@ class ClientTest(unittest.TestCase):
         resp = self.client.put(self.collections[0], self.keys[0], {"derp": True})
         ref = resp.ref
         resp.raise_for_status()
-        # wait; kv is eventually consistent (?!)
-        time.sleep(1)
-        # test 200
-        resp = self.client.get(self.collections[0], self.keys[0])
-        resp.raise_for_status()
         # test 200 with ref
         resp = self.client.get(self.collections[0], self.keys[0], ref)
+        resp.raise_for_status()
+        # test 200
+        resp = self.client.get(self.collections[0], self.keys[0])
         resp.raise_for_status()
         # cleanup
         self.client.delete(self.collections[0], self.keys[0]).raise_for_status()

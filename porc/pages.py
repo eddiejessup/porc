@@ -85,4 +85,13 @@ class Pages(Iterator):
         return self._handle_page(querydict, 'prev', **headers)
 
     def all(self):
-        return [response for response in self]
+        total_count = 0
+        results = []
+        for response in self:
+          response.raise_for_status()
+          total_count = response['total_count']
+          results.extend(response['results'])
+        return {
+          "total_count": total_count,
+          "results": results
+        }

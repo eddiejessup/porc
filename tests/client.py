@@ -1,3 +1,5 @@
+from datetime import datetime
+import time
 import vcr
 import porc
 import unittest
@@ -26,12 +28,14 @@ class ClientTest(unittest.TestCase):
         resp = self.client.put(self.collections[0], self.keys[0], {"derp": True})
         ref = resp.ref
         resp.raise_for_status()
+        # wait; kv is eventually consistent (?!)
+        time.sleep(1)
         # test 200
         resp = self.client.get(self.collections[0], self.keys[0])
-        assert resp.status_code == 200
+        resp.raise_for_status()
         # test 200 with ref
         resp = self.client.get(self.collections[0], self.keys[0], ref)
-        assert resp.status_code == 200
+        resp.raise_for_status()
         # cleanup
         self.client.delete(self.collections[0], self.keys[0]).raise_for_status()
 
@@ -81,7 +85,7 @@ class ClientTest(unittest.TestCase):
         resp = self.client.post(self.collections[0], {"derp": True})
         resp.raise_for_status()
         # list
-        ref_resp = self.client.refs(resp.collection, resp.key)
+        ref_resp = self.client.refs(resp.collection, resp.key, values=False)
         ref_resp.raise_for_status()
         assert ref_resp['count'] == 1
         # delete
@@ -106,7 +110,7 @@ class ClientTest(unittest.TestCase):
         resp = self.client.post(self.collections[0], {"herp": "hello"})
         resp.raise_for_status()
         # wait; search is eventually consistent
-        import time; time.sleep(3)
+        time.sleep(3)
         # list
         pages = self.client.search(resp.collection, 'herp:hello', limit=1)
         page = pages.next()
@@ -142,7 +146,15 @@ class ClientTest(unittest.TestCase):
         resp = self.client.get_relations(self.collections[0], responses[0].key, 'friends')
         resp.raise_for_status()
         assert resp['count'] == 1
-        # delete
+        # delete relation
+        self.client.delete_relation(
+            self.collections[0], 
+            responses[0].key, 
+            'friends', 
+            self.collections[0], 
+            responses[1].key
+            )
+        # delete collection
         self.client.delete(self.collections[0]).raise_for_status()
 
     @vcr.use_cassette('fixtures/client/events.yaml')
@@ -150,21 +162,59 @@ class ClientTest(unittest.TestCase):
         # create an event
         resp = self.client.post_event(self.collections[0], self.keys[0], 'log', {'herp': 'derp'})
         resp.raise_for_status()
+        # create an event with a timestamp
+        timestamp = datetime.utcfromtimestamp(float(resp.timestamp) / 1000.0)
+        resp = self.client.post_event(self.collections[0], self.keys[0], 'log', {'herp': 'derp'}, timestamp)
+        resp.raise_for_status()
         # get an event
-        resp = self.client.get_event(resp.collection, resp.key, resp.type, resp.timestamp, resp.ordinal)
+        timestamp = datetime.utcfromtimestamp(float(resp.timestamp) / 1000.0)
+        resp = self.client.get_event(resp.collection, resp.key, resp.type, timestamp, resp.ordinal)
         resp.raise_for_status()
         # update an event
-        resp = self.client.put_event(resp.collection, resp.key, resp.type, resp.timestamp, resp.ordinal, {'herp': 'lol'})
+        timestamp = datetime.utcfromtimestamp(float(resp.timestamp) / 1000.0)
+        resp = self.client.put_event(resp.collection, resp.key, resp.type, timestamp, resp.ordinal, {'herp': 'lol'})
         resp.raise_for_status()
         # update with ref
         resp = self.client.put_event(resp.collection, resp.key, resp.type, resp.timestamp, resp.ordinal, {'herp': 'rofl'}, resp.ref)
         resp.raise_for_status()
         # list all events
-        pages = self.client.list_events(resp.collection, resp.key, resp.type, limit=1)
+        pages = self.client.list_events(resp.collection, resp.key, resp.type, limit=1, afterEvent=datetime.utcfromtimestamp(0))
         page = pages.next()
         page.raise_for_status()
         assert page['count'] == 1
         # delete event with ref
-        self.client.delete_event(resp.collection, resp.key, resp.type, resp.timestamp, resp.ordinal, resp.ref).raise_for_status()
+        timestamp = datetime.utcfromtimestamp(float(resp.timestamp) / 1000.0)
+        self.client.delete_event(resp.collection, resp.key, resp.type, timestamp, resp.ordinal, resp.ref).raise_for_status()
         # delete event without ref
-        self.client.delete_event(resp.collection, resp.key, resp.type, resp.timestamp, resp.ordinal).raise_for_status()
+        timestamp = datetime.utcfromtimestamp(float(resp.timestamp) / 1000.0)
+        self.client.delete_event(resp.collection, resp.key, resp.type, timestamp, resp.ordinal).raise_for_status()
+
+    @vcr.use_cassette('fixtures/client/async.yaml')
+    def test_async(self):
+        # add three items
+        with self.client.async() as c:
+            futures = [
+                c.post(self.collections[1], {"holy gosh": True}),
+                c.post(self.collections[1], {"holy gosh": True}),
+                c.post(self.collections[1], {"holy gosh": True})
+            ]
+            responses = [future.result() for future in futures]
+            [response.raise_for_status() for response in responses]
+        # ensure they all exist
+        with self.client.async() as c:
+            futures = [
+                c.get(self.collections[1], responses[0].key),
+                c.get(self.collections[1], responses[1].key),
+                c.get(self.collections[1], responses[2].key)
+            ]
+            responses = [future.result() for future in futures]
+            [response.raise_for_status() for response in responses]
+        # delete all three
+        with self.client.async() as c:
+            futures = [
+                c.delete(self.collections[1], responses[0].key),
+                c.delete(self.collections[1], responses[1].key),
+                c.delete(self.collections[1], responses[2].key)
+            ]
+            responses = [future.result() for future in futures]
+            [response.raise_for_status() for response in responses]

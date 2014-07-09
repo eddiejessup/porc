@@ -16,26 +16,20 @@ class Resource(object):
         self.uri = uri
         self.opts = kwargs
         self.session = requests.Session()
-        self.async = FuturesSession()
+        self.async_session = FuturesSession()
         self.use_async = use_async
         kwargs['hooks'] = {
             "response": self._handle_response
         }
-        for obj in [self.session, self.async]:
+        for obj in [self.session, self.async_session]:
             for key, value in kwargs.iteritems():
                 setattr(obj, key, value)
-
-    def init_child(self, child_obj, path, **kwargs):
-        uri = self._merge_paths(path)
-        opts = copy.copy(self.opts)
-        opts.update(kwargs)
-        return child_obj(uri, **opts)
 
     def _merge_paths(self, path):
         if path:
             if isinstance(path, list):
                 path = '/'.join([quote(str(elem)) for elem in path])
-            return '/'.join([self.uri, quote(str(path))])
+            return '/'.join([self.uri, path])
         else:
             return self.uri
 
@@ -46,7 +40,7 @@ class Resource(object):
         """
         uri = self._merge_paths(path)
         opts = dict(headers=headers)
-        session = self.async if self.use_async else self.session
+        session = self.async_session if self.use_async else self.session
         # normalize body according to method and type
         if body:
             if method.lower() in ['head', 'get', 'delete']:

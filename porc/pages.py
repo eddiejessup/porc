@@ -24,18 +24,20 @@ class Pages(Iterator):
         Executes the request getting the next (or previous) page,
         incrementing (or decrementing) the current page.
         """
+        params = copy.copy(self.params)
+        params.update(querydict)
         # update uri based on next page
         if self.response:
             self.response.raise_for_status()
-            _next = self.response.links().get(val, False)
+            _next = self.response.links.get(val, {}).get('url')
             if _next:
-                response = self._root_resource._make_request('GET', _next.split('/'), self.params, **headers)
+                response = self._root_resource._make_request('GET', _next, params, **headers)
                 self._handle_res(None, response)
                 return response
             else:
                 raise StopIteration
         else:
-            response = self.resource._make_request('GET', '', self.params, **headers)
+            response = self.resource._make_request('GET', '', params, **headers)
             self._handle_res(None, response)
             return response
 

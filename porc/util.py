@@ -12,10 +12,3 @@ def datetime_to_timestamp(datetime_obj=datetime.now()):
     seconds = (delta.microseconds + (delta.seconds + delta.days * 24 * 3600) * 10**6) / 10.0**6
     milliseconds = seconds * 1000
     return int(milliseconds)
-
-def timestamp_to_datetime(timestamp):
-    return datetime.utcfromtimestamp(timestamp)
-
-def resolve_futures(futures):
-    return [future.result() for future in futures]
-    

@@ -8,12 +8,14 @@ class Client(Resource):
     def __init__(self, api_key, custom_url=None, use_async=False, **kwargs):
         self.api_key = api_key
         self.url = custom_url or 'https://api.orchestrate.io/v0'
-        headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'User-Agent': 'python-requests/1.2.0 porc/%s' % VERSION
-        }
-        super(Client, self).__init__(self.url, use_async, auth=(self.api_key, ''), headers=headers, **kwargs)
+        if 'headers' not in kwargs:
+            kwargs['headers'] = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'User-Agent': 'python-requests/1.2.0 porc/%s' % VERSION
+            }
+        kwargs['auth'] = (self.api_key, '')
+        super(Client, self).__init__(self.url, use_async, **kwargs)
 
     def ping(self):
         return self._make_request('HEAD')
@@ -81,7 +83,7 @@ class Client(Resource):
         if timestamp:
             if isinstance(timestamp, datetime):
                 timestamp = util.datetime_to_timestamp(timestamp)
-            path += timestamp
+            path.append(timestamp)
         return self._make_request('POST', path, data)
 
     def put_event(self, collection, key, event_type, timestamp, ordinal, data, ref=None):
@@ -106,9 +108,19 @@ class Client(Resource):
     def list_events(self, collection, key, event_type, **params): 
         path = [collection, key, 'events', event_type]
         for param in ['startEvent', 'afterEvent', 'beforeEvent', 'endEvent']:
-            if param in params and isinstance(datetime, params[param]):
-                params[param] = datetime_to_timestamp(params[param])
+            if param in params and isinstance(params[param], datetime):
+                params[param] = util.datetime_to_timestamp(params[param])
         return Pages(self.opts, self.uri, path, params)
 
     def async(self):
-        return 'hello'
+        return Async(self.api_key, self.url, **self.opts)
+
+class Async(Client):
+    def __init__(self, api_key, url, **opts):
+        super(Async, self).__init__(api_key, url, True, **opts)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, stacktrace):
+        return True

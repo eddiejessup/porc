@@ -55,34 +55,54 @@ for page in pages:
 
 ## Table of Contents
 
-TODO
+* [Client(api_key, custom_url=None, **options)](#client)
+* [Client.get(collection, key, ref=None)](#clientget)
+* [Client.post(collection, item)](#clientpost)
+* [Client.put(collection, key, item, ref=None)](#clientput)
+* [Client.delete(collection, key=None, ref=None)](#clientdelete)
+* [Client.refs(collection, key, **params)](#clientrefs)
+* [Client.list(collection, **params)](#clientlist)
+* [Client.search(collection, query, **params)](#clientsearch)
+* [Client.get_relations(collection, key, *relations)](#clientget_relations)
+* [Client.put_relation(collection, key, relation, to_collection, to_key)](#clientput_relation)
+* [Client.delete_relation(collection, key, relation, to_collection, to_key)](#clientdelete_relation)
+* [Client.get_event(collection, key, event_type, timestamp, ordinal)](#clientget_event)
+* [Client.post_event(collection, key, event_type, data, timestamp=None)](#clientpost_event)
+* [Client.put_event(collection, key, event_type, timestamp, ordinal, data, ref=None)](#clientput_event)
+* [Client.delete_event(collection, key, event_type, timestamp, ordinal, ref=None)](#clientdelete_event)
+* [Client.list_events(collection, key, event_type, **params)](#clientlist_events)
+* [Client.async()](#clientasync)
+* [Pages](#page)
+* [Pages.next(querydict={}, **headers)](#pagesnext)
+* [Pages.prev(querydict={}, **headers)](#pagesprev)
+* [Pages.reset()](#pagesreset)
+* [Pages.all()](#pagesall)
+* [Response](#response)
 
 ## API Reference
 
-### Client(api_key, custom_url=None, **options)
-### Client.get(collection, key, ref=None)
-### Client.post(collection, item)
-### Client.put(collection, key, item, ref=None)
-### Client.delete(collection, key=None, ref=None)
-### Client.refs(collection, key, **params)
-### Client.list(collection, **params)
-### Client.search(collection, query, **params)
-### Client.get_relations(collection, key, *relations)
-### Client.put_relation(collection, key, relation, to_collection, to_key)
-### Client.delete_relation(collection, key, relation, to_collection, to_key)
-### Client.get_event(collection, key, event_type, timestamp, ordinal)
-### Client.post_event(collection, key, event_type, data, timestamp=None)
-### Client.put_event(collection, key, event_type, timestamp, ordinal, data, ref=None)
-### Client.delete_event(collection, key, event_type, timestamp, ordinal, ref=None)
-### Client.list_events(collection, key, event_type, **params)
-### Client.async()
-
-### Pages
-### Pages.next(querydict={}, **headers)
-### Pages.prev(querydict={}, **headers)
-### Pages.reset()
-### Pages.all()
-
+### Client
+### Client.get
+### Client.post
+### Client.put
+### Client.delete
+### Client.refs
+### Client.list
+### Client.search
+### Client.get_relations
+### Client.put_relation
+### Client.delete_relation
+### Client.get_event
+### Client.post_event
+### Client.put_event
+### Client.delete_event
+### Client.list_events
+### Client.async
+### Pages]
+### Pages.next
+### Pages.prev
+### Pages.reset
+### Pages.all
 ### Response
 
 ## Tests

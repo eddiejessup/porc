@@ -50,7 +50,12 @@ for page in pages:
     print page.status_code
     # prints 200
     print page['count']
-    # prints number of records returned by page
+    # prints number of items returned by page
+
+# get every item in a collection
+items = client.list(COLLECTION).all()
+print items['total_count']
+# prints number of items in collection
 ```
 
 ## Table of Contents
@@ -82,7 +87,44 @@ for page in pages:
 ## API Reference
 
 ### Client
+
+```python
+from porc import Client
+
+client = Client(API_KEY)
+```
+
+The thing you'll use to make requests. It's the only object you'll need to invoke directly.
+
+By default, the client makes requests to <https://api.orchestrate.io/v0>. If you need to make requests against a different URL, you can pass it as an argument to the constructor:
+
+```python
+client = Client(API_KEY, "https://your_domain.com")
+```
+
+By default, the client makes synchronous requests. To make asynchronous requests, see [Client.async](#clientasync).
+
 ### Client.get
+
+```python
+item = client.get(COLLECTION, KEY)
+print item.ref
+# prints your item's ref value
+print item.json
+# prints your item's fields and values as a dict
+print item[FIELD]
+# prints a given field from the item's json
+```
+
+Returns the item associated with a given key from a given collection.
+The optional `ref` argument can retrieve a specific version of an item, like so:
+
+```python
+item = client.get(COLLECTION, KEY, REF)
+```
+
+This method returns a [Response](#response) object.
+
 ### Client.post
 ### Client.put
 ### Client.delete

@@ -3,17 +3,17 @@ interactions:
     body: null
     headers:
       Accept: [application/json]
-      Authorization: [!!python/unicode Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
+      Authorization: [Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
       Content-Type: [application/json]
       User-Agent: [python-requests/1.2.0 porc/0.3.0]
     method: HEAD
     uri: https://api.orchestrate.io:443/v0
   response:
-    body: {string: !!python/unicode ''}
+    body: {string: ''}
     headers:
-      connection: [keep-alive]
-      content-type: [application/json]
-      date: ['Wed, 09 Jul 2014 08:10:51 GMT']
-      x-orchestrate-req-id: [8ab38640-0740-11e4-95a6-12313d2f7cdc]
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Wed, 09 Jul 2014 08:27:09 GMT']
+      X-ORCHESTRATE-REQ-ID: [d1872b10-0742-11e4-9662-12313d2f9238]
     status: {code: 200, message: OK}
 version: 1

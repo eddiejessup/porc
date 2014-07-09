@@ -22,7 +22,7 @@ class Resource(object):
             "response": self._handle_response
         }
         for obj in [self.session, self.async_session]:
-            for key, value in kwargs.iteritems():
+            for key, value in kwargs.items():
                 setattr(obj, key, value)
 
     def _merge_paths(self, path):

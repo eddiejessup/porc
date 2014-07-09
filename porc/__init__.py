@@ -5,4 +5,4 @@ from .client import Client
 from .pages import Pages
 from .resource import Resource
 from .response import Response
-import util
+from . import util

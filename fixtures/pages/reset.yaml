@@ -1,0 +1,40 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Authorization: [!!python/unicode Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
+      Content-Type: [application/json]
+      User-Agent: [python-requests/1.2.0 porc/0.3.0]
+    method: GET
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1?query=%2A&limit=1
+  response:
+    body: {string: !!python/unicode '{"count":0,"total_count":0,"results":[]}'}
+    headers:
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Wed, 09 Jul 2014 06:36:43 GMT']
+      transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-orchestrate-req-id: [6404a4f0-0733-11e4-94dc-22000a0d84a1]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Authorization: [!!python/unicode Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
+      Content-Type: [application/json]
+      User-Agent: [python-requests/1.2.0 porc/0.3.0]
+    method: GET
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1?query=%2A&limit=1
+  response:
+    body: {string: !!python/unicode '{"count":0,"total_count":0,"results":[]}'}
+    headers:
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Wed, 09 Jul 2014 06:36:43 GMT']
+      transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-orchestrate-req-id: [64143550-0733-11e4-9662-12313d2f9238]
+    status: {code: 200, message: OK}
+version: 1

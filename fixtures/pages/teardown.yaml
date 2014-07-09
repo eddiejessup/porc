@@ -1,0 +1,92 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Authorization: [!!python/unicode Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/1.2.0 porc/0.3.0]
+    method: DELETE
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1?force=true
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Wed, 09 Jul 2014 06:36:33 GMT']
+      x-orchestrate-req-id: [5e2b4ca0-0733-11e4-95a6-12313d2f7cdc]
+    status: {code: 204, message: No Content}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Authorization: [!!python/unicode Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/1.2.0 porc/0.3.0]
+    method: DELETE
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1?force=true
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Wed, 09 Jul 2014 06:36:35 GMT']
+      x-orchestrate-req-id: [5f8b51d0-0733-11e4-94dc-22000a0d84a1]
+    status: {code: 204, message: No Content}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Authorization: [!!python/unicode Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/1.2.0 porc/0.3.0]
+    method: DELETE
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1?force=true
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Wed, 09 Jul 2014 06:36:36 GMT']
+      x-orchestrate-req-id: [60649ad0-0733-11e4-95a6-12313d2f7cdc]
+    status: {code: 204, message: No Content}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Authorization: [!!python/unicode Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/1.2.0 porc/0.3.0]
+    method: DELETE
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1?force=true
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Wed, 09 Jul 2014 06:36:42 GMT']
+      x-orchestrate-req-id: [6366b740-0733-11e4-95a6-12313d2f7cdc]
+    status: {code: 204, message: No Content}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Authorization: [!!python/unicode Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/1.2.0 porc/0.3.0]
+    method: DELETE
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1?force=true
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Wed, 09 Jul 2014 06:36:43 GMT']
+      x-orchestrate-req-id: [64542480-0733-11e4-95a6-12313d2f7cdc]
+    status: {code: 204, message: No Content}
+version: 1

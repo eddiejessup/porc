@@ -54,7 +54,7 @@ for page in pages:
 
 # get every item in a collection
 items = client.list(COLLECTION).all()
-print items['total_count']
+print len(items)
 # prints number of items in collection
 ```
 
@@ -107,29 +107,136 @@ By default, the client makes synchronous requests. To make asynchronous requests
 ### Client.get
 
 ```python
-item = client.get(COLLECTION, KEY)
-print item.ref
+item = client.get('a_collection', 'a_key')
+# make sure the request succeeded
+item.raise_for_status()
 # prints your item's ref value
-print item.json
+print item.ref
 # prints your item's fields and values as a dict
-print item[FIELD]
+print item.json
 # prints a given field from the item's json
+print item[FIELD]
 ```
 
 Returns the item associated with a given key from a given collection.
 The optional `ref` argument can retrieve a specific version of an item, like so:
 
 ```python
-item = client.get(COLLECTION, KEY, REF)
+item = client.get('a_collection', 'a_key', 'a_ref')
 ```
 
 This method returns a [Response](#response) object.
 
 ### Client.post
+
+```python
+response = client.post('a_collection', {
+  "derp": True
+})
+# make sure the request succeeded
+response.raise_for_status()
+# prints the item's generated key
+print response.key
+# prints the item version's ref
+print response.ref
+```
+
+Inserts an item into a collection, allowing the server to generate a key for it.
+
+This method returns a [Response](#response) object.
+
 ### Client.put
+
+```python
+response = client.put('a_collection', 'a_key', {
+  "derp": True
+})
+# make sure the request succeeded
+response.raise_for_status()
+# prints the item's key
+print response.key
+# prints the item version's ref
+print response.ref
+```
+
+Inserts an item into a collection at a given key, or updates the value previously at that key.
+
+The optional `ref` argument can be used to perform conditional updates.
+To update only if your `ref` matches the latest version's, provide it to the method:
+
+```python
+response = client.put('a_collection', 'a_key', {
+  "derp": True
+}, 'a_ref')
+```
+
+To insert only if there is no item associated with a key, provide `False` instead:
+
+```python
+response = client.put('a_collection', 'a_key', {
+  "derp": True
+}, False)
+```
+
+This method returns a [Response](#response) object.
+
 ### Client.delete
+
+```python
+# delete an item version
+client.delete('a_collection', 'a_key', 'a_ref')
+# delete an item and all its versions
+client.delete('a_collection', 'a_key')
+# delete a collection and all its items
+client.delete('a_collection')
+```
+
+Deletes a collection, item, or item version, depending on how many arguments you provide.
+
+This method returns a [Response](#response) object.
+
 ### Client.refs
+
+```python
+refs = client.refs('a_collection', 'a_key')
+# make sure the request succeeded
+refs.raise_for_status()
+# prints the number of versions for this item
+print refs['count']
+# prints every item version as a list of dicts
+print refs['results']
+```
+
+Lists every version of an item.
+
+To control which versions are passed back, you can use these keyword arguments:
+
+* limit: the number of results to return. (default: 10, max: 100)
+* offset: the starting position of the results. (default: 0)
+* values: whether to return the value for each ref in the history. (default: false)
+
+```python
+refs = client.refs('a_collection', 'a_key', limit=5, values=True, offset=10)
+```
+
+This method returns a [Response](#response) object.
+
 ### Client.list
+
+```python
+pages = client.list('a_collection')
+# get the first page of items in the collection
+page = pages.next()
+# ensure the request succeeded
+page.raise_for_status()
+# get all items in the collection
+items = pages.all()
+# print all items in the collection
+print items['results']
+# iterate over the pages of items in the collection
+for
+```
+
 ### Client.search
 ### Client.get_relations
 ### Client.put_relation
@@ -140,7 +247,7 @@ This method returns a [Response](#response) object.
 ### Client.delete_event
 ### Client.list_events
 ### Client.async
-### Pages]
+### Pages
 ### Pages.next
 ### Pages.prev
 ### Pages.reset

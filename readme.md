@@ -328,6 +328,8 @@ resp.raise_for_status()
 
 Creates a relationship between two items, which don't need to be in the same collection.
 
+This method returns a [Response](#response) object.
+
 ### Client.delete_relation
 
 ```python
@@ -339,11 +341,111 @@ resp.raise_for_status()
 
 Deletes a relationship between two items, which don't need to be in the same collection.
 
+This method returns a [Response](#response) object.
+
 ### Client.get_event
+
+```python
+# get an event
+event = self.client.get_event('a_collection', 'a_key', 'a_type', 1404973704558, 4)
+# ensure the request succeeded
+event.raise_for_status()
+# print event timestamp
+print event.timestamp
+# print event data
+print event['a_field']
+```
+
+Gets an event.
+
+This method returns a [Response](#response) object.
+
 ### Client.post_event
+
+```python
+# add an event; let orchestrate generate timestamp
+resp = client.post_event('a_collection', 'a_key', 'a_type', {'herp': 'derp'})
+# ensure request succeeded
+resp.raise_for_status()
+# add an event; use your own timestamp
+from datetime import datetime
+resp = client.post_event('a_collection', 'a_key', 'a_type', {'herp': 'derp'}, datetime.now())
+# ensure the request succeeded
+resp.raise_for_status()
+# print the event's timestamp
+print resp.timestamp
+```
+
+Create an event. You can allow Orchestrate to generate a timestamp, or provide your own as a [datetime object](https://docs.python.org/2/library/datetime.html#datetime-objects).
+
+This method returns a [Response](#response) object.
+
 ### Client.put_event
+
+```python
+from datetime import datetime
+
+# generate a timestamp
+timestamp = datetime(1988, 8, 16)
+# update an existing event
+resp = client.put_event('a_collection', 'a_key', 'a_type', timestamp, 4, {'herp': 'derp'})
+# ensure the update succeeded
+resp.raise_for_status()
+```
+
+Update an existing event.
+
+You can conditionally update an event only if you provide the same `ref` value as the latest version of the event, like so:
+
+```python
+resp = client.put_event('a_collection', 'a_key', 'a_type', timestamp, 4, {'herp': 'derp'}, 'a_ref')
+```
+
+This method returns a [Response](#response) object.
+
 ### Client.delete_event
+
+```python
+from datetime import datetime
+
+# generate a timestamp
+timestamp = datetime(1988, 8, 16)
+# delete an existing event
+resp = client.delete_event('a_collection', 'a_key', 'a_type', timestamp, 4)
+# ensure the deletion succeeded
+resp.raise_for_status()
+```
+
+Delete an existing event.
+
+You can conditionally delete an event only if you provide the same `ref` value as the latest version of the event, like so:
+
+```python
+resp = client.delete_event('a_collection', 'a_key', 'a_type', timestamp, 4, 'a_ref')
+```
+This method returns a [Response](#response) object.
+
 ### Client.list_events
+
+```python
+# get a list
+pages = client.list_events('a_collection', 'a_key', 'a_type', limit=1, afterEvent=datetime.utcfromtimestamp(0))
+# get the first page of events
+page = pages.next()
+# ensure getting the first page succeeded
+page.raise_for_status()
+```
+
+Return a [Pages](#pages) object for iterating over the results of event listings.
+
+To control which events are passed back, you can use these keyword arguments:
+
+* limit: the number of results to return. (default: 10, max: 100)
+* startEvent: the inclusive start of a range to query. (optional)
+* afterEvent: the non-inclusive start of a range to query. (optional)
+* beforeEvent: the non-inclusive end of a range to query. (optional)
+* endEvent: the inclusive end of a range to query. (optional)
+
 ### Client.async
 
 ```python
@@ -518,8 +620,8 @@ To run tests, get the source code and use `setup.py`:
 
 ## License
 
-[MIT][], yo.
+[ASLv2][], yo.
 
 [orchestrate.io]: http://orchestrate.io/
 [pip]: https://pypi.python.org/pypi/pip
-[MIT]: http://opensource.org/licenses/MIT
+[ASLv2]: http://www.apache.org/licenses/LICENSE-2.0.html

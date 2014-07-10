@@ -31,31 +31,27 @@ item = client.get(COLLECTION, KEY)
 item['was_modified'] = True
 client.put(item.collection, item.key, item.json, item.ref).raise_for_status()
 
-pages = client.list(COLLECTION)
-responses = pages.all()
-print len(responses)
-# prints number of pages in collection
-
 # asynchronously get two items
 with client.async() as c:
-    futures = []
-    futures.append(c.get(COLLECTION, KEY_1))
-    futures.append(c.get(COLLECTION, KEY_2))
+    futures = [
+        c.get(COLLECTION, KEY_1),
+        c.get(COLLECTION, KEY_2)
+    ]
     responses = [future.result() for future in futures]
     [response.raise_for_status() for response in responses]
 
 # iterate through search results
 pages = client.search(COLLECTION, QUERY)
 for page in pages:
-    print page.status_code
     # prints 200
-    print page['count']
+    print page.status_code
     # prints number of items returned by page
+    print page['count']
 
 # get every item in a collection
 items = client.list(COLLECTION).all()
-print len(items)
 # prints number of items in collection
+print len(items)
 ```
 
 ## Table of Contents

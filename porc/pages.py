@@ -90,7 +90,4 @@ class Pages(Iterator):
         for response in self:
           response.raise_for_status()
           results.extend(response['results'])
-        return {
-          "total_count": len(results),
-          "results": results
-        }
+        return results

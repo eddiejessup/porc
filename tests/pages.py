@@ -56,9 +56,7 @@ class PagesTest(unittest.TestCase):
     @vcr.use_cassette('fixtures/pages/all.yaml')
     def test_all(self):
         all_items = self.pages.all()
-        assert 'total_count' in all_items
-        assert 'results' in all_items
-        assert len(all_items['results']) > 0
+        assert len(all_items) > 0
 
     @vcr.use_cassette('fixtures/pages/iter.yaml')
     def test_iter(self):

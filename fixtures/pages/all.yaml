@@ -1,0 +1,21 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Authorization: [Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
+      Content-Type: [application/json]
+      User-Agent: [python-requests/1.2.0 porc/0.3.0]
+    method: GET
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1?limit=1&query=%2A
+  response:
+    body: {string: '{"count":1,"total_count":1,"results":[{"path":{"collection":"COLLECTION_1","key":"03cf22578b20a404","ref":"545689fb72dd515a"},"value":{"lol":true},"score":1.0}]}'}
+    headers:
+      Connection: [keep-alive]
+      Content-Type: [application/json]
+      Date: ['Wed, 09 Jul 2014 08:27:16 GMT']
+      Vary: [Accept-Encoding]
+      X-ORCHESTRATE-REQ-ID: [d5f1d830-0742-11e4-9662-12313d2f9238]
+      transfer-encoding: [chunked]
+    status: {code: 200, message: OK}
+version: 1

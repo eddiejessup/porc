@@ -19,10 +19,11 @@ setup(name='porc',
       author_email='max@orchestrate.io',
       url='https://github.com/orchestrate-io/porc',
       packages=['porc'],
-      license='MIT',
+      license='ASLv2',
       install_requires=[
           'requests-futures==0.9.4',
-          'vcrpy==1.0.2'
+          'vcrpy==1.0.2',
+          'lucene-querybuilder==0.2'
       ],
       test_suite="tests",
       classifiers=[

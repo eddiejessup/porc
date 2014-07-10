@@ -9,3 +9,4 @@ htmlcov
 *.cover
 .DS_STORE
 *.bak
+old_*

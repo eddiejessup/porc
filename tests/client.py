@@ -57,13 +57,19 @@ class ClientTest(unittest.TestCase):
     def test_put(self):
         # test creates with If-None-Match
         resp = self.client.put(
-            self.collections[0], self.keys[0], {"derp": True}, False)
+            self.collections[0], self.keys[0], {
+              "derp": True,
+              "herp": False
+            }, False)
         resp.raise_for_status()
         # get item
         resp = self.client.get(resp.collection, resp.key)
         resp.raise_for_status()
-        # test update with If-Match
+        # modify the item
+        assert 'derp' in [key for key in resp]
         resp['derp'] = False
+        del resp['herp']
+        # test update with If-Match
         self.client.put(
             resp.collection, resp.key, resp.json, resp.ref).raise_for_status()
         # test update with neither
@@ -129,7 +135,7 @@ class ClientTest(unittest.TestCase):
 
     @vcr.use_cassette('fixtures/client/relations.yaml')
     def test_crud_relations(self):
-                # create two items
+        # create two items
         responses = []
         for item in [{"herp": "hello"}, {"burp": "goodbye"}]:
             resp = self.client.post(self.collections[0], item)

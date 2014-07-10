@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: '{"derp": true}'
+    body: '{"derp": true, "herp": false}'
     headers:
       Accept: [application/json]
       Authorization: [Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
@@ -31,7 +31,7 @@ interactions:
     method: GET
     uri: https://api.orchestrate.io:443/v0/COLLECTION_1/KEY_1
   response:
-    body: {string: '{"derp":true}'}
+    body: {string: '{"derp": true, "herp": false}'}
     headers:
       Connection: [keep-alive]
       Content-Location: [/v0/COLLECTION_1/KEY_1/refs/e3f664c2807f4787]

@@ -65,13 +65,10 @@ class Response(MutableMapping):
         self.json[key] = value
 
     def __delitem__(self, key):
-        del self.json[self.__keytransform__(key)]
+        del self.json[key]
 
     def __iter__(self):
         return iter(self.json)
 
     def __len__(self):
         return len(self.json)
-
-    def __keytransform__(self, key):
-        return key

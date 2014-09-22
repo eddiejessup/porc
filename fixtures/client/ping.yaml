@@ -9,11 +9,11 @@ interactions:
     method: HEAD
     uri: https://api.orchestrate.io:443/v0
   response:
-    body: {string: ''}
+    body: {string: !!python/unicode ''}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:09 GMT']
-      X-ORCHESTRATE-REQ-ID: [d1872b10-0742-11e4-9662-12313d2f9238]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:25:59 GMT']
+      x-orchestrate-req-id: [0bff1fe0-429f-11e4-9c60-22000a0d84a1]
     status: {code: 200, message: OK}
 version: 1

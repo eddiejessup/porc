@@ -1,25 +1,25 @@
 interactions:
 - request:
-    body: '{"derp": true, "herp": false}'
+    body: '{"herp": false, "derp": true}'
     headers:
       Accept: [application/json]
       Authorization: [Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
-      Content-Length: ['14']
+      Content-Length: ['29']
       Content-Type: [application/json]
       If-None-Match: ['"*"']
       User-Agent: [python-requests/1.2.0 porc/0.3.0]
     method: PUT
     uri: https://api.orchestrate.io:443/v0/COLLECTION_1/KEY_1
   response:
-    body: {string: ''}
+    body: {string: !!python/unicode ''}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:10 GMT']
-      ETag: ['"e3f664c2807f4787"']
-      Location: [/v0/COLLECTION_1/KEY_1/refs/e3f664c2807f4787]
-      X-ORCHESTRATE-REQ-ID: [d2398b20-0742-11e4-9662-12313d2f9238]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:27:13 GMT']
+      etag: ['"8934e0bb22a73b87"']
+      location: [/v0/COLLECTION_1/KEY_1/refs/8934e0bb22a73b87]
       transfer-encoding: [chunked]
+      x-orchestrate-req-id: [383f66f0-429f-11e4-99e0-12313d2f9238]
     status: {code: 201, message: Created}
 - request:
     body: null
@@ -31,16 +31,16 @@ interactions:
     method: GET
     uri: https://api.orchestrate.io:443/v0/COLLECTION_1/KEY_1
   response:
-    body: {string: '{"derp": true, "herp": false}'}
+    body: {string: !!python/unicode '{"herp":false,"derp":true}'}
     headers:
-      Connection: [keep-alive]
-      Content-Location: [/v0/COLLECTION_1/KEY_1/refs/e3f664c2807f4787]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:10 GMT']
-      ETag: ['"e3f664c2807f4787"']
-      Vary: [Accept-Encoding]
-      X-ORCHESTRATE-REQ-ID: [d24d1320-0742-11e4-95a6-12313d2f7cdc]
+      connection: [keep-alive]
+      content-location: [/v0/COLLECTION_1/KEY_1/refs/8934e0bb22a73b87]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:27:13 GMT']
+      etag: ['"8934e0bb22a73b87"']
       transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-orchestrate-req-id: [384f4570-429f-11e4-bd6b-12313d2f7cdc]
     status: {code: 200, message: OK}
 - request:
     body: '{"derp": false}'
@@ -49,20 +49,20 @@ interactions:
       Authorization: [Basic NGUyODI4MmMtOWI4Yy00NGU5LTljM2ItOTI5OTEyMjFhOWVkOg==]
       Content-Length: ['15']
       Content-Type: [application/json]
-      If-Match: ['"e3f664c2807f4787"']
+      If-Match: ['"8934e0bb22a73b87"']
       User-Agent: [python-requests/1.2.0 porc/0.3.0]
     method: PUT
     uri: https://api.orchestrate.io:443/v0/COLLECTION_1/KEY_1
   response:
-    body: {string: ''}
+    body: {string: !!python/unicode ''}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:10 GMT']
-      ETag: ['"5f32adff836dcaee"']
-      Location: [/v0/COLLECTION_1/KEY_1/refs/5f32adff836dcaee]
-      X-ORCHESTRATE-REQ-ID: [d25d8de0-0742-11e4-94dc-22000a0d84a1]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:27:14 GMT']
+      etag: ['"5f32adff836dcaee"']
+      location: [/v0/COLLECTION_1/KEY_1/refs/5f32adff836dcaee]
       transfer-encoding: [chunked]
+      x-orchestrate-req-id: [385e60a0-429f-11e4-9c60-22000a0d84a1]
     status: {code: 201, message: Created}
 - request:
     body: '{"derp": true}'
@@ -75,15 +75,15 @@ interactions:
     method: PUT
     uri: https://api.orchestrate.io:443/v0/COLLECTION_1/KEY_1
   response:
-    body: {string: ''}
+    body: {string: !!python/unicode ''}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:10 GMT']
-      ETag: ['"e3f664c2807f4787"']
-      Location: [/v0/COLLECTION_1/KEY_1/refs/e3f664c2807f4787]
-      X-ORCHESTRATE-REQ-ID: [d26dba80-0742-11e4-9662-12313d2f9238]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:27:14 GMT']
+      etag: ['"e3f664c2807f4787"']
+      location: [/v0/COLLECTION_1/KEY_1/refs/e3f664c2807f4787]
       transfer-encoding: [chunked]
+      x-orchestrate-req-id: [386dc9f0-429f-11e4-99e0-12313d2f9238]
     status: {code: 201, message: Created}
 - request:
     body: null
@@ -96,11 +96,11 @@ interactions:
     method: DELETE
     uri: https://api.orchestrate.io:443/v0/COLLECTION_1/KEY_1?purge=true
   response:
-    body: {string: ''}
+    body: {string: !!python/unicode ''}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:10 GMT']
-      X-ORCHESTRATE-REQ-ID: [d27d9900-0742-11e4-95a6-12313d2f7cdc]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:27:14 GMT']
+      x-orchestrate-req-id: [387d3340-429f-11e4-bd6b-12313d2f7cdc]
     status: {code: 204, message: No Content}
 version: 1

@@ -10,15 +10,15 @@ interactions:
     method: POST
     uri: https://api.orchestrate.io:443/v0/COLLECTION_1
   response:
-    body: {string: ''}
+    body: {string: !!python/unicode ''}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:05 GMT']
-      ETag: ['"34a6f4738cd1be48"']
-      Location: [/v0/COLLECTION_1/03cf222d0a2051ac/refs/34a6f4738cd1be48]
-      X-ORCHESTRATE-REQ-ID: [cf34d6a0-0742-11e4-94dc-22000a0d84a1]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:25:56 GMT']
+      etag: ['"34a6f4738cd1be48"']
+      location: [/v0/COLLECTION_1/0554282ec42094e9/refs/34a6f4738cd1be48]
       transfer-encoding: [chunked]
+      x-orchestrate-req-id: [09d82130-429f-11e4-bd6b-12313d2f7cdc]
     status: {code: 201, message: Created}
 - request:
     body: '{"burp": "goodbye"}'
@@ -31,15 +31,15 @@ interactions:
     method: POST
     uri: https://api.orchestrate.io:443/v0/COLLECTION_1
   response:
-    body: {string: ''}
+    body: {string: !!python/unicode ''}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:05 GMT']
-      ETag: ['"07532aa61503e758"']
-      Location: [/v0/COLLECTION_1/03cf222d7720cd04/refs/07532aa61503e758]
-      X-ORCHESTRATE-REQ-ID: [cf457870-0742-11e4-9662-12313d2f9238]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:25:56 GMT']
+      etag: ['"07532aa61503e758"']
+      location: [/v0/COLLECTION_1/0554282f3020cce1/refs/07532aa61503e758]
       transfer-encoding: [chunked]
+      x-orchestrate-req-id: [09e89bf0-429f-11e4-99e0-12313d2f9238]
     status: {code: 201, message: Created}
 - request:
     body: null
@@ -49,16 +49,16 @@ interactions:
       Content-Type: [application/json]
       User-Agent: [python-requests/1.2.0 porc/0.3.0]
     method: GET
-    uri: https://api.orchestrate.io:443/v0/COLLECTION_1/03cf222d0a2051ac/relations/friends
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1/0554282ec42094e9/relations/friends
   response:
-    body: {string: '{"count":0,"results":[]}'}
+    body: {string: !!python/unicode '{"count":0,"results":[]}'}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:05 GMT']
-      Vary: [Accept-Encoding]
-      X-ORCHESTRATE-REQ-ID: [cf572bb0-0742-11e4-95a6-12313d2f7cdc]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:25:56 GMT']
       transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-orchestrate-req-id: [09faeb70-429f-11e4-9c60-22000a0d84a1]
     status: {code: 200, message: OK}
 - request:
     body: null
@@ -69,14 +69,14 @@ interactions:
       Content-Type: [application/json]
       User-Agent: [python-requests/1.2.0 porc/0.3.0]
     method: PUT
-    uri: https://api.orchestrate.io:443/v0/COLLECTION_1/03cf222d0a2051ac/relation/friends/COLLECTION_1/03cf222d7720cd04
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1/0554282ec42094e9/relation/friends/COLLECTION_1/0554282f3020cce1
   response:
-    body: {string: ''}
+    body: {string: !!python/unicode ''}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:05 GMT']
-      X-ORCHESTRATE-REQ-ID: [cf6890d0-0742-11e4-94dc-22000a0d84a1]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:25:56 GMT']
+      x-orchestrate-req-id: [0a0a2db0-429f-11e4-bd6b-12313d2f7cdc]
     status: {code: 204, message: No Content}
 - request:
     body: null
@@ -86,16 +86,16 @@ interactions:
       Content-Type: [application/json]
       User-Agent: [python-requests/1.2.0 porc/0.3.0]
     method: GET
-    uri: https://api.orchestrate.io:443/v0/COLLECTION_1/03cf222d0a2051ac/relations/friends
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1/0554282ec42094e9/relations/friends
   response:
-    body: {string: '{"count":1,"results":[{"path":{"collection":"COLLECTION_1","key":"03cf222d7720cd04","ref":"07532aa61503e758"},"value":{"burp":"goodbye"},"reftime":1404894425465}]}'}
+    body: {string: !!python/unicode '{"count":1,"results":[{"path":{"collection":"COLLECTION_1","key":"0554282f3020cce1","ref":"07532aa61503e758"},"value":{"burp":"goodbye"},"reftime":1411421156148}]}'}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:05 GMT']
-      Vary: [Accept-Encoding]
-      X-ORCHESTRATE-REQ-ID: [cf7bcab0-0742-11e4-9662-12313d2f9238]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:25:56 GMT']
       transfer-encoding: [chunked]
+      vary: [Accept-Encoding]
+      x-orchestrate-req-id: [0a19be10-429f-11e4-99e0-12313d2f9238]
     status: {code: 200, message: OK}
 - request:
     body: null
@@ -106,14 +106,14 @@ interactions:
       Content-Type: [application/json]
       User-Agent: [python-requests/1.2.0 porc/0.3.0]
     method: DELETE
-    uri: https://api.orchestrate.io:443/v0/COLLECTION_1/03cf222d0a2051ac/relation/friends/COLLECTION_1/03cf222d7720cd04?purge=true
+    uri: https://api.orchestrate.io:443/v0/COLLECTION_1/0554282ec42094e9/relation/friends/COLLECTION_1/0554282f3020cce1?purge=true
   response:
-    body: {string: ''}
+    body: {string: !!python/unicode ''}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:05 GMT']
-      X-ORCHESTRATE-REQ-ID: [cf8df320-0742-11e4-95a6-12313d2f7cdc]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:25:56 GMT']
+      x-orchestrate-req-id: [0a2a86f0-429f-11e4-9c60-22000a0d84a1]
     status: {code: 204, message: No Content}
 - request:
     body: null
@@ -126,11 +126,11 @@ interactions:
     method: DELETE
     uri: https://api.orchestrate.io:443/v0/COLLECTION_1?force=true
   response:
-    body: {string: ''}
+    body: {string: !!python/unicode ''}
     headers:
-      Connection: [keep-alive]
-      Content-Type: [application/json]
-      Date: ['Wed, 09 Jul 2014 08:27:06 GMT']
-      X-ORCHESTRATE-REQ-ID: [cf9ee310-0742-11e4-94dc-22000a0d84a1]
+      connection: [keep-alive]
+      content-type: [application/json]
+      date: ['Mon, 22 Sep 2014 21:25:56 GMT']
+      x-orchestrate-req-id: [0a3ab390-429f-11e4-bd6b-12313d2f7cdc]
     status: {code: 204, message: No Content}
 version: 1

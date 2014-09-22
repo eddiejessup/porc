@@ -253,7 +253,9 @@ pages.next()
 
 ```python
 # list all items that match our search query
-pages = client.search('a_collection', 'field1:value1 AND field2:value2 OR field3:value3')
+pages = client.search('cafes', 'value.location:NEAR:{lat:... lon:... dist:1mi}', {
+  sort: 'value.location:distance:asc'
+})
 # get the first page of items in the collection
 page = pages.next()
 # ensure the request succeeded

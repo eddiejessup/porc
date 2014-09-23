@@ -80,6 +80,13 @@ class ClientTest(unittest.TestCase):
         self.client.delete(
             self.collections[0], self.keys[0]).raise_for_status()
 
+    @vcr.use_cassette('fixtures/client/put_url_escape.yaml')
+    def test_put_url_escape(self):
+        key = "007: Tomorrow Never Dies / 007: The World is Not Enough"
+        self.client.put('movies', key, {}).raise_for_status()
+        self.client.get('movies', key).raise_for_status()
+        self.client.delete('movies', key).raise_for_status()
+
     @vcr.use_cassette('fixtures/client/delete.yaml')
     def test_delete(self):
                 # create

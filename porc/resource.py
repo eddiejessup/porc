@@ -30,12 +30,12 @@ class Resource(object):
     def _merge_paths(self, path):
         if path:
             if isinstance(path, list):
-                path = '/'.join([quote(str(elem)) for elem in path])
+                path = '/'.join([quote(str(elem), '') for elem in path])
             return '/'.join([self.uri, path])
         else:
             return self.uri
 
-    def _make_request(self, method, path='', body={}, headers={}):
+    def _make_request(self, method, path='', body=None, headers={}):
         """
         Executes the request based on the given body and headers
         along with options set on the object.
@@ -44,7 +44,7 @@ class Resource(object):
         opts = dict(headers=headers)
         session = self.async_session if self.use_async else self.session
         # normalize body according to method and type
-        if body:
+        if body != None:
             if method.lower() in ['head', 'get', 'delete']:
                 if type(body) == dict:
                     # convert True and False to true and false

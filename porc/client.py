@@ -32,13 +32,13 @@ class Client(Resource):
     def post(self, collection, body):
         return self._make_request('POST', collection, body)
 
-    def put(self, collection, key, body, ref=None):
+    def put(self, collection, key, body, ref=None, handler=None):
         opts = dict()
         if ref:
             opts['If-Match'] = ref.center(len(ref) + 2, '"')
         elif ref == False:
             opts['If-None-Match'] = '"*"'
-        return self._make_request('PUT', [collection, key], body, opts)
+        return self._make_request('PUT', [collection, key], body, opts, handler)
 
     def delete(self, collection, key=None, ref=None):
         if key:

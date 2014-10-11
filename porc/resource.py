@@ -35,7 +35,8 @@ class Resource(object):
         else:
             return self.uri
 
-    def _make_request(self, method, path='', body=None, headers={}):
+    def _make_request(self, method, path='', body=None, headers={},
+                      handler=None):
         """
         Executes the request based on the given body and headers
         along with options set on the object.
@@ -55,7 +56,7 @@ class Resource(object):
                             body[key] = 'false'
                 opts['params'] = body
             else:
-                opts['data'] = json.dumps(body)
+                opts['data'] = json.dumps(body, default=handler)
 
         return session.request(method, uri, **opts)
 

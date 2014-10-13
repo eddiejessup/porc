@@ -34,7 +34,7 @@ class Pages(Iterator):
             _next = self.response.links.get(val, {}).get('url')
             if _next:
                 response = self._root_resource._make_request(
-                    'GET', _next, params, **headers)
+                    'GET', _next, params, headers=headers)
                 self._handle_res(None, response)
                 return response
             else:

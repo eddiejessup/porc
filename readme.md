@@ -192,6 +192,8 @@ response = client.put('a_collection', 'a_key', {
 }, False)
 ```
 
+For usage information on the optional `handler` argument, see `Client.post`.
+
 This method returns a [Response](#response) object.
 
 ### Client.delete
@@ -394,6 +396,8 @@ print resp.timestamp
 
 Create an event. You can allow Orchestrate to generate a timestamp, or provide your own as a [datetime object](https://docs.python.org/2/library/datetime.html#datetime-objects).
 
+For usage information on the optional `handler` argument, see `Client.post`.
+
 This method returns a [Response](#response) object.
 
 ### Client.put_event
@@ -416,6 +420,8 @@ You can conditionally update an event only if you provide the same `ref` value a
 ```python
 resp = client.put_event('a_collection', 'a_key', 'a_type', timestamp, 4, {'herp': 'derp'}, 'a_ref')
 ```
+
+For usage information on the optional `handler` argument, see `Client.post`.
 
 This method returns a [Response](#response) object.
 

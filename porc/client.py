@@ -29,8 +29,8 @@ class Client(Resource):
             path = [collection, key]
         return self._make_request('GET', path)
 
-    def post(self, collection, body):
-        return self._make_request('POST', collection, body)
+    def post(self, collection, body, handler=None):
+        return self._make_request('POST', collection, body, handler=handler)
 
     def put(self, collection, key, body, ref=None, handler=None):
         opts = dict()

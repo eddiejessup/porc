@@ -41,7 +41,7 @@ class Pages(Iterator):
                 raise StopIteration
         else:
             response = self.resource._make_request(
-                'GET', '', params, **headers)
+                'GET', '', params, headers=headers)
             self._handle_res(None, response)
             return response
 

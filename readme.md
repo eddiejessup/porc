@@ -139,6 +139,24 @@ print response.ref
 
 Inserts an item into a collection, allowing the server to generate a key for it.
 
+The optional `handler` argument can be used to provide a custom function to encode the item into json.
+This is needed if a Python object cannot be automatically converted into json, such as `datetime` objects.
+See [here](https://docs.python.org/2/library/json.html#basic-usage) for usage details. The `handler` argument should act as the `default` argument in the json documentation.
+
+```python
+import datetime
+
+def handler(obj):
+  if hasattr(obj, 'isoformat'):
+    return obj.isoformat()
+  else:
+    return obj
+
+response = client.post('a_collection', {
+  "date": datetime.date.today()
+}, handler=handler)
+```
+
 This method returns a [Response](#response) object.
 
 ### Client.put

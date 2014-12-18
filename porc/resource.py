@@ -35,8 +35,7 @@ class Resource(object):
         else:
             return self.uri
 
-    def _make_request(self, method, path='', body=None, headers={},
-                      handler=None):
+    def _make_request(self, method, path='', body=None, headers={}, handler=None):
         """
         Executes the request based on the given body and headers
         along with options set on the object.

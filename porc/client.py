@@ -88,14 +88,14 @@ class Client(Resource):
             path.append(timestamp)
         return self._make_request('POST', path, data, handler=handler)
 
-    def put_event(self, collection, key, event_type, timestamp, ordinal, data, ref=None):
+    def put_event(self, collection, key, event_type, timestamp, ordinal, data, ref=None, handler=None):
         if isinstance(timestamp, datetime):
             timestamp = util.datetime_to_timestamp(timestamp)
         path = [collection, key, 'events', event_type, timestamp, ordinal]
         headers = dict()
         if ref:
             headers['If-Match'] = ref.center(len(ref) + 2, '"')
-        return self._make_request('PUT', path, data, headers=headers)
+        return self._make_request('PUT', path, data, headers=headers, handler=handler)
 
     def delete_event(self, collection, key, event_type, timestamp, ordinal, ref=None):
         if isinstance(timestamp, datetime):

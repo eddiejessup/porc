@@ -42,7 +42,7 @@ class Resource(object):
         along with options set on the object.
         """
         uri = self._merge_paths(path)
-        opts = {'headers': headers}
+        opts = dict(headers=headers)
         session = self.async_session if self.use_async else self.session
         # normalize body according to method and type
         if body != None:

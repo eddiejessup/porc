@@ -80,13 +80,13 @@ class Client(Resource):
         path = [collection, key, 'events', event_type, timestamp, ordinal]
         return self._make_request('GET', path)
 
-    def post_event(self, collection, key, event_type, data, timestamp=None):
+    def post_event(self, collection, key, event_type, data, timestamp=None, handler=None):
         path = [collection, key, 'events', event_type]
         if timestamp:
             if isinstance(timestamp, datetime):
                 timestamp = util.datetime_to_timestamp(timestamp)
             path.append(timestamp)
-        return self._make_request('POST', path, data)
+        return self._make_request('POST', path, data, handler=handler)
 
     def put_event(self, collection, key, event_type, timestamp, ordinal, data, ref=None):
         if isinstance(timestamp, datetime):
